@@ -1,0 +1,10 @@
+<html>
+<body>
+<p>Hi $servProvider, Attached is the rejection letter for transaction ref. No $parNo</p>
+<p>
+    Thanks for doing business with us. <br>
+    Regard from $orgname
+</p>
+</body>
+
+</html>

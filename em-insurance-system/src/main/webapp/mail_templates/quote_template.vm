@@ -1,0 +1,10 @@
+<html>
+<body>
+<h3>Hi $client, Attached is your Quote Report for quote no $quote</h3>
+<p>
+    Thank you for doing business with us
+    With Regards from $orgname
+</p>
+</body>
+
+</html>

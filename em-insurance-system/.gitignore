@@ -1,0 +1,16 @@
+/target/
+/.idea/
+/.settings/
+/bin/
+/C:/
+brokerapp.imls
+=======
+*.log
+.env
+.env.test
+.env.development
+.env.production
+node_modules
+.idea
+logs
+package-lock.json

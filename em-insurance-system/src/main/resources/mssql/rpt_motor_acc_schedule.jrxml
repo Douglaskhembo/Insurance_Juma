@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rpt_motor_acc_schedule" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="0" bottomMargin="0" uuid="79dc085a-92cf-4347-ad8b-5ad762d41ef0">
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Brokerage"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<subDataset name="Dataset1" uuid="8db48e60-f517-4fb0-a26f-93cafd761c80">
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Brokerage"/>
+		<queryString language="SQL">
+			<![CDATA[select risk_insured_id, risk_sht_desc,risk_desc,risk_sum_insur_amt,
+risk_cover_id
+ from sys_brk_risks]]>
+		</queryString>
+		<field name="risk_insured_id" class="java.lang.Long"/>
+		<field name="risk_sht_desc" class="java.lang.String"/>
+		<field name="risk_desc" class="java.lang.String"/>
+		<field name="risk_sum_insur_amt" class="java.math.BigDecimal"/>
+		<field name="risk_cover_id" class="java.lang.Long"/>
+		<group name="risk_insured_id">
+			<groupExpression><![CDATA[$F{risk_insured_id}]]></groupExpression>
+		</group>
+	</subDataset>
+	<parameter name="polId" class="java.lang.Long"/>
+	<queryString>
+		<![CDATA[SELECT sect_amount, sc_desc, risk_sht_desc
+  FROM sys_brk_rsk_limits, sys_brk_risks, sys_brk_sections
+ WHERE sect_risk_id = risk_id
+   AND sc_type != 'SI'
+   AND sect_sec_id = sc_id
+   AND risk_pol_id =  $P{polId}]]>
+	</queryString>
+	<field name="sect_amount" class="java.math.BigDecimal"/>
+	<field name="sc_desc" class="java.lang.String"/>
+	<field name="risk_sht_desc" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<columnHeader>
+		<band height="35" splitType="Stretch">
+			<frame>
+				<reportElement x="0" y="20" width="555" height="15" uuid="76749a9e-860d-4e8b-93b5-d1efe04506b5">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<line>
+					<reportElement x="79" y="0" width="1" height="15" uuid="b2c5ca56-92c0-4749-968a-407302b46a25">
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					</reportElement>
+				</line>
+				<line>
+					<reportElement x="234" y="0" width="1" height="15" uuid="38750cd4-7b52-4e54-b788-b9a8071462dc">
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					</reportElement>
+				</line>
+				<staticText>
+					<reportElement x="0" y="2" width="79" height="13" uuid="7b59bbfb-664d-40be-94a2-06e5336e6679"/>
+					<text><![CDATA[REG NO.]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="395" y="2" width="160" height="13" uuid="44758ae4-813f-4ba0-b2df-12eb5b1bd0a9"/>
+					<textElement textAlignment="Center"/>
+					<text><![CDATA[Alloy Rims]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="80" y="2" width="150" height="13" uuid="35cf1244-b73b-4ce8-8ba7-0bebef42d143"/>
+					<textElement textAlignment="Center"/>
+					<text><![CDATA[Windscreen]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="239" y="1" width="155" height="13" uuid="14b16b96-acea-47a4-acae-acfc650f3d4a"/>
+					<textElement textAlignment="Center"/>
+					<text><![CDATA[Entertainment Unit]]></text>
+				</staticText>
+				<line>
+					<reportElement x="394" y="0" width="1" height="15" uuid="d5546084-e74b-4ad1-9b43-385384f6fce8">
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					</reportElement>
+				</line>
+			</frame>
+			<textField>
+				<reportElement x="1" y="4" width="119" height="15" uuid="e75eda58-68f5-469f-8e7e-98e23c613ba2"/>
+				<textElement>
+					<font size="11" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Vehicle Accessories"]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="37" splitType="Stretch">
+			<frame>
+				<reportElement x="0" y="0" width="555" height="15" uuid="833aae76-f256-46a7-9307-2cda7f3b4522">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.58"/>
+				</box>
+				<line>
+					<reportElement x="79" y="0" width="1" height="15" uuid="3cd14b8b-9cd9-463a-8eeb-73017a9faa59">
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					</reportElement>
+				</line>
+				<line>
+					<reportElement x="159" y="0" width="1" height="15" uuid="46281b28-1e81-4643-963e-c6c34f99d202">
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					</reportElement>
+				</line>
+				<line>
+					<reportElement x="234" y="0" width="1" height="15" uuid="b9ce9784-06b5-4904-ad0e-67b6777dbb62">
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					</reportElement>
+				</line>
+				<line>
+					<reportElement x="394" y="0" width="1" height="15" uuid="6e8de42f-bb84-48aa-a6b9-6089bb51d185">
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					</reportElement>
+				</line>
+				<line>
+					<reportElement x="479" y="1" width="1" height="15" uuid="28b1771c-5c46-4daf-8d69-9881b0778fdd">
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					</reportElement>
+				</line>
+				<staticText>
+					<reportElement x="82" y="0" width="76" height="14" uuid="98d26390-f872-4dbc-9eb3-307c766a33ab"/>
+					<text><![CDATA[Sum Insured]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="160" y="0" width="74" height="13" uuid="94cb54de-adf1-4d19-a61a-3c755067e827"/>
+					<text><![CDATA[Premium]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="235" y="1" width="84" height="13" uuid="3e2c3b07-1041-47c4-bd71-f9a02addbf99"/>
+					<text><![CDATA[Sum Insured]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="324" y="2" width="65" height="13" uuid="f9149788-45a4-490e-aa62-da7fa7e930d8"/>
+					<text><![CDATA[Premium]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="480" y="-1" width="72" height="15" uuid="53b4bfd3-a1b5-4f69-a657-7a2f532ce4dd"/>
+					<text><![CDATA[Premium]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="395" y="-1" width="84" height="15" uuid="40346e09-4a8b-4040-8512-06892d71a9c5"/>
+					<text><![CDATA[Sum Insured]]></text>
+				</staticText>
+			</frame>
+			<frame>
+				<reportElement x="0" y="16" width="555" height="15" uuid="7fa30518-b983-4202-a34b-39fe402a2622">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.58"/>
+				</box>
+				<textField>
+					<reportElement x="0" y="2" width="79" height="12" uuid="948f7ad3-a062-434e-8c0f-f41a5b3be33e"/>
+					<textElement>
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{risk_sht_desc}]]></textFieldExpression>
+				</textField>
+				<line>
+					<reportElement x="79" y="0" width="1" height="15" uuid="ee115e8a-9b73-4b53-8015-6af2dfa8b176">
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					</reportElement>
+				</line>
+				<line>
+					<reportElement x="159" y="0" width="1" height="15" uuid="63d125fa-cdc0-4adf-bd9d-fe2e07d8fbba">
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					</reportElement>
+				</line>
+				<line>
+					<reportElement x="234" y="0" width="1" height="15" uuid="dfa5f8e6-188a-4778-9606-03e765fa5681">
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					</reportElement>
+				</line>
+				<line>
+					<reportElement x="318" y="-15" width="1" height="15" uuid="ccc033f9-3b73-4bd7-8a85-a90a99c969c8">
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					</reportElement>
+				</line>
+				<line>
+					<reportElement x="318" y="0" width="1" height="15" uuid="e7ce2fe4-dbeb-413b-a172-8ee0656163a2">
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					</reportElement>
+				</line>
+				<line>
+					<reportElement x="394" y="0" width="1" height="15" uuid="6e86d3a6-388d-4d7b-973f-98d2a1df0592">
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					</reportElement>
+				</line>
+				<line>
+					<reportElement x="479" y="1" width="1" height="15" uuid="8ff8e6bd-ca0d-49fb-82bb-b5d2a076f362">
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					</reportElement>
+				</line>
+			</frame>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="50">
+			<staticText>
+				<reportElement x="0" y="0" width="70" height="20" uuid="1df3d1f1-8652-4b3c-82fe-99ce2b299ed6"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[DRIVERS: ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="20" width="69" height="20" uuid="96c458f3-4441-46b6-95cb-703351b4e7fc"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[USE: ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="70" y="0" width="485" height="20" uuid="01cb75d7-134f-4854-bc28-1b9d9595f8ef"/>
+				<text><![CDATA[Static Text]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="70" y="20" width="485" height="20" uuid="058d0cf2-ae2f-4f24-9885-e8db51093e8d"/>
+				<text><![CDATA[Static Text]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+</jasperReport>

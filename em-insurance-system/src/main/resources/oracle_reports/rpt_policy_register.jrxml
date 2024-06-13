@@ -1,0 +1,469 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
+<!-- 2017-03-13T01:59:07 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rpt_policy_register" pageWidth="1042" pageHeight="595" orientation="Landscape" columnWidth="1002" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="23a07438-245c-4eed-b6df-048a58b30f40">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Brokerage DB"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<subDataset name="Branch_Prem" uuid="5999ea31-7b22-45da-9cd8-6f7f366884ba">
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="broker_db"/>
+		<queryString language="SQL">
+			<![CDATA[SELECT count(pol_no), pol_branch_id,ob_name,acct_sht_desc
+FROM sys_brk_organization,sys_brk_main_transactions
+INNER JOIN sys_brk_clients ON trans_clnt_code = client_id
+INNER JOIN sys_brk_policies ON pol_id = trans_pol_id
+INNER JOIN sys_brk_accounts ON pol_agent_id = acct_id
+INNER JOIN sys_brk_currencies ON cur_code = pol_curr_id
+INNER JOIN sys_brk_products ON pr_code = pol_prod_id
+INNER JOIN sys_brk_branches ON pol_branch_id=ob_id
+INNER JOIN sys_brk_users b ON pol_created_user =b.user_id
+INNER JOIN sys_brk_users a ON pol_auth_user = a.user_id
+LEFT JOIN sys_brk_pol_remarks ON pr_policy_id = pol_id
+group by pol_branch_id,ob_name,acct_sht_desc]]>
+		</queryString>
+		<field name="count" class="java.lang.Long"/>
+		<field name="pol_branch_id" class="java.lang.Long"/>
+		<field name="ob_name" class="java.lang.String"/>
+		<field name="acct_sht_desc" class="java.lang.String"/>
+		<group name="pol_branch_id">
+			<groupExpression><![CDATA[$F{pol_branch_id}]]></groupExpression>
+		</group>
+	</subDataset>
+	<parameter name="logo" class="java.lang.Object"/>
+	<queryString>
+		<![CDATA[SELECT pol_no,client_id,pol_id,org_name,org_mobile,org_phone,org_address,org_website,phy_address,
+add_email_addr,client_fname,client_onames,client_address,client_sht_desc,acct_name,acct_address,
+pol_date,pol_auth_date,pol_ref_no,pol_trans_type,pol_basic_premium_amt,pol_sum_insur_amt,
+pol_current_status,pr_desc,b.user_name pol_created_user,a.user_name pol_auth_user,ob_name,pol_cover_to,
+client_phone,client_email,client_sms_number,client_pin,cur_iso_code,client_idno,cur_code,
+trans_date,trans_no,client_id agn_code,trans_clnt_type,trans_clnt_code,
+acct_sht_desc agn_sht_desc, client_onames||' '||client_fname agn_name,client_status,
+client_email agn_email_address, client_address agn_postal_address,trans_control_acc,trans_type ref_no,trans_ref_no MTRAN_REF_NO,
+trans_other_ref,trans_amount,trans_settle_amt settlements,trans_net_amt MTRAN_NET_AMT,
+trans_balance mtran_balance, client_fname insured,pol_wef_date pol_policy_cover_from,cur_iso_code mtran_cur_symbol,
+trans_tl mtran_tl,trans_sd mtran_sd,trans_whtx mtran_whtx,trans_extras mtran_extras,trans_comm mtran_commission,
+trans_whtx MTRAN_PHFUND, trans_dc ordby, pr_remarks POL_REMARKS
+FROM sys_brk_organization,sys_brk_main_transactions
+INNER JOIN sys_brk_clients ON trans_clnt_code = client_id
+INNER JOIN sys_brk_policies ON pol_id = trans_pol_id
+INNER JOIN sys_brk_accounts ON pol_agent_id = acct_id
+INNER JOIN sys_brk_currencies ON cur_code = pol_curr_id
+INNER JOIN sys_brk_products ON pr_code = pol_prod_id
+INNER JOIN sys_brk_branches ON pol_branch_id=ob_id
+INNER JOIN sys_brk_users b ON pol_created_user =b.user_id
+INNER JOIN sys_brk_users a ON pol_auth_user = a.user_id
+LEFT JOIN sys_brk_pol_remarks ON pr_policy_id = pol_id
+ORDER BY pol_branch_id,pol_ref_no,trans_date DESC]]>
+	</queryString>
+	<field name="pol_no" class="java.lang.String"/>
+	<field name="client_id" class="java.lang.Long"/>
+	<field name="pol_id" class="java.lang.Long"/>
+	<field name="org_name" class="java.lang.String"/>
+	<field name="org_mobile" class="java.lang.String"/>
+	<field name="org_phone" class="java.lang.String"/>
+	<field name="org_address" class="java.lang.String"/>
+	<field name="org_website" class="java.lang.String"/>
+	<field name="phy_address" class="java.lang.String"/>
+	<field name="add_email_addr" class="java.lang.String"/>
+	<field name="client_fname" class="java.lang.String"/>
+	<field name="client_onames" class="java.lang.String"/>
+	<field name="client_address" class="java.lang.String"/>
+	<field name="client_sht_desc" class="java.lang.String"/>
+	<field name="acct_name" class="java.lang.String"/>
+	<field name="acct_address" class="java.lang.String"/>
+	<field name="pol_date" class="java.sql.Date"/>
+	<field name="pol_auth_date" class="java.sql.Timestamp"/>
+	<field name="pol_ref_no" class="java.lang.String"/>
+	<field name="pol_trans_type" class="java.lang.String"/>
+	<field name="pol_basic_premium_amt" class="java.math.BigDecimal"/>
+	<field name="pol_sum_insur_amt" class="java.math.BigDecimal"/>
+	<field name="pol_current_status" class="java.lang.String"/>
+	<field name="pr_desc" class="java.lang.String"/>
+	<field name="pol_created_user" class="java.lang.String"/>
+	<field name="pol_auth_user" class="java.lang.String"/>
+	<field name="ob_name" class="java.lang.String"/>
+	<field name="pol_cover_to" class="java.sql.Date"/>
+	<field name="client_phone" class="java.lang.String"/>
+	<field name="client_email" class="java.lang.String"/>
+	<field name="client_sms_number" class="java.lang.String"/>
+	<field name="client_pin" class="java.lang.String"/>
+	<field name="cur_iso_code" class="java.lang.String"/>
+	<field name="client_idno" class="java.lang.String"/>
+	<field name="cur_code" class="java.lang.Long"/>
+	<field name="trans_date" class="java.sql.Timestamp"/>
+	<field name="trans_no" class="java.lang.Long"/>
+	<field name="agn_code" class="java.lang.Long"/>
+	<field name="trans_clnt_type" class="java.lang.String"/>
+	<field name="trans_clnt_code" class="java.lang.Long"/>
+	<field name="agn_sht_desc" class="java.lang.String"/>
+	<field name="agn_name" class="java.lang.String"/>
+	<field name="client_status" class="java.lang.String"/>
+	<field name="agn_email_address" class="java.lang.String"/>
+	<field name="agn_postal_address" class="java.lang.String"/>
+	<field name="trans_control_acc" class="java.lang.String"/>
+	<field name="ref_no" class="java.lang.String"/>
+	<field name="mtran_ref_no" class="java.lang.String"/>
+	<field name="trans_other_ref" class="java.lang.String"/>
+	<field name="trans_amount" class="java.math.BigDecimal"/>
+	<field name="settlements" class="java.math.BigDecimal"/>
+	<field name="mtran_net_amt" class="java.math.BigDecimal"/>
+	<field name="mtran_balance" class="java.math.BigDecimal"/>
+	<field name="insured" class="java.lang.String"/>
+	<field name="pol_policy_cover_from" class="java.sql.Date"/>
+	<field name="mtran_cur_symbol" class="java.lang.String"/>
+	<field name="mtran_tl" class="java.math.BigDecimal"/>
+	<field name="mtran_sd" class="java.math.BigDecimal"/>
+	<field name="mtran_whtx" class="java.math.BigDecimal"/>
+	<field name="mtran_extras" class="java.math.BigDecimal"/>
+	<field name="mtran_commission" class="java.math.BigDecimal"/>
+	<field name="mtran_phfund" class="java.math.BigDecimal"/>
+	<field name="ordby" class="java.lang.String"/>
+	<field name="pol_remarks" class="java.lang.String"/>
+	<group name="branch">
+		<groupExpression><![CDATA[$F{ob_name}]]></groupExpression>
+		<groupHeader>
+			<band height="12">
+				<textField>
+					<reportElement x="50" y="0" width="232" height="12" forecolor="#BFBDBD" uuid="d0467913-988c-4ff8-9e08-41d766563377"/>
+					<textElement>
+						<font fontName="SansSerif" size="10" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{ob_name}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="1" y="0" width="49" height="12" forecolor="#C9C5C5" uuid="fe0210e9-3d6a-408f-9f86-4edd0cd13dca"/>
+					<textElement>
+						<font fontName="SansSerif" size="10" isBold="true" isItalic="true"/>
+					</textElement>
+					<text><![CDATA[Branch: ]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="107" splitType="Stretch">
+			<rectangle>
+				<reportElement x="0" y="0" width="1000" height="107" uuid="faed9325-8011-4cdd-bd9c-34f52e4cda9e"/>
+				<graphicElement>
+					<pen lineColor="#C4BBBB"/>
+				</graphicElement>
+			</rectangle>
+			<image scaleImage="FillFrame" evaluationTime="Master">
+				<reportElement x="1" y="2" width="145" height="90" uuid="2512f9fd-48e8-4950-a663-9d80c4a6178e"/>
+				<imageExpression><![CDATA[$P{logo}]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement x="534" y="0" width="265" height="15" uuid="7c4c4827-a747-441f-83ce-136ce46382f2">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement>
+					<font size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{org_name}.toUpperCase()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="534" y="17" width="265" height="15" uuid="947c6fb7-fbca-41b6-9e5b-7cb544649697">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement>
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{org_address}.toUpperCase()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="534" y="32" width="265" height="15" uuid="e3960971-c5e3-466d-9391-14220fd7e386">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA["TEL: " + $F{org_mobile} +"," +$F{org_phone}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="533" y="62" width="265" height="15" uuid="6ba775d8-6158-4163-b30d-7994afea2ac3">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA["EMAIL: "+$F{add_email_addr}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="533" y="47" width="265" height="15" uuid="e8c88645-415a-4849-91bc-62e6bd9cccf6"/>
+				<textFieldExpression><![CDATA["WEBSITE: " + $F{org_website}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="282" y="77" width="227" height="30" uuid="eaddc9d4-6d05-4d35-89b0-0d4ac480494d"/>
+				<textElement>
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[POLICY REGISTER]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="20">
+			<rectangle>
+				<reportElement x="0" y="0" width="1000" height="20" uuid="e9b1524c-07ab-4f7e-9697-95006821557e"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="0" y="0" width="60" height="20" uuid="73c1cb1f-4105-463b-9c13-14c61f614afc"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[POLICY]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="60" y="0" width="100" height="20" uuid="a2f4a83c-cb35-496a-a7ae-22b782feb466"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CLIENT NAME]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="160" y="0" width="70" height="20" uuid="b0b632f2-7d6e-4f81-a7b9-a140ff5fdddf"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[INSURER]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="230" y="0" width="80" height="20" uuid="45f1cb7d-71a7-43e4-ae21-8122bb24fc11"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TRANS DATE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="470" y="0" width="100" height="20" uuid="ba338538-04b8-4da3-b82e-b49b35d6fc7e"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[AUTHORIZED BY]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="930" y="0" width="70" height="20" uuid="d24abcac-b639-4527-8e89-9223e72dbb25"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PREMIUM]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="850" y="0" width="80" height="20" uuid="5eb72fdb-9f8e-4915-838c-ddd56a8ec2bd"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[SUM INSURED]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="610" y="0" width="110" height="20" uuid="cb095cde-aede-466c-8c04-a4951632990a"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PRODUCT]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="310" y="0" width="80" height="20" uuid="11414209-a51e-4676-86c4-43601614bbf1"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CREATED BY]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="390" y="0" width="80" height="20" uuid="3554e644-e8b1-4ac0-ba00-a17ec71d3744"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[AUTH. DATE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="570" y="0" width="40" height="20" uuid="c3a9ded3-0570-4de9-a5db-01da0cf44656"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[LAG]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="720" y="0" width="130" height="20" uuid="3a17ec30-bd6f-4ed1-ad8b-a5a49d98bdee"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[COVER DATES]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<rectangle>
+				<reportElement x="0" y="0" width="1000" height="20" uuid="efda1e6d-5365-4b73-a1e6-47df12a25bfe"/>
+			</rectangle>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="0" y="0" width="61" height="20" uuid="479b8704-a62c-4a48-a534-338b20af13ff"/>
+				<box>
+					<pen lineColor="#B4BBBB"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{pol_no}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="60" y="0" width="101" height="20" uuid="12486294-e92d-43a4-ba68-3037e90ffe93"/>
+				<box>
+					<pen lineColor="#B4BBBB"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{client_fname}+" "+$F{client_onames}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="160" y="0" width="71" height="20" uuid="7cfc0f7b-d507-49f2-b3ff-288b14ab8069"/>
+				<box>
+					<pen lineColor="#B4BBBB"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{agn_sht_desc}.toUpperCase()]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="dd-MM-yyyy" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="230" y="0" width="81" height="20" uuid="012816df-cbdb-4bd0-8093-ee0a14b95013"/>
+				<box>
+					<pen lineColor="#B4BBBB"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{pol_date}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="dd-MM-yyyy" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="390" y="0" width="81" height="20" uuid="c087b38b-5d6c-40f4-a073-5a8c0edf0387"/>
+				<box>
+					<pen lineColor="#B4BBBB"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{pol_auth_date}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0.###;(#,##0.###)" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="930" y="0" width="71" height="20" uuid="8f2d8372-36d2-4ac2-b455-37e35d8b3d87"/>
+				<box>
+					<pen lineColor="#B4BBBB"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{pol_basic_premium_amt}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0.###;(#,##0.###)" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="850" y="0" width="81" height="20" uuid="d3c7f144-d9ee-4b81-8cb0-e4be3718811b"/>
+				<box>
+					<pen lineColor="#B4BBBB"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{pol_sum_insur_amt}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="610" y="0" width="111" height="20" uuid="cefc85aa-4f9d-4a08-9f1b-c08469a3e9fd"/>
+				<box>
+					<pen lineColor="#B4BBBB"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{pr_desc}.toUpperCase()]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="310" y="0" width="81" height="20" uuid="d48df69f-a35b-4497-9c7b-b85267c53002"/>
+				<box>
+					<pen lineColor="#B4BBBB"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{pol_created_user}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="470" y="0" width="101" height="20" uuid="707671ff-7783-4eac-bee2-23e2ef32dce9"/>
+				<box>
+					<pen lineColor="#B4BBBB"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{pol_auth_user}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="dd-MM-yyyy" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="720" y="0" width="131" height="20" uuid="83514d9e-c915-4565-a6a9-57c11e35e2cf"/>
+				<box>
+					<pen lineColor="#B4BBBB"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{pol_policy_cover_from}+" - "+$F{pol_cover_to}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0.###;(#,##0.###)" isBlankWhenNull="true">
+				<reportElement x="570" y="-1" width="40" height="20" uuid="61f6348f-5c6c-466f-8438-3d286d84a1dc"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[DAYS( $F{pol_date},$F{pol_auth_date})+" DAYS"]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="304">
+			<barChart>
+				<chart evaluationTime="Report">
+					<reportElement positionType="Float" x="1" y="65" width="1000" height="239" isRemoveLineWhenBlank="true" isPrintWhenDetailOverflows="true" printWhenGroupChanges="branch" uuid="16fdc240-ed8d-43b7-a331-4cb828eec82b"/>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<dataset>
+						<datasetRun subDataset="Branch_Prem" uuid="32ea5502-77b1-4f3c-b254-2dd11942fd13">
+							<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+						</datasetRun>
+					</dataset>
+					<categorySeries>
+						<seriesExpression><![CDATA[$F{ob_name}]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{acct_sht_desc}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{count}]]></valueExpression>
+						<labelExpression><![CDATA[$F{acct_sht_desc}]]></labelExpression>
+					</categorySeries>
+				</categoryDataset>
+				<barPlot isShowTickMarks="false">
+					<plot/>
+					<itemLabel/>
+					<categoryAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+					</valueAxisFormat>
+				</barPlot>
+			</barChart>
+			<rectangle>
+				<reportElement x="1" y="13" width="1000" height="50" forecolor="#640CCF" backcolor="#912DFC" uuid="37c0c339-d0d5-442c-a8e6-4416b79a69ae"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="1" y="23" width="1000" height="30" uuid="e3b47d4e-d404-413f-ab5f-00de6f77e8a7"/>
+				<textElement textAlignment="Center">
+					<font fontName="SansSerif" size="20" isBold="true"/>
+				</textElement>
+				<text><![CDATA[POLICIES PER BRANCH PER INSURANCE COMPANIES]]></text>
+			</staticText>
+		</band>
+	</summary>
+</jasperReport>

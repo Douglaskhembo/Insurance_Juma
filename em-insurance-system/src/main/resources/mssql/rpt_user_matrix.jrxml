@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.3.0.final using JasperReports Library version 6.3.0  -->
+<!-- 2019-08-16T12:28:25 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rpt_expired_risks" pageWidth="700" pageHeight="842" whenNoDataType="BlankPage" columnWidth="640" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" whenResourceMissingType="Empty" uuid="ffef18f8-4901-4d64-8f0d-046bfa792609">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Faulu Online"/>
+	<parameter name="logo" class="java.lang.Object" isForPrompting="false"/>
+	<queryString>
+		<![CDATA[select org_name,
+       org_mobile,
+       org_phone,
+       org_address,
+       org_website,
+       phy_address,
+       add_email_addr,
+       role_name,
+       perm_name,
+       perm_max_amount,
+       perm_min_amount
+from sys_brk_organization,
+     sys_brk_roles
+         left outer join sys_brk_role_permissions sbrp on sys_brk_roles.role_id = sbrp.rp_role
+         left outer join sys_brk_permissions sbp on sbrp.rp_perm = sbp.perm_id]]>
+	</queryString>
+	<field name="org_name" class="java.lang.String"/>
+	<field name="org_mobile" class="java.lang.String"/>
+	<field name="org_phone" class="java.lang.String"/>
+	<field name="org_address" class="java.lang.String"/>
+	<field name="org_website" class="java.lang.String"/>
+	<field name="phy_address" class="java.lang.String"/>
+	<field name="add_email_addr" class="java.lang.String"/>
+	<field name="role_name" class="java.lang.String"/>
+	<field name="perm_name" class="java.lang.String"/>
+	<field name="perm_max_amount" class="java.math.BigDecimal"/>
+	<field name="perm_min_amount" class="java.math.BigDecimal"/>
+	<pageHeader>
+		<band height="107" splitType="Stretch">
+			<rectangle>
+				<reportElement x="0" y="0" width="660" height="107" backcolor="#FFFFFF" uuid="1c3992ae-e034-48e0-b6fc-0cf5d464c180"/>
+				<graphicElement>
+					<pen lineColor="#C4BBBB"/>
+				</graphicElement>
+			</rectangle>
+			<image scaleImage="FillFrame" evaluationTime="Master">
+				<reportElement x="2" y="2" width="145" height="90" uuid="10feeb0c-f5ca-4bb1-bd35-4ccf1b110e16"/>
+				<imageExpression><![CDATA[$P{logo}]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement x="400" y="0" width="250" height="15" uuid="6b057660-e777-48c9-b224-390418e8eb38">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement>
+					<font size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{org_name}.toUpperCase()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="400" y="17" width="250" height="15" uuid="0f20a5bb-8a6e-4c82-a0f8-2a1d2ac4c4ee">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement>
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{org_address}.toUpperCase()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="400" y="32" width="250" height="15" uuid="645cb21e-4043-4845-9dff-5d2cd0b37464">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA["TEL: " + $F{org_mobile} +"," +$F{org_phone}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="399" y="62" width="251" height="15" uuid="45cf9989-1062-457b-9ad8-189be4d5b860">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA["EMAIL: "+$F{add_email_addr}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="399" y="47" width="251" height="15" uuid="19364f4c-d253-4d5d-9f51-caee05c22898"/>
+				<textFieldExpression><![CDATA["WEBSITE: " + $F{org_website}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="180" y="89" width="200" height="17" uuid="3cb46ce2-ae40-49d8-8f2f-491d675adb4f"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[USER MATRIX REPORT]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="22" splitType="Stretch">
+			<rectangle>
+				<reportElement x="0" y="0" width="660" height="18" backcolor="#FFFFFF" uuid="57fad381-9def-409e-9beb-50ec649b52e9"/>
+				<graphicElement>
+					<pen lineColor="#B4BBBB"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="0" y="0" width="110" height="18" uuid="8c83a9ad-0090-44a3-9d34-b5f93273d400"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="SansSerif" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ROLE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="110" y="0" width="180" height="18" uuid="41d87594-9e35-4b8a-8453-b2e09a43e50b"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="SansSerif" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PERMISSION]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="290" y="0" width="180" height="18" uuid="cf6d0aad-920b-464d-833b-6ae8d261240e"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="SansSerif" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Maximum Permission Amount]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="470" y="0" width="190" height="18" uuid="a1cde6cc-443d-4fa8-ac0f-3c6469417bc0"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="SansSerif" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Minimum Permission Amount]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<rectangle>
+				<reportElement x="0" y="-4" width="660" height="24" backcolor="#FFFCFC" uuid="7b3c80b6-5a82-4344-bdaa-ad1e4011738f"/>
+				<graphicElement>
+					<pen lineColor="#B4BBBB"/>
+				</graphicElement>
+			</rectangle>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="0" y="-4" width="110" height="24" uuid="47cc20bc-71f4-477a-ba75-ce95123d76f2"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{role_name}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="110" y="-4" width="180" height="24" uuid="1dc5a458-487b-44ff-b43f-f3c18fe21376"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{perm_name}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="290" y="-4" width="180" height="24" uuid="021a0361-d7bf-4198-a93e-990cddffd982"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{perm_max_amount}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="470" y="-4" width="190" height="24" uuid="ece9891b-4cb4-435c-a80c-c339715cbe85"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{perm_min_amount}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

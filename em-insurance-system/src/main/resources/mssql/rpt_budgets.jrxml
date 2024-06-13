@@ -1,0 +1,1502 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.3.0.final using JasperReports Library version 6.3.0  -->
+<!-- 2020-03-09T00:11:02 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rpt_policy_risk_details" pageWidth="2400" pageHeight="595" orientation="Landscape" whenNoDataType="BlankPage" columnWidth="2360" leftMargin="20" rightMargin="20" topMargin="0" bottomMargin="20" uuid="1bf9c828-381b-4849-8fb8-dac124bc168d">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="MSSQL Local Docker"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<parameter name="logo" class="java.lang.Object"/>
+	<parameter name="year" class="java.lang.String">
+		<parameterDescription><![CDATA[Select Year]]></parameterDescription>
+	</parameter>
+	<parameter name="branch" class="java.lang.String">
+		<parameterDescription><![CDATA[Select Branch]]></parameterDescription>
+	</parameter>
+	<parameter name="budget" class="java.lang.String">
+		<parameterDescription><![CDATA[Select Budget]]></parameterDescription>
+	</parameter>
+	<parameter name="SubAgent" class="java.lang.String">
+		<parameterDescription><![CDATA[Sub Agent Code]]></parameterDescription>
+	</parameter>
+	<parameter name="productGroup" class="java.lang.String">
+		<parameterDescription><![CDATA[Select The Product Group]]></parameterDescription>
+	</parameter>
+	<queryString language="SQL">
+		<![CDATA[select *
+from (SELECT org.org_name,
+             org.org_address,
+             org.org_mobile,
+             org.org_phone,
+             org.add_email_addr,
+             org.org_website,
+             sb.budget_product,
+             sbrg.rep_sht_desc,
+             sbrg.rep_desc,
+             p.pr_sht_desc,
+             p.pr_desc,
+             sbr.reg_code,
+             sbr.reg_desc,
+             b.ob_name,
+             coalesce(sba.acct_name, 'Direct Client')                              Agent,
+             sb.budget_id,
+             sb.year,
+             sb.budget_name,
+             sum(sbp.pol_basic_premium_amt)                                        prem,
+             count(sbp.pol_id)                                                     policies,
+             0                                                                     january_agent,
+             0                                                                     jan_actual_agent,
+             sum(isnull(sb.january_pol, 0))                                        january_pol,
+             sum(IIF(month(sbp.pol_auth_date) = 1, 1, 0))                          jan_actual_pol,
+             sum(isnull(sb.january_prod, 0))                                       january_prod,
+             sum(IIF(month(sbp.pol_auth_date) = 1, sbp.pol_basic_premium_amt, 0))  jan_actual_prod,
+             0                                                                     february_agent,
+             0                                                                     feb_actual_agent,
+             sum(isnull(sb.february_pol, 0))                                       february_pol,
+             sum(IIF(month(sbp.pol_auth_date) = 2, 1, 0))                          feb_actual_pol,
+             sum(isnull(sb.february_prod, 0))                                      february_prod,
+             sum(IIF(month(sbp.pol_auth_date) = 2, sbp.pol_basic_premium_amt, 0))  feb_actual_prod,
+             0                                                                     march_agent,
+             0                                                                     march_actual_agent,
+             sum(isnull(sb.march_pol, 0))                                          march_pol,
+             sum(IIF(month(sbp.pol_auth_date) = 3, 1, 0))                          march_actual_pol,
+             sum(isnull(sb.march_prod, 0))                                         march_prod,
+             sum(IIF(month(sbp.pol_auth_date) = 3, sbp.pol_basic_premium_amt, 0))  march_actual_prod,
+             0                                                                     april_agent,
+             0                                                                     april_actual_agent,
+             sum(isnull(sb.april_pol, 0))                                          april_pol,
+             sum(IIF(month(sbp.pol_auth_date) = 4, 1, 0))                          april_actual_pol,
+             sum(isnull(sb.april_prod, 0))                                         april_prod,
+             sum(IIF(month(sbp.pol_auth_date) = 4, sbp.pol_basic_premium_amt, 0))  april_actual_prod,
+             0                                                                     may_agent,
+             0                                                                     may_actual_agent,
+             sum(isnull(sb.may_pol, 0))                                            may_pol,
+             sum(IIF(month(sbp.pol_auth_date) = 5, 1, 0))                          may_actual_pol,
+             sum(isnull(sb.may_prod, 0))                                           may_prod,
+             sum(IIF(month(sbp.pol_auth_date) = 5, sbp.pol_basic_premium_amt, 0))  may_actual_prod,
+             0                                                                     june_agent,
+             0                                                                     june_actual_agent,
+             sum(isnull(sb.june_pol, 0))                                           june_pol,
+             sum(IIF(month(sbp.pol_auth_date) = 6, 1, 0))                          june_actual_pol,
+             sum(isnull(sb.june_prod, 0))                                          june_prod,
+             sum(IIF(month(sbp.pol_auth_date) = 6, sbp.pol_basic_premium_amt, 0))  june_actual_prod,
+             0                                                                     july_agent,
+             0                                                                     july_actual_agent,
+             sum(isnull(sb.july_pol, 0))                                           july_pol,
+             sum(IIF(month(sbp.pol_auth_date) = 7, 1, 0))                          july_actual_pol,
+             sum(isnull(sb.july_prod, 0))                                          july_prod,
+             sum(IIF(month(sbp.pol_auth_date) = 7, sbp.pol_basic_premium_amt, 0))  july_actual_prod,
+             0                                                                     august_agent,
+             0                                                                     aug_actual_agent,
+             sum(isnull(sb.august_pol, 0))                                         august_pol,
+             sum(IIF(month(sbp.pol_auth_date) = 8, 1, 0))                          aug_actual_pol,
+             sum(isnull(sb.august_prod, 0))                                        august_prod,
+             sum(IIF(month(sbp.pol_auth_date) = 8, sbp.pol_basic_premium_amt, 0))  aug_actual_prod,
+             0                                                                     september_agent,
+             0                                                                     sep_actual_agent,
+             sum(isnull(sb.september_pol, 0))                                      september_pol,
+             sum(IIF(month(sbp.pol_auth_date) = 9, 1, 0))                          sep_actual_pol,
+             sum(isnull(sb.september_prod, 0))                                     september_prod,
+             sum(IIF(month(sbp.pol_auth_date) = 9, sbp.pol_basic_premium_amt, 0))  sep_actual_prod,
+             0                                                                     october_agent,
+             0                                                                     oct_actual_agent,
+             sum(isnull(sb.october_pol, 0))                                        october_pol,
+             sum(IIF(month(sbp.pol_auth_date) = 10, 1, 0))                         oct_actual_pol,
+             sum(isnull(sb.october_prod, 0))                                       october_prod,
+             sum(IIF(month(sbp.pol_auth_date) = 10, sbp.pol_basic_premium_amt, 0)) oct_actual_prod,
+             0                                                                     november_agent,
+             0                                                                     nov_actual_agent,
+             sum(isnull(sb.november_pol, 0))                                       november_pol,
+             sum(IIF(month(sbp.pol_auth_date) = 11, 1, 0))                         nov_actual_pol,
+             sum(isnull(sb.november_prod, 0))                                      november_prod,
+             sum(IIF(month(sbp.pol_auth_date) = 11, sbp.pol_basic_premium_amt, 0)) nov_actual_prod,
+             0                                                                     december_agent,
+             0                                                                     dec_actual_agent,
+             sum(isnull(sb.december_pol, 0))                                       december_pol,
+             sum(IIF(month(sbp.pol_auth_date) = 12, 1, 0))                         dec_actual_pol,
+             sum(isnull(sb.december_prod, 0))                                      december_prod,
+             sum(IIF(month(sbp.pol_auth_date) = 12, sbp.pol_basic_premium_amt, 0)) dec_actual_prod
+      FROM sys_brk_organization org,  sys_brk_report_groups sbrg
+               INNER JOIN sys_brk_budgets sb ON sb.budget_product = sbrg.rpt_id
+               INNER JOIN sys_brk_products p ON p.report_group = sbrg.rpt_id
+               INNER JOIN sys_brk_branches b ON sb.branch = b.ob_id
+               inner join sys_brk_regions sbr on b.ob_reg_code = sbr.reg_code
+               INNER JOIN sys_brk_main_transactions sbmt ON b.ob_id = sbmt.trans_brn_id
+               INNER JOIN sys_brk_policies sbp ON sbmt.trans_pol_id = sbp.pol_id
+               left outer join sys_brk_accounts sba on sbp.pol_sub_agent_id = sba.acct_id
+      where sbp.pol_prod_id = p.pr_code
+        and sbmt.trans_clnt_type = 'C'
+        and sb.agent_id is null
+        AND sbmt.trans_type NOT IN ('RC', 'SAG')
+        AND year(sbp.pol_auth_date) = sb.year
+--   AND DATENAME(year, sbp.pol_auth_date) = sb.year
+--   and pol_ref_no = 'NBD59341'
+--   and budget_id = 107
+      GROUP BY  org.org_name,
+                org.org_address,
+                org.org_mobile,
+                org.org_phone,
+                org.add_email_addr,
+                org.org_website,
+               sb.budget_product,
+               sbrg.rep_sht_desc,
+               sbrg.rep_desc,
+               sbr.reg_code,
+               sbr.reg_desc,
+               sba.acct_name,
+               p.pr_sht_desc,
+               p.pr_desc,
+               b.ob_name,
+               sb.budget_id,
+               sb.year,
+               sb.budget_name
+      union all
+      SELECT  org.org_name,
+              org.org_address,
+              org.org_mobile,
+              org.org_phone,
+              org.add_email_addr,
+              org.org_website,
+             sb.budget_product,
+             sbrg.rep_sht_desc,
+             sbrg.rep_desc,
+             p.pr_sht_desc,
+             p.pr_desc,
+             sbr.reg_code,
+             sbr.reg_desc,
+             b.ob_name,
+             coalesce(sba.acct_name, 'Direct Client')                              Agent,
+             sb.budget_id,
+             sb.year,
+             sb.budget_name,
+             sum(sbp.pol_basic_premium_amt)                                        prem,
+             count(sbp.pol_id)                                                     policies,
+             sum(isnull(sb.january, 0))                                            january_agent,
+             sum(IIF(month(sbp.pol_auth_date) = 1, sbp.pol_basic_premium_amt, 0))  jan_actual_agent,
+             sum(isnull(sb.january_pol, 0))                                        january_pol,
+             sum(IIF(month(sbp.pol_auth_date) = 1, 1, 0))                          jan_actual_pol,
+             sum(isnull(sb.january_prod, 0))                                       january_prod,
+             sum(IIF(month(sbp.pol_auth_date) = 1, sbp.pol_basic_premium_amt, 0))  jan_actual_prod,
+             sum(isnull(sb.february, 0))                                           february_agent,
+             sum(IIF(month(sbp.pol_auth_date) = 2, sbp.pol_basic_premium_amt, 0))  feb_actual_agent,
+             sum(isnull(sb.february_pol, 0))                                       february_pol,
+             sum(IIF(month(sbp.pol_auth_date) = 2, 1, 0))                          feb_actual_pol,
+             sum(isnull(sb.february_prod, 0))                                      february_prod,
+             sum(IIF(month(sbp.pol_auth_date) = 2, sbp.pol_basic_premium_amt, 0))  feb_actual_prod,
+             sum(isnull(sb.march, 0))                                              march_agent,
+             sum(IIF(month(sbp.pol_auth_date) = 3, sbp.pol_basic_premium_amt, 0))  march_actual_agent,
+             sum(isnull(sb.march_pol, 0))                                          march_pol,
+             sum(IIF(month(sbp.pol_auth_date) = 3, 1, 0))                          march_actual_pol,
+             sum(isnull(sb.march_prod, 0))                                         march_prod,
+             sum(IIF(month(sbp.pol_auth_date) = 3, sbp.pol_basic_premium_amt, 0))  march_actual_prod,
+             sum(isnull(sb.april, 0))                                              april_agent,
+             sum(IIF(month(sbp.pol_auth_date) = 4, sbp.pol_basic_premium_amt, 0))  april_actual_agent,
+             sum(isnull(sb.april_pol, 0))                                          april_pol,
+             sum(IIF(month(sbp.pol_auth_date) = 4, 1, 0))                          april_actual_pol,
+             sum(isnull(sb.april_prod, 0))                                         april_prod,
+             sum(IIF(month(sbp.pol_auth_date) = 4, sbp.pol_basic_premium_amt, 0))  april_actual_prod,
+             sum(isnull(sb.may, 0))                                                may_agent,
+             sum(IIF(month(sbp.pol_auth_date) = 5, sbp.pol_basic_premium_amt, 0))  may_actual_agent,
+             sum(isnull(sb.may_pol, 0))                                            may_pol,
+             sum(IIF(month(sbp.pol_auth_date) = 5, 1, 0))                          may_actual_pol,
+             sum(isnull(sb.may_prod, 0))                                           may_prod,
+             sum(IIF(month(sbp.pol_auth_date) = 5, sbp.pol_basic_premium_amt, 0))  may_actual_prod,
+             sum(isnull(sb.june, 0))                                               june_agent,
+             sum(IIF(month(sbp.pol_auth_date) = 6, sbp.pol_basic_premium_amt, 0))  june_actual_agent,
+             sum(isnull(sb.june_pol, 0))                                           june_pol,
+             sum(IIF(month(sbp.pol_auth_date) = 6, 1, 0))                          june_actual_pol,
+             sum(isnull(sb.june_prod, 0))                                          june_prod,
+             sum(IIF(month(sbp.pol_auth_date) = 6, sbp.pol_basic_premium_amt, 0))  june_actual_prod,
+             sum(isnull(sb.july, 0))                                               july_agent,
+             sum(IIF(month(sbp.pol_auth_date) = 7, sbp.pol_basic_premium_amt, 0))  july_actual_agent,
+             sum(isnull(sb.july_pol, 0))                                           july_pol,
+             sum(IIF(month(sbp.pol_auth_date) = 7, 1, 0))                          july_actual_pol,
+             sum(isnull(sb.july_prod, 0))                                          july_prod,
+             sum(IIF(month(sbp.pol_auth_date) = 7, sbp.pol_basic_premium_amt, 0))  july_actual_prod,
+             sum(isnull(sb.august, 0))                                             august_agent,
+             sum(IIF(month(sbp.pol_auth_date) = 8, sbp.pol_basic_premium_amt, 0))  aug_actual_agent,
+             sum(isnull(sb.august_pol, 0))                                         august_pol,
+             sum(IIF(month(sbp.pol_auth_date) = 8, 1, 0))                          aug_actual_pol,
+             sum(isnull(sb.august_prod, 0))                                        august_prod,
+             sum(IIF(month(sbp.pol_auth_date) = 8, sbp.pol_basic_premium_amt, 0))  aug_actual_prod,
+             sum(isnull(sb.september, 0))                                          september_agent,
+             sum(IIF(month(sbp.pol_auth_date) = 9, sbp.pol_basic_premium_amt, 0))  sep_actual_agent,
+             sum(isnull(sb.september_pol, 0))                                      september_pol,
+             sum(IIF(month(sbp.pol_auth_date) = 9, 1, 0))                          sep_actual_pol,
+             sum(isnull(sb.september_prod, 0))                                     september_prod,
+             sum(IIF(month(sbp.pol_auth_date) = 9, sbp.pol_basic_premium_amt, 0))  sep_actual_prod,
+             sum(isnull(sb.october, 0))                                            october_agent,
+             sum(IIF(month(sbp.pol_auth_date) = 10, sbp.pol_basic_premium_amt, 0)) oct_actual_agent,
+             sum(isnull(sb.october_pol, 0))                                        october_pol,
+             sum(IIF(month(sbp.pol_auth_date) = 10, 1, 0))                         oct_actual_pol,
+             sum(isnull(sb.october_prod, 0))                                       october_prod,
+             sum(IIF(month(sbp.pol_auth_date) = 10, sbp.pol_basic_premium_amt, 0)) oct_actual_prod,
+             sum(isnull(sb.november, 0))                                           november_agent,
+             sum(IIF(month(sbp.pol_auth_date) = 11, sbp.pol_basic_premium_amt, 0)) nov_actual_agent,
+             sum(isnull(sb.november_pol, 0))                                       november_pol,
+             sum(IIF(month(sbp.pol_auth_date) = 11, 1, 0))                         nov_actual_pol,
+             sum(isnull(sb.november_prod, 0))                                      november_prod,
+             sum(IIF(month(sbp.pol_auth_date) = 11, sbp.pol_basic_premium_amt, 0)) nov_actual_prod,
+             sum(isnull(sb.december, 0))                                           december_agent,
+             sum(IIF(month(sbp.pol_auth_date) = 12, sbp.pol_basic_premium_amt, 0)) dec_actual_agent,
+             sum(isnull(sb.december_pol, 0))                                       december_pol,
+             sum(IIF(month(sbp.pol_auth_date) = 12, 1, 0))                         dec_actual_pol,
+             sum(isnull(sb.december_prod, 0))                                      december_prod,
+             sum(IIF(month(sbp.pol_auth_date) = 12, sbp.pol_basic_premium_amt, 0)) dec_actual_prod
+      FROM sys_brk_organization org, sys_brk_report_groups sbrg
+               INNER JOIN sys_brk_budgets sb ON sb.budget_product = sbrg.rpt_id
+               INNER JOIN sys_brk_products p ON p.report_group = sbrg.rpt_id
+               INNER JOIN sys_brk_branches b ON sb.branch = b.ob_id
+               inner join sys_brk_regions sbr on b.ob_reg_code = sbr.reg_code
+               INNER JOIN sys_brk_main_transactions sbmt ON b.ob_id = sbmt.trans_brn_id
+               INNER JOIN sys_brk_policies sbp ON sbmt.trans_pol_id = sbp.pol_id
+               inner join sys_brk_accounts sba on sbp.pol_sub_agent_id = sba.acct_id and sb.agent_id = sba.acct_id
+      where sbp.pol_prod_id = p.pr_code
+        and sbmt.trans_clnt_type = 'C'
+        AND sbmt.trans_type NOT IN ('RC', 'SAG')
+        AND year(sbp.pol_auth_date) = sb.year
+--   AND DATENAME(year, sbp.pol_auth_date) = sb.year
+--   and pol_ref_no = 'NBD59341'
+--   and budget_id = 107
+      GROUP BY  org.org_name,
+                org.org_address,
+                org.org_mobile,
+                org.org_phone,
+                org.add_email_addr,
+                org.org_website,
+               sb.budget_product,
+               sbrg.rep_sht_desc,
+               sbrg.rep_desc,
+               sbr.reg_code,
+               sbr.reg_desc,
+               sba.acct_name,
+               p.pr_sht_desc,
+               p.pr_desc,
+               b.ob_name,
+               sb.budget_id,
+               sb.year,
+               sb.budget_name) u]]>
+	</queryString>
+	<field name="org_name" class="java.lang.String"/>
+	<field name="org_address" class="java.lang.String"/>
+	<field name="org_mobile" class="java.lang.String"/>
+	<field name="org_phone" class="java.lang.String"/>
+	<field name="add_email_addr" class="java.lang.String"/>
+	<field name="org_website" class="java.lang.String"/>
+	<field name="budget_product" class="java.math.BigDecimal"/>
+	<field name="rep_sht_desc" class="java.lang.String"/>
+	<field name="rep_desc" class="java.lang.String"/>
+	<field name="pr_sht_desc" class="java.lang.String"/>
+	<field name="pr_desc" class="java.lang.String"/>
+	<field name="reg_code" class="java.math.BigDecimal"/>
+	<field name="reg_desc" class="java.lang.String"/>
+	<field name="ob_name" class="java.lang.String"/>
+	<field name="Agent" class="java.lang.String"/>
+	<field name="budget_id" class="java.math.BigDecimal"/>
+	<field name="year" class="java.lang.Integer"/>
+	<field name="budget_name" class="java.lang.String"/>
+	<field name="prem" class="java.math.BigDecimal"/>
+	<field name="policies" class="java.math.BigDecimal"/>
+	<field name="january_agent" class="java.math.BigDecimal"/>
+	<field name="jan_actual_agent" class="java.math.BigDecimal"/>
+	<field name="january_pol" class="java.math.BigDecimal"/>
+	<field name="jan_actual_pol" class="java.math.BigDecimal"/>
+	<field name="january_prod" class="java.math.BigDecimal"/>
+	<field name="jan_actual_prod" class="java.math.BigDecimal"/>
+	<field name="february_agent" class="java.math.BigDecimal"/>
+	<field name="feb_actual_agent" class="java.math.BigDecimal"/>
+	<field name="february_pol" class="java.math.BigDecimal"/>
+	<field name="feb_actual_pol" class="java.math.BigDecimal"/>
+	<field name="february_prod" class="java.math.BigDecimal"/>
+	<field name="feb_actual_prod" class="java.math.BigDecimal"/>
+	<field name="march_agent" class="java.math.BigDecimal"/>
+	<field name="march_actual_agent" class="java.math.BigDecimal"/>
+	<field name="march_pol" class="java.math.BigDecimal"/>
+	<field name="march_actual_pol" class="java.math.BigDecimal"/>
+	<field name="march_prod" class="java.math.BigDecimal"/>
+	<field name="march_actual_prod" class="java.math.BigDecimal"/>
+	<field name="april_agent" class="java.math.BigDecimal"/>
+	<field name="april_actual_agent" class="java.math.BigDecimal"/>
+	<field name="april_pol" class="java.math.BigDecimal"/>
+	<field name="april_actual_pol" class="java.math.BigDecimal"/>
+	<field name="april_prod" class="java.math.BigDecimal"/>
+	<field name="april_actual_prod" class="java.math.BigDecimal"/>
+	<field name="may_agent" class="java.math.BigDecimal"/>
+	<field name="may_actual_agent" class="java.math.BigDecimal"/>
+	<field name="may_pol" class="java.math.BigDecimal"/>
+	<field name="may_actual_pol" class="java.math.BigDecimal"/>
+	<field name="may_prod" class="java.math.BigDecimal"/>
+	<field name="may_actual_prod" class="java.math.BigDecimal"/>
+	<field name="june_agent" class="java.math.BigDecimal"/>
+	<field name="june_actual_agent" class="java.math.BigDecimal"/>
+	<field name="june_pol" class="java.math.BigDecimal"/>
+	<field name="june_actual_pol" class="java.math.BigDecimal"/>
+	<field name="june_prod" class="java.math.BigDecimal"/>
+	<field name="june_actual_prod" class="java.math.BigDecimal"/>
+	<field name="july_agent" class="java.math.BigDecimal"/>
+	<field name="july_actual_agent" class="java.math.BigDecimal"/>
+	<field name="july_pol" class="java.math.BigDecimal"/>
+	<field name="july_actual_pol" class="java.math.BigDecimal"/>
+	<field name="july_prod" class="java.math.BigDecimal"/>
+	<field name="july_actual_prod" class="java.math.BigDecimal"/>
+	<field name="august_agent" class="java.math.BigDecimal"/>
+	<field name="aug_actual_agent" class="java.math.BigDecimal"/>
+	<field name="august_pol" class="java.math.BigDecimal"/>
+	<field name="aug_actual_pol" class="java.math.BigDecimal"/>
+	<field name="august_prod" class="java.math.BigDecimal"/>
+	<field name="aug_actual_prod" class="java.math.BigDecimal"/>
+	<field name="september_agent" class="java.math.BigDecimal"/>
+	<field name="sep_actual_agent" class="java.math.BigDecimal"/>
+	<field name="september_pol" class="java.math.BigDecimal"/>
+	<field name="sep_actual_pol" class="java.math.BigDecimal"/>
+	<field name="september_prod" class="java.math.BigDecimal"/>
+	<field name="sep_actual_prod" class="java.math.BigDecimal"/>
+	<field name="october_agent" class="java.math.BigDecimal"/>
+	<field name="oct_actual_agent" class="java.math.BigDecimal"/>
+	<field name="october_pol" class="java.math.BigDecimal"/>
+	<field name="oct_actual_pol" class="java.math.BigDecimal"/>
+	<field name="october_prod" class="java.math.BigDecimal"/>
+	<field name="oct_actual_prod" class="java.math.BigDecimal"/>
+	<field name="november_agent" class="java.math.BigDecimal"/>
+	<field name="nov_actual_agent" class="java.math.BigDecimal"/>
+	<field name="november_pol" class="java.math.BigDecimal"/>
+	<field name="nov_actual_pol" class="java.math.BigDecimal"/>
+	<field name="november_prod" class="java.math.BigDecimal"/>
+	<field name="nov_actual_prod" class="java.math.BigDecimal"/>
+	<field name="december_agent" class="java.math.BigDecimal"/>
+	<field name="dec_actual_agent" class="java.math.BigDecimal"/>
+	<field name="december_pol" class="java.math.BigDecimal"/>
+	<field name="dec_actual_pol" class="java.math.BigDecimal"/>
+	<field name="december_prod" class="java.math.BigDecimal"/>
+	<field name="dec_actual_prod" class="java.math.BigDecimal"/>
+	<variable name="jan_target" class="java.math.BigDecimal">
+		<variableExpression><![CDATA[$F{january_prod}==0? new BigDecimal($F{january_pol}): new BigDecimal($F{january_prod})]]></variableExpression>
+	</variable>
+	<variable name="jan_actual" class="java.math.BigDecimal">
+		<variableExpression><![CDATA[$F{january_prod}==0? new BigDecimal($F{april_actual_pol}):  new BigDecimal($F{april_actual_prod})]]></variableExpression>
+	</variable>
+	<variable name="feb_target" class="java.math.BigDecimal">
+		<variableExpression><![CDATA[$F{february_prod}==0? new BigDecimal($F{february_pol}): new BigDecimal($F{february_prod})]]></variableExpression>
+	</variable>
+	<variable name="feb_actual" class="java.math.BigDecimal">
+		<variableExpression><![CDATA[$F{february_prod}==0? new BigDecimal($F{feb_actual_pol}):  new BigDecimal($F{feb_actual_prod})]]></variableExpression>
+	</variable>
+	<variable name="march_target" class="java.math.BigDecimal">
+		<variableExpression><![CDATA[$F{march_prod}==0? new BigDecimal($F{march_pol}): new BigDecimal($F{march_prod})]]></variableExpression>
+	</variable>
+	<variable name="march_actual" class="java.math.BigDecimal">
+		<variableExpression><![CDATA[$F{march_prod}==0? new BigDecimal($F{march_actual_pol}):  new BigDecimal($F{march_actual_prod})]]></variableExpression>
+	</variable>
+	<variable name="April_target" class="java.math.BigDecimal">
+		<variableExpression><![CDATA[$F{april_prod}==0? new BigDecimal($F{april_pol}): new BigDecimal($F{april_prod})]]></variableExpression>
+	</variable>
+	<variable name="april_actual" class="java.math.BigDecimal">
+		<variableExpression><![CDATA[$F{april_prod}==0? new BigDecimal($F{april_actual_pol}): new BigDecimal( $F{april_actual_prod})]]></variableExpression>
+	</variable>
+	<variable name="may_target" class="java.math.BigDecimal">
+		<variableExpression><![CDATA[$F{may_prod}==0? new BigDecimal($F{may_pol}): new BigDecimal($F{may_prod})]]></variableExpression>
+	</variable>
+	<variable name="may_actual" class="java.math.BigDecimal">
+		<variableExpression><![CDATA[$F{may_prod}==0? new BigDecimal($F{may_actual_pol}):  new BigDecimal($F{may_actual_prod})]]></variableExpression>
+	</variable>
+	<variable name="june_target" class="java.math.BigDecimal">
+		<variableExpression><![CDATA[$F{june_prod}==0? new BigDecimal($F{june_pol}): new BigDecimal($F{june_prod})]]></variableExpression>
+	</variable>
+	<variable name="june_actual" class="java.math.BigDecimal">
+		<variableExpression><![CDATA[$F{june_prod}==0? new BigDecimal($F{june_actual_pol}):  new BigDecimal($F{june_actual_prod})]]></variableExpression>
+	</variable>
+	<variable name="july_target" class="java.math.BigDecimal">
+		<variableExpression><![CDATA[$F{july_prod}==0? new BigDecimal($F{july_pol}): new BigDecimal($F{july_prod})]]></variableExpression>
+	</variable>
+	<variable name="july_actual" class="java.math.BigDecimal">
+		<variableExpression><![CDATA[$F{july_prod}==0? new BigDecimal($F{july_actual_pol}):  new BigDecimal($F{july_actual_prod})]]></variableExpression>
+	</variable>
+	<variable name="aug_target" class="java.math.BigDecimal">
+		<variableExpression><![CDATA[$F{august_prod}==0? new BigDecimal($F{august_pol}): new BigDecimal($F{august_prod})]]></variableExpression>
+	</variable>
+	<variable name="sep_actual" class="java.math.BigDecimal">
+		<variableExpression><![CDATA[$F{september_prod}==0? new BigDecimal($F{sep_actual_pol}):  new BigDecimal($F{sep_actual_prod})]]></variableExpression>
+	</variable>
+	<variable name="sep_target" class="java.math.BigDecimal">
+		<variableExpression><![CDATA[$F{september_prod}==0? new BigDecimal($F{september_pol}): new BigDecimal($F{september_prod})]]></variableExpression>
+	</variable>
+	<variable name="aug_actual" class="java.math.BigDecimal">
+		<variableExpression><![CDATA[$F{august_prod}==0? new BigDecimal($F{aug_actual_pol}):  new BigDecimal($F{aug_actual_prod})]]></variableExpression>
+	</variable>
+	<variable name="oct_target" class="java.math.BigDecimal">
+		<variableExpression><![CDATA[$F{october_prod}==0? new BigDecimal($F{october_pol}): new BigDecimal($F{october_prod})]]></variableExpression>
+	</variable>
+	<variable name="oct_actual" class="java.math.BigDecimal">
+		<variableExpression><![CDATA[$F{october_prod}==0? new BigDecimal($F{oct_actual_pol}):  new BigDecimal($F{oct_actual_prod})]]></variableExpression>
+	</variable>
+	<variable name="nov_target" class="java.math.BigDecimal">
+		<variableExpression><![CDATA[$F{november_prod}==0?new BigDecimal( $F{november_pol}):new BigDecimal($F{november_prod})]]></variableExpression>
+	</variable>
+	<variable name="nov_actual" class="java.math.BigDecimal">
+		<variableExpression><![CDATA[$F{november_prod}==0? new BigDecimal($F{nov_actual_pol}): new BigDecimal( $F{nov_actual_prod})]]></variableExpression>
+	</variable>
+	<variable name="dec_target" class="java.math.BigDecimal">
+		<variableExpression><![CDATA[ new BigDecimal($F{december_prod})==0? new BigDecimal($F{december_pol}): new BigDecimal($F{december_prod})]]></variableExpression>
+	</variable>
+	<variable name="dec_actual" class="java.math.BigDecimal">
+		<variableExpression><![CDATA[ new BigDecimal($F{december_prod})==0? new BigDecimal($F{dec_actual_pol}):  new BigDecimal($F{dec_actual_prod})]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="150" splitType="Stretch">
+			<rectangle>
+				<reportElement x="0" y="0" width="2360" height="150" backcolor="#FFFFFF" uuid="70eacbfd-ab9e-479e-ac08-ee6853265959"/>
+			</rectangle>
+			<image scaleImage="FillFrame" evaluationTime="Master">
+				<reportElement x="5" y="2" width="145" height="90" uuid="0a6dbdf3-915d-40b8-89f3-b6774a57612e"/>
+				<imageExpression><![CDATA[$P{logo}]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement x="883" y="11" width="265" height="15" uuid="a4074c15-d6c3-46bd-9653-7537baf820c0">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement>
+					<font size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{org_name}.toUpperCase()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="883" y="28" width="265" height="15" uuid="6ac0c5bb-eb27-4d71-a8dd-431fc045782b">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement>
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{org_address}.toUpperCase()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="883" y="43" width="265" height="15" uuid="a03bd0cb-b25b-4ddb-97f8-4894d12194f2">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA["TEL: " + $F{org_mobile} +"," +$F{org_phone}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="882" y="73" width="265" height="15" uuid="e735053b-dce0-49da-85c8-da787b4a303d">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA["EMAIL: "+$F{add_email_addr}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="882" y="58" width="265" height="15" uuid="2dcb3a7a-9db6-43e0-bcd0-44ebe0260f0e"/>
+				<textFieldExpression><![CDATA["WEBSITE: " + $F{org_website}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="110" width="1150" height="20" uuid="ee142e99-36cd-4ea1-93a0-bcc9918ee75b"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ACTUAL PRODUCTION VS BUDGET REPORT FOR THE YEAR 
+]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="790" y="110" width="130" height="20" uuid="23e8c3e7-d47e-48fd-ae4c-8691c72a0888"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{year}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="180" y="130" width="210" height="20" uuid="5cde5677-8fa4-4a3d-8c98-2d94f972d028"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[JANUARY
+]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="390" y="130" width="200" height="20" uuid="ddce9238-eddd-4f95-8736-49cc59fb5d0a"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[FEBRUARY]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="590" y="130" width="180" height="20" uuid="1f9501ae-b787-48bd-b42f-23393226bcad"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[MARCH]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="770" y="130" width="170" height="20" uuid="d86a5155-c3e1-4626-85e8-1b06c5c4fc16"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[APRIL]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="940" y="130" width="180" height="20" uuid="d440cd29-07fb-4925-af71-bea757748afe"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[MAY]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1120" y="130" width="170" height="20" uuid="9846f42a-ce28-4f4a-bace-691915fdaac1"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[JUNE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1290" y="130" width="180" height="20" uuid="45ed3090-1cc4-4666-84ac-b6410bec6f56"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[JULY]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1470" y="130" width="170" height="20" uuid="c37fad1a-f61c-46f5-b6dc-9a651df5591c"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[AUGUST]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1820" y="130" width="170" height="20" uuid="171bddde-60c9-4061-b559-ac009156c60a"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[OCTOBER]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1990" y="130" width="180" height="20" uuid="3025fbc7-d078-4095-9bd4-5713b5eb444d"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[NOVEMBER]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2170" y="130" width="180" height="20" uuid="5ca8b75f-26f7-4ab7-98b8-a810fa735731"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DECEMBER]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1640" y="130" width="180" height="20" uuid="fa560aa1-0804-4ff4-8feb-a59e26bf2ae0"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[SEPTEMBER]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="20" splitType="Stretch">
+			<rectangle>
+				<reportElement x="0" y="0" width="2360" height="20" forecolor="#000203" backcolor="#FFFFFF" uuid="6dc96f52-d155-40e7-9f8b-00f16e434f04">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="0" y="0" width="80" height="20" isPrintWhenDetailOverflows="true" uuid="6cd27428-4053-4ba3-a218-3daff6b2046b"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Branch]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="80" y="0" width="100" height="20" isPrintWhenDetailOverflows="true" uuid="2a17a15f-fead-4844-88fb-655e49dcdc28"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Region]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="180" y="0" width="70" height="20" isPrintWhenDetailOverflows="true" uuid="86ff2f1d-99e9-4aaf-9032-e71bf629e14c"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Target]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="250" y="0" width="80" height="20" isPrintWhenDetailOverflows="true" uuid="fed52b0d-736e-459d-a53e-3a8f52bdfc4d"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Actual]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="330" y="0" width="60" height="20" isPrintWhenDetailOverflows="true" uuid="db334a97-3157-4626-983b-81071cef4c8b"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Variance]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="390" y="0" width="70" height="20" isPrintWhenDetailOverflows="true" uuid="1b785c14-3bdc-4294-b839-378be113cecc"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Target]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="460" y="0" width="70" height="20" isPrintWhenDetailOverflows="true" uuid="20db030c-a5b6-4921-b98c-8a1eb966fd62"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Actual]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="530" y="0" width="60" height="20" isPrintWhenDetailOverflows="true" uuid="638b0bed-ec8f-4e27-872d-c35cc3c41233"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Variance]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="590" y="0" width="60" height="20" isPrintWhenDetailOverflows="true" uuid="e6fc276a-14f5-4d8b-9104-d94be1f4822e"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Target]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="650" y="0" width="60" height="20" isPrintWhenDetailOverflows="true" uuid="193f1fc5-6548-49d6-a890-f81698b49e0f"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Actual]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="710" y="0" width="60" height="20" isPrintWhenDetailOverflows="true" uuid="fde477a0-7bfc-43f1-ad94-89c8d576dc7e"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Variance]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="770" y="0" width="60" height="20" isPrintWhenDetailOverflows="true" uuid="b672054d-d90c-4e87-b061-36f9ae77c3c4"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Target]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="940" y="0" width="60" height="20" isPrintWhenDetailOverflows="true" uuid="d13da5c4-4b4a-4e55-8562-45329f8f3026"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Target]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="883" y="0" width="57" height="20" isPrintWhenDetailOverflows="true" uuid="3792f719-6aa5-4225-a45a-5c0c41a5b638"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Variance]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="830" y="0" width="53" height="20" isPrintWhenDetailOverflows="true" uuid="da7ad90b-121c-49d4-853b-58e70fdedf72"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Actual]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1000" y="0" width="60" height="20" isPrintWhenDetailOverflows="true" uuid="d47d5d42-970f-40b4-8340-5170cf8d27d5"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Actual]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1060" y="0" width="60" height="20" isPrintWhenDetailOverflows="true" uuid="9bb84bf7-35b0-4929-bb7a-7b7003aa0dff"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Variance]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1120" y="0" width="60" height="20" isPrintWhenDetailOverflows="true" uuid="960e7392-0311-4059-a37f-e25aaf8a6bde"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Target]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1180" y="0" width="53" height="20" isPrintWhenDetailOverflows="true" uuid="a326ce21-dc72-416f-89a6-4ee2029d6707"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Actual]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1233" y="0" width="57" height="20" isPrintWhenDetailOverflows="true" uuid="9e056b71-f30f-447f-a2d4-a135f402c705"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Variance]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1290" y="0" width="60" height="20" isPrintWhenDetailOverflows="true" uuid="4dcc2479-0cba-4d8d-aeae-407c4940db52"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Target]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1350" y="-1" width="60" height="20" isPrintWhenDetailOverflows="true" uuid="226428ee-d515-4113-a768-16e507399fbb"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Actual]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1410" y="-1" width="60" height="20" isPrintWhenDetailOverflows="true" uuid="6532647a-cfa0-4aad-b23b-3e7f539a5b4f"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Variance]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1470" y="-1" width="60" height="20" isPrintWhenDetailOverflows="true" uuid="e806f9a3-afe5-4356-bbf2-157d54d1538b"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Target]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1530" y="-1" width="53" height="20" isPrintWhenDetailOverflows="true" uuid="af58f047-b3c6-425b-b759-47f5b9cbbd6e"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Actual]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1583" y="-1" width="57" height="20" isPrintWhenDetailOverflows="true" uuid="c8c509d7-72b0-479c-8145-99fd02f9ed82"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Variance]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1640" y="-1" width="60" height="20" isPrintWhenDetailOverflows="true" uuid="9a319939-26e6-418c-b669-6b4ca7d9ada4"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Target]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1700" y="-1" width="60" height="20" isPrintWhenDetailOverflows="true" uuid="d7bbdd2e-5da3-4186-9c2a-f89f5aad5eaf"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Actual]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1760" y="-1" width="60" height="20" isPrintWhenDetailOverflows="true" uuid="48a8d9cf-8d24-4827-8058-bb825142a1a7"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Variance]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2290" y="0" width="60" height="20" isPrintWhenDetailOverflows="true" uuid="e5d812ed-e267-4ff0-b68f-3df7342f9bb7"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Variance]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2230" y="0" width="60" height="20" isPrintWhenDetailOverflows="true" uuid="03d531d3-7c66-4267-a3b7-516ca68a122a"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Actual]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2170" y="0" width="60" height="20" isPrintWhenDetailOverflows="true" uuid="abe06bb5-3d14-4127-aa82-1bd97c22dd1a"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Target]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2113" y="0" width="57" height="20" isPrintWhenDetailOverflows="true" uuid="83e4a384-7242-438d-a2f0-539c1528022f"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Variance]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2060" y="0" width="53" height="20" isPrintWhenDetailOverflows="true" uuid="32193c20-2ffa-4bd3-8d79-8ebd2c55c196"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Actual]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2000" y="0" width="60" height="20" isPrintWhenDetailOverflows="true" uuid="90d54f08-162c-4514-89e9-7aa0ffb1da4b"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Target]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1940" y="0" width="60" height="20" isPrintWhenDetailOverflows="true" uuid="dff1c977-64cc-4da2-91df-2a6539e2c909"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Variance]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1880" y="0" width="60" height="20" isPrintWhenDetailOverflows="true" uuid="712eaa08-4886-4050-b760-bb5bfd63c392"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Actual]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1820" y="0" width="60" height="20" isPrintWhenDetailOverflows="true" uuid="a0d83c52-129b-4cc9-93de-491df757c146"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Target]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20">
+			<rectangle>
+				<reportElement x="0" y="0" width="2360" height="20" forecolor="#000302" backcolor="#FFFFFF" uuid="85442a69-2030-42c6-bca1-cd24fc48aaa4"/>
+			</rectangle>
+			<textField>
+				<reportElement x="0" y="0" width="80" height="20" uuid="53a658ff-bac5-4055-9810-f29fc9bbc7e3"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{ob_name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="80" y="0" width="100" height="20" uuid="9dbd0afd-ae64-440c-9edf-8a71144a3581"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{reg_desc}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="180" y="0" width="70" height="20" uuid="576cd4b4-2686-47b0-80d9-b6b31d336032"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$V{jan_target}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="330" y="0" width="60" height="20" uuid="a7fbdc5b-9e42-4283-ac3f-b43902e7f387"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$V{jan_target}-$V{jan_actual}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="390" y="0" width="70" height="20" uuid="240fd5c5-fc6c-48d8-b85a-6e6178a5a1f7"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$V{feb_target}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="460" y="0" width="70" height="20" uuid="122585a4-3dae-453a-80b2-8ab69e9273ed"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$V{feb_actual}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="530" y="0" width="60" height="20" uuid="3289e415-f1d1-4627-9d21-aed2f62e223a"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$V{feb_target}-$V{feb_actual}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="590" y="0" width="60" height="20" uuid="0270e2ac-72a7-42e7-adbe-1c12745fde70"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$V{march_target}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="650" y="0" width="60" height="20" uuid="6f3426d7-45b9-4d46-b136-e2cdca0fc464"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$V{march_actual}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="710" y="0" width="60" height="20" uuid="3539c290-4551-4abe-8714-2b492b0543fe"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$V{march_target}-$V{march_actual}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="1000" y="0" width="60" height="20" uuid="d5f2f974-8aff-4339-8c12-3eb7f7a440cc"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$V{may_actual}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="830" y="0" width="53" height="20" uuid="e5d1bf4b-25b1-4a92-aca8-74f484acfc72"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$V{april_actual}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="883" y="0" width="57" height="20" uuid="f35eb588-df93-4b4a-89a3-169fd27f6c84"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$V{April_target}-$V{april_actual}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="940" y="0" width="60" height="20" uuid="0f041b93-b9b3-4791-b7f9-9edbadd26d3e"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$V{may_target}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="770" y="0" width="60" height="20" uuid="3bd8598a-81a4-456e-aa2f-4bbc89b5b0dd"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$V{April_target}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="1060" y="0" width="60" height="20" uuid="e30f3ccc-61bf-48a6-9295-d6264b6aa2ca"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$V{may_target}-$V{may_actual}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="250" y="0" width="80" height="20" uuid="0746da05-7a88-4690-b3c4-7822bdb9ba86"/>
+				<textFieldExpression><![CDATA[$V{jan_actual}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="1120" y="0" width="60" height="20" uuid="11f7b88e-7379-4050-988f-0d7b1191e74e"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$V{june_target}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="1180" y="0" width="53" height="20" uuid="fd6af745-907b-4c55-860b-f8643dd99de9"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$V{june_actual}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="1233" y="0" width="57" height="20" uuid="1a06bcab-7ea5-440a-89b7-d1361641963d"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$V{june_target}-$V{june_actual}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="1290" y="0" width="60" height="20" uuid="67d8298b-379e-41ef-a26f-a3c972691cce"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$V{july_target}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="1350" y="-1" width="60" height="20" uuid="d3edd24e-1cc7-4179-93dd-e0e9d2d4f0a4"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$V{july_actual}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="1410" y="-1" width="60" height="20" uuid="468dcb55-5094-42c8-ae2a-8b7cb0986d9c"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$V{july_target}-$V{july_actual}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="1470" y="-1" width="60" height="20" uuid="f1979c46-f2eb-4027-b5ff-df24599d5e13"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$V{aug_target}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="1530" y="-1" width="53" height="20" uuid="3249c7af-cfa8-4ee0-9a38-87cb85ad884b"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$V{aug_actual}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="1583" y="-1" width="57" height="20" uuid="7a3beef7-bef6-47e1-b027-d4e642170cec"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$V{aug_target}-$V{aug_actual}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="1640" y="-1" width="60" height="20" uuid="fd451b64-6a31-4d9b-af3d-29a1c37be51c"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$V{sep_target}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="1700" y="-1" width="60" height="20" uuid="a8fff544-83c2-4653-9f34-46e9558f5ac9"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$V{sep_actual}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="1760" y="-1" width="60" height="20" uuid="b69e34c8-0f38-4eb8-8a60-384ff302d5ae"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$V{sep_target}-$V{sep_actual}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="2290" y="0" width="60" height="20" uuid="1d9bcc6c-75c4-4b37-9e04-bb8dbe243e0a"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$V{dec_target}-$V{dec_actual}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="2230" y="0" width="60" height="20" uuid="342b6417-22ef-4406-b20d-7d58cee13f8e"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$V{dec_actual}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="2170" y="0" width="60" height="20" uuid="1a83d282-41c0-4ee6-9dac-feea216d5f18"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$V{dec_target}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="2113" y="0" width="57" height="20" uuid="c8ed22d8-e711-48a8-966b-822158a8a5c8"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$V{nov_target}-$V{nov_actual}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="2060" y="0" width="53" height="20" uuid="455e1a66-910e-4634-9b12-45f3d814123e"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$V{nov_actual}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="2000" y="0" width="60" height="20" uuid="3f263add-9bfa-4f4c-9065-1a9d1ee64549"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$V{nov_target}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="1940" y="0" width="60" height="20" uuid="27f7b2f8-caa6-4ae3-b074-2e07419c4a7b"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$V{oct_target}-$V{oct_actual}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="1880" y="0" width="60" height="20" uuid="528e4ad6-6916-41b4-ba12-06a3801c99e6"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$V{oct_actual}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="1820" y="0" width="60" height="20" uuid="5cee9834-68d6-4d57-9910-437f7f18b7b7"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$V{oct_target}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

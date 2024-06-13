@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dataTemplate name="products" defaultPackage="">
+<properties>
+    <property name="xml_tag_case" value="upper"/>
+</properties>
+<parameters>
+    <parameter name="P_PR_CODE" dataType="integer"/>
+    <parameter name="P_ORG_CODE" dataType="integer"/>
+</parameters>
+<lexicals>
+</lexicals>
+<dataQuery>
+<sqlStatement name="Q_1">
+select pr_code, pr_desc
+from sys_brk_products
+order by pr_desc
+</sqlStatement>
+</dataQuery>
+<dataStructure>
+<group name="G_PRODUCTS" dataType="varchar" source="Q_1">
+    <element name="pr_code" dataType="integer" value="PR_CODE"/>
+    <element name="pr_desc" dataType="varchar" value="PR_DESC"/>
+</group>
+</dataStructure>
+</dataTemplate>
