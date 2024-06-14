@@ -15,13 +15,13 @@ import java.util.List;
  */
 public interface ClaimRevisionsRepo  extends PagingAndSortingRepository<ClaimRevisions, Long>, QueryDslPredicateExecutor<ClaimRevisions> {
 
-    @Query(value = "select x.*,total_rows=COUNT(*) OVER() from(\n" +
+    @Query(value = "select x.*,COUNT(*) OVER() AS total_rows from(\n" +
             "           select clm_pymnt_id,clm_pymt_amount,clm_pymt_created_dt,clm_pymt_trans_type,clm_pymt_auth_date,sbu.user_username created_by,\n" +
             "           sbu2.user_username auth_by,isnull(clm_pymt_auth,'N')clm_pymnt_auth_status \n" +
             "           from sys_brk_clm_pymnts\n" +
             "         join sys_brk_users sbu on sbu.user_id =clm_pymt_created_by\n" +
             "         left join sys_brk_users sbu2 on sbu2.user_id  = clm_pymt_auth_by  \n" +
-            "           where clm_pymt_clm_id = :clmId)x order by 1 desc  OFFSET :pageNo*:limit ROWS FETCH NEXT :limit ROWS ONLY",nativeQuery = true)
+            "           where clm_pymt_clm_id = :clmId)x order by 1 desc  OFFSET :pageNo*:limit LIMIT :limit",nativeQuery = true)
      List<Object[]> getClaimTransactions(@Param("clmId") Long clmId, @Param("pageNo") int pageNo,@Param("limit") int limit);
 
 

@@ -12,11 +12,11 @@ import java.util.List;
 public interface RevenueItemsRepo extends  PagingAndSortingRepository<RevenueItemsDef, Long>, QueryDslPredicateExecutor<RevenueItemsDef> {
 
 
-    @Query(value = "select rev_id , rev_code,total_rows=COUNT(*) OVER()  from sys_brk_revenue_items \n" +
+    @Query(value = "select rev_id , rev_code,COUNT(*) OVER() AS total_rows  from sys_brk_revenue_items \n" +
             "where rev_code  not in ('PHCF','TL','SD')\n" +
             "and rev_code like :search\n" +
             "order by rev_code asc\n" +
-            "OFFSET :pageNo*:limit ROWS FETCH NEXT :limit ROWS ONLY",nativeQuery = true)
+            "OFFSET :pageNo*:limit LIMIT :limit",nativeQuery = true)
     List<Object[]> findAllRevItems(@Param("search") String search,
                                        @Param("pageNo") int pageNo,
                                        @Param("limit") int limit);

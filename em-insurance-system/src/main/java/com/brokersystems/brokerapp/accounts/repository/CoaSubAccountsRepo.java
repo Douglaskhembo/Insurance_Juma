@@ -14,20 +14,20 @@ import java.util.List;
  */
 public interface CoaSubAccountsRepo extends PagingAndSortingRepository<CoaSubAccounts, Long>, QueryDslPredicateExecutor<CoaSubAccounts> {
 
-    @Query(value = "select co_id,co_code,co_name,total_rows=COUNT(*) OVER()  from sys_brk_coa_sub\n" +
+    @Query(value = "select co_id,co_code,co_name,COUNT(*) OVER()  AS total_rows from sys_brk_coa_sub\n" +
             "where (lower(co_code) like :search or lower(co_name) like :search)\n" +
-            "order by co_name asc OFFSET :pageNo*:limit ROWS FETCH NEXT :limit ROWS ONLY",nativeQuery = true)
+            "order by co_name asc OFFSET :pageNo*:limit LIMIT :limit",nativeQuery = true)
     List<Object[]> findAllSubAccounts(@Param("search") String search,
                                    @Param("pageNo") int pageNo,
                                    @Param("limit") int limit);
 
     @Query(value = "select co_id,co_accounts_order,co_code,co_name,co_int_account,co_control_acc,co_acct_type_id," +
-            "acc_name,co_main_acc_id,co_mapped_to_scl,sub_desc,sub_cl_code,total_rows=COUNT(*) OVER() from sys_brk_coa_sub\n" +
+            "acc_name,co_main_acc_id,co_mapped_to_scl,sub_desc,sub_cl_code,COUNT(*) OVER()  AS total_rows from sys_brk_coa_sub\n" +
             "left join sys_brk_account_types sbat on co_acct_type_id =sbat.acc_id \n" +
             "left join sys_brk_subclasses sbs on co_sc_id =sbs.sub_id \n" +
             "where co_main_acc_id =:mainAccId\n" +
             "and (lower(co_name) like :search or lower(co_code) like :search or lower(isnull(acc_name,'')) like :search)\n" +
-            "order by co_id desc OFFSET :pageNo*:limit ROWS FETCH NEXT :limit ROWS ONLY", nativeQuery = true)
+            "order by co_id desc OFFSET :pageNo*:limit LIMIT :limit", nativeQuery = true)
     List<Object[]> findMainSubAccounts(@Param("mainAccId") Long mainAccId,
                                       @Param("search") String search,
                                       @Param("pageNo") int pageNo,

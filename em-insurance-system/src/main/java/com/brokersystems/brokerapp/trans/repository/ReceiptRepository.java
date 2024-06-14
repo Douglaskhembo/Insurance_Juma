@@ -15,7 +15,7 @@ public interface ReceiptRepository extends  PagingAndSortingRepository<ReceiptTr
     @Query("select t from ReceiptTrans t where t.receiptId=:receiptId")
     ReceiptTrans getReceiptDetails(@Param("receiptId")Long receiptId);
 
-    @Query(value = "select *, total_rows=COUNT(*) OVER() from (select trans_no    transno,\n" +
+    @Query(value = "select *, COUNT(*) OVER() AS total_rows from (select trans_no    transno,\n" +
             "                      null                     transNoTemp,\n" +
             "                      trans_date              transDate,\n" +
             "                      c.client_fname + ' ' + c.client_onames client,\n" +
@@ -52,15 +52,15 @@ public interface ReceiptRepository extends  PagingAndSortingRepository<ReceiptTr
             "                         and sbmt.trans_balance > 0\n" +
             "                         and (sbmt.trans_ref_no = coalesce(:search, sbmt.trans_ref_no) or p.pol_no = coalesce(:search, p.pol_no))\n" +
             "                         and sbmt.trans_authorised = 'Y') as result order by transDate desc\n" +
-            "OFFSET :pageNo*:limit ROWS FETCH NEXT :limit ROWS ONLY", nativeQuery = true)
+            "OFFSET :pageNo*:limit LIMIT :limit", nativeQuery = true)
     List<Object[]> findDebitTransactions(@Param("search") String search,
                                     @Param("pageNo") int pageNo,
                                     @Param("limit") int limit);
 
-    @Query(value = "select sbr.receipt_no,sbr.receipt_date,rf.lrct_dc ,sbr.receipt_amount,rf.lrct_alloc_amt,rf.lrct_balance,sbr.receipt_id, total_rows=COUNT(*) OVER()  from sys_brk_life_rcts rf\n" +
+    @Query(value = "select sbr.receipt_no,sbr.receipt_date,rf.lrct_dc ,sbr.receipt_amount,rf.lrct_alloc_amt,rf.lrct_balance,sbr.receipt_id, COUNT(*) OVER() AS total_rows  from sys_brk_life_rcts rf\n" +
             "join sys_brk_receipts sbr on sbr.receipt_id =rf.lrct_receipt_id  \n" +
             "where lrct_policy_id =:polId\n" +
-            "order by 1 desc OFFSET :pageNo*:limit ROWS FETCH NEXT :limit ROWS ONLY", nativeQuery = true)
+            "order by 1 desc OFFSET :pageNo*:limit LIMIT :limit", nativeQuery = true)
     List<Object[]> findPolicyReceipts(@Param("polId") Long polId,
                                       @Param("pageNo") int pageNo,
                                       @Param("limit") int limit);

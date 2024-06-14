@@ -15,7 +15,7 @@ import java.util.List;
 public interface ClaimClaimantsRepo extends PagingAndSortingRepository<ClaimClaimants, Long>, QueryDslPredicateExecutor<ClaimClaimants> {
 
 
-    @Query(value = "select x.*,  total_rows=COUNT(*) OVER() from(\n" +
+    @Query(value = "select x.*,  COUNT(*) OVER() AS total_rows from(\n" +
             "select clm_clmnt_id,clm_clmnt_tp,concat(sbc.client_fname,' ',isnull(sbc.client_onames,'')) self_claimant,\n" +
             "                        concat(clmnt_surname,' ',clmnt_othernames) tp_claimant,clm_clmnt_status,sys_brk_clm_claimants.created_date,sbu.user_username,\n" +
             "                        sbcp.clm_prl_limit_amt  ,sbp.p_desc,clm_prl_type\n" +
@@ -35,7 +35,7 @@ public interface ClaimClaimantsRepo extends PagingAndSortingRepository<ClaimClai
             "left join sys_brk_users sbu on sbu.user_id =csp_created_user\n" +
             "where csp_clm_id=:clmId)x\n" +
             "order by x.created_date desc\n" +
-            "OFFSET :pageNo*:limit ROWS FETCH NEXT :limit ROWS ONLY ", nativeQuery = true)
+            "OFFSET :pageNo*:limit LIMITT :limit", nativeQuery = true)
     List<Object[]> findClmClaimants(@Param("clmId") Long clmId,
                                     @Param("pageNo") int pageNo,
                                     @Param("limit") int limit);

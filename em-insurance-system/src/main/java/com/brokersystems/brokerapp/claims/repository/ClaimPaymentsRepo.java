@@ -19,7 +19,7 @@ public interface ClaimPaymentsRepo extends PagingAndSortingRepository<ClaimPayme
 
 
     @Query(value = "select clm_pymnt_id,sbp.pay_full_name,clm_pymt_invoice_no,sbpm.pm_desc,clm_pymt_trans_type,sbc.cur_name,clm_pymt_amount,isnull(clm_pymt_auth,'N') clm_pymt_auth,\n" +
-            "sbu.user_username created_by,clm_pymt_created_dt,clm_pymt_auth_date,sbu2.user_username auth_by,total_rows=COUNT(*) OVER()\n" +
+            "sbu.user_username created_by,clm_pymt_created_dt,clm_pymt_auth_date,sbu2.user_username auth_by,COUNT(*) OVER() as total_rows\n" +
             "from sys_brk_clm_pymnts sbcp \n" +
             "join sys_brk_payees sbp on sbp.pay_id =sbcp.clm_pymt_payee \n" +
             "join sys_brk_payment_modes sbpm on sbpm.pm_id  = clm_pymt_pm_id\n" +
@@ -29,7 +29,7 @@ public interface ClaimPaymentsRepo extends PagingAndSortingRepository<ClaimPayme
             "where case when clm_pymt_trans_type = 'SP' then clm_pymt_spd_id else clm_pymt_clmnt_id end = :sprId\n" +
             "and clm_pymt_clm_id = :clmId\n" +
             "and (lower(pay_full_name) like :search)\n" +
-            "order by clm_pymt_created_dt desc OFFSET :pageNo*:limit ROWS FETCH NEXT :limit ROWS ONLY ", nativeQuery = true)
+            "order by clm_pymt_created_dt desc OFFSET :pageNo*:limit LIMIT :limit", nativeQuery = true)
     List<Object[]> getClmPayments(@Param("search") String search,
                                   @Param("sprId") Long sprId,
                                   @Param("clmId") Long clmId,

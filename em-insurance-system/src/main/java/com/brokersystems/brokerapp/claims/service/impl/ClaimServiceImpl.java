@@ -190,11 +190,11 @@ public class ClaimServiceImpl implements ClaimService {
         else searchValue = "%"+searchValue+"%";
         List<Object[]> risksTrans = riskTransRepo.findClaimRisks(lossDate,searchValue, pageable.getPageNumber(), pageable.getPageSize());
         long rowCount = 0L;
-        if(!risksTrans.isEmpty()) rowCount = (Integer)risksTrans.get(0)[7];
+        if(!risksTrans.isEmpty()) rowCount = ((BigInteger)risksTrans.get(0)[7]).intValue();
         List<ClaimRisksDTO> dtoList = new ArrayList<>();
         for(Object[] risk:risksTrans){
-            ClaimRisksDTO risksDTO = ClaimRisksDTO.instance(((BigDecimal)risk[0]).longValue(),(String)risk[2],(String) risk[1],(String) risk[3],
-                    ((BigDecimal)risk[5]).longValue(),((BigDecimal)risk[4]).longValue(),((BigDecimal)risk[6]).longValue());
+            ClaimRisksDTO risksDTO = ClaimRisksDTO.instance(((BigInteger)risk[0]).longValue(),(String)risk[2],(String) risk[1],(String) risk[3],
+                    ((BigInteger)risk[5]).longValue(),((BigInteger)risk[4]).longValue(),((BigInteger)risk[6]).longValue());
             dtoList.add(risksDTO);
         }
         return new PageImpl<>(dtoList,pageable, rowCount);
@@ -306,10 +306,10 @@ public class ClaimServiceImpl implements ClaimService {
         List<Object[]> claimants = claimantDefRepo.findClmants(search.toLowerCase(),pageable.getPageNumber(), pageable.getPageSize());
         final List<ClaimantsDTO> claimantsDTOList = new ArrayList<>();
         long rowCount = 0L;
-        if(!claimants.isEmpty()) rowCount = (Integer)claimants.get(0)[10];
+        if(!claimants.isEmpty()) rowCount = ((BigInteger)claimants.get(0)[10]).intValue();
         for(Object[] claimant:claimants){
             ClaimantsDTO claimantsDTO = new ClaimantsDTO();
-            claimantsDTO.setClaimantId(((BigDecimal)claimant[0]).longValue());
+            claimantsDTO.setClaimantId(((BigInteger)claimant[0]).longValue());
             claimantsDTO.setOtherNames((String)claimant[4]);
             claimantsDTO.setSurname((String)claimant[5]);
             claimantsDTOList.add(claimantsDTO);
@@ -324,10 +324,10 @@ public class ClaimServiceImpl implements ClaimService {
         List<Object[]> claimants = claimantDefRepo.findClmants(search.toLowerCase(),request.getPageNumber(), request.getPageSize());
         final List<ClaimantsDTO> claimantsDTOList = new ArrayList<>();
         long rowCount = 0l;
-        if(!claimants.isEmpty()) rowCount = (Integer)claimants.get(0)[10];
+        if(!claimants.isEmpty()) rowCount = ((BigInteger)claimants.get(0)[10]).intValue();
         for(Object[] claimant:claimants){
             ClaimantsDTO claimantsDTO = new ClaimantsDTO();
-            claimantsDTO.setClaimantId(((BigDecimal)claimant[0]).longValue());
+            claimantsDTO.setClaimantId(((BigInteger)claimant[0]).longValue());
             claimantsDTO.setAddress((String)claimant[1]);
             claimantsDTO.setIdNumber((String)claimant[2]);
             claimantsDTO.setMobileNo((String)claimant[3]);
@@ -335,7 +335,7 @@ public class ClaimServiceImpl implements ClaimService {
             claimantsDTO.setSurname((String)claimant[5]);
             claimantsDTO.setOccupation((String)claimant[6]);
             if(claimant[7]!=null) {
-                claimantsDTO.setOccupId(((BigDecimal) claimant[7]).longValue());
+                claimantsDTO.setOccupId(((BigInteger) claimant[7]).longValue());
             }
             claimantsDTO.setCreatedDate((Date) claimant[8]);
             claimantsDTO.setCreatedBy((String)claimant[9]);
@@ -440,11 +440,11 @@ public class ClaimServiceImpl implements ClaimService {
         final String search = (searchValue!=null)?"%"+searchValue+"%":"%%";
         List<Object[]> perils = binderSectPerilsRepo.searchBinderPerils(riskId, search.toLowerCase(),pageable.getPageNumber(), pageable.getPageSize());
         long count = 0L;
-        if(!perils.isEmpty()) count = (Integer)perils.get(0)[2];
+        if(!perils.isEmpty()) count = ((BigInteger)perils.get(0)[2]).intValue();
         final List<ClaimPerilDTO> claimPerilDTOS = new ArrayList<>();
         for(Object[] peril:perils){
             ClaimPerilDTO perilDTO = new ClaimPerilDTO();
-            perilDTO.setBindPerilCode(((BigDecimal)peril[0]).longValue());
+            perilDTO.setBindPerilCode(((BigInteger)peril[0]).longValue());
             perilDTO.setPerilDesc((String)peril[1]);
             claimPerilDTOS.add(perilDTO);
         }
@@ -756,10 +756,10 @@ public class ClaimServiceImpl implements ClaimService {
         List<Object[]> claimBookingsList = claimsBookingRepo.getClaimBookings(riskId,polNo,clientCode,claimNo,request.getPageNumber(), request.getPageSize());
         final List<ClaimEnquiryDTO> claimEnquiryDTOList = new ArrayList<>();
         long rowCount = 0L;
-        if(!claimBookingsList.isEmpty()) rowCount = (Integer)claimBookingsList.get(0)[11];
+        if(!claimBookingsList.isEmpty()) rowCount = ((BigInteger)claimBookingsList.get(0)[11]).intValue();
         for(Object[] obj:claimBookingsList){
             ClaimEnquiryDTO enquiryDTO = new ClaimEnquiryDTO();
-            enquiryDTO.setClmId(((BigDecimal)obj[0]).longValue());
+            enquiryDTO.setClmId(((BigInteger)obj[0]).longValue());
             enquiryDTO.setUsername((String) obj[1]);
             enquiryDTO.setLossDate((Date) obj[2]);
             enquiryDTO.setClmDate((Date) obj[3]);
@@ -787,7 +787,7 @@ public class ClaimServiceImpl implements ClaimService {
     public DataTablesResult<ClaimPerilReserveDTO> getClaimPerils(DataTablesRequest request,Long clmId) {
         List<Object[]> claimants = claimPerilsRepo.findClmPerils(clmId,request.getPageNumber(), request.getPageSize());
         long rowCount = 0L;
-        if(!claimants.isEmpty()) rowCount = (Integer)claimants.get(0)[6];
+        if(!claimants.isEmpty()) rowCount = ((BigInteger)claimants.get(0)[6]).intValue();
         final List<ClaimPerilReserveDTO> claimPerilReserveDTOList = new ArrayList<>();
         for(Object[] claimant:claimants){
             ClaimPerilReserveDTO claimantsDTO = new ClaimPerilReserveDTO();
@@ -796,7 +796,7 @@ public class ClaimServiceImpl implements ClaimService {
             claimantsDTO.setLimitAmt((BigDecimal) claimant[2]);
             claimantsDTO.setExcessAmt((BigDecimal)claimant[3]);
             claimantsDTO.setRemarks((String)claimant[4]);
-            claimantsDTO.setClmPerilId(((BigDecimal)claimant[5]).longValue());
+            claimantsDTO.setClmPerilId(((BigInteger)claimant[5]).longValue());
             claimPerilReserveDTOList.add(claimantsDTO);
         }
         Page<ClaimPerilReserveDTO>  page = new PageImpl<>(claimPerilReserveDTOList,request, rowCount);
@@ -808,11 +808,11 @@ public class ClaimServiceImpl implements ClaimService {
         final String search = ( request.getSearch()!=null && request.getSearch().getValue()!=null)?"%"+request.getSearch().getValue()+"%":"%%";
         List<Object[]> payments = claimPaymentsRepo.getClmPayments(search.toLowerCase(),sprId, clmId,request.getPageNumber(), request.getPageSize());
         long rowCount = 0L;
-        if(!payments.isEmpty()) rowCount = (Integer)payments.get(0)[12];
+        if(!payments.isEmpty()) rowCount = ((BigInteger)payments.get(0)[12]).intValue();
         final List<ClaimPaymentsDTO> paymentsDTOList = new ArrayList<>();
         for(Object[] payment:payments){
             ClaimPaymentsDTO paymentsDTO = new ClaimPaymentsDTO();
-            paymentsDTO.setClmPymntId(((BigDecimal)payment[0]).longValue());
+            paymentsDTO.setClmPymntId(((BigInteger)payment[0]).longValue());
             paymentsDTO.setPayee((String)payment[1]);
             paymentsDTO.setReference((String)payment[2]);
             paymentsDTO.setPaymentMode((String)payment[3]);
@@ -844,10 +844,10 @@ public class ClaimServiceImpl implements ClaimService {
         List<Object[]> claimantsList = claimClaimantsRepo.findClmClaimants(clmId,request.getPageNumber(), request.getPageSize());
         List<ClaimClaimantsDTO> claimClaimantsDTOS = new ArrayList<>();
         long rowCount = 0l;
-        if(!claimantsList.isEmpty()) rowCount = (Integer)claimantsList.get(0)[10];
+        if(!claimantsList.isEmpty()) rowCount = ((BigInteger)claimantsList.get(0)[10]).intValue();
         for(Object[] claimants:claimantsList){
             ClaimClaimantsDTO claimantsDTO = new ClaimClaimantsDTO();
-            claimantsDTO.setClaimantId(((BigDecimal)claimants[0]).longValue());
+            claimantsDTO.setClaimantId(((BigInteger)claimants[0]).longValue());
             claimantsDTO.setThirdParty((String) claimants[1]);
             claimantsDTO.setSelfClaimant((String) claimants[2]);
             claimantsDTO.setTpClaimant((String) claimants[3]);
@@ -881,10 +881,10 @@ public class ClaimServiceImpl implements ClaimService {
         List<Object[]> claimsDocs = claimRequiredDocsRepo.findClaimDocs(clmId,search,request.getPageNumber(), request.getPageSize());
         List<ClaimRequiredDocsDTO> requiredDocsDTOS = new ArrayList<>();
         long rowCount = 0l;
-        if(!claimsDocs.isEmpty()) rowCount = (Integer)claimsDocs.get(0)[8];
+        if(!claimsDocs.isEmpty()) rowCount = ((BigInteger)claimsDocs.get(0)[8]).intValue();
         for(Object[] doc:claimsDocs){
             ClaimRequiredDocsDTO requiredDoc = new ClaimRequiredDocsDTO();
-            requiredDoc.setClmRequiredId(((BigDecimal)doc[0]).longValue());
+            requiredDoc.setClmRequiredId(((BigInteger)doc[0]).longValue());
             requiredDoc.setDocRefNo((String) doc[1]);
             requiredDoc.setFileName((String) doc[2]);
             requiredDoc.setDateReceived((Date) doc[3]);
@@ -951,10 +951,10 @@ public class ClaimServiceImpl implements ClaimService {
         final List<ClaimActivityDTO> activityDTOList = new ArrayList<>();
         List<Object[]> trans = activitiesRepo.getClmActivities(clmId,request.getPageNumber(), search,request.getPageSize());
         long rowCount = 0L;
-        if(!trans.isEmpty()) rowCount = (Integer)trans.get(0)[6];
+        if(!trans.isEmpty()) rowCount = ((BigInteger)trans.get(0)[6]).intValue();
         for(Object[] tran:trans){
             ClaimActivityDTO activityDTO = new ClaimActivityDTO();
-            activityDTO.setActivityId(((BigDecimal)tran[0]).longValue());
+            activityDTO.setActivityId(((BigInteger)tran[0]).longValue());
             activityDTO.setActivityDesc((String) tran[1]);
             activityDTO.setUsername((String) tran[2]);
             activityDTO.setActivityDate((Date) tran[3]);
@@ -1097,10 +1097,10 @@ public class ClaimServiceImpl implements ClaimService {
         final List<ClaimsTransDto> claimTransList = new ArrayList<>();
         List<Object[]> trans = claimRevisionsRepo.getClaimTransactions(clmId,request.getPageNumber(), request.getPageSize());
         long rowCount = 0L;
-        if(!trans.isEmpty()) rowCount = (Integer)trans.get(0)[8];
+        if(!trans.isEmpty()) rowCount = ((BigInteger)trans.get(0)[8]).intValue();
         for(Object[] tran:trans){
             ClaimsTransDto claimsTransDto = new ClaimsTransDto();
-            claimsTransDto.setTransId(((BigDecimal)tran[0]).longValue());
+            claimsTransDto.setTransId(((BigInteger)tran[0]).longValue());
             claimsTransDto.setTransAmount((BigDecimal) tran[1]);
             claimsTransDto.setTransDate((Date) tran[2]);
             final String type = (String) tran[3];;
@@ -1206,10 +1206,10 @@ public class ClaimServiceImpl implements ClaimService {
         searchValue  = (searchValue!=null)?"%"+searchValue.toLowerCase()+"%":"%%";
         List<Object[]> types = serviceProviderTypesRepo.findServProviderTypes(searchValue,pageable.getPageNumber(), pageable.getPageSize());
         long rowCount = 0L;
-        if(!types.isEmpty()) rowCount = (Integer)types.get(0)[2];
+        if(!types.isEmpty()) rowCount = ((BigInteger)types.get(0)[2]).intValue();
         for(Object[] tran:types){
             ServiceProviderTypesDTO typesDTO = new ServiceProviderTypesDTO();
-            typesDTO.setTypeId(((BigDecimal) tran[0]).longValue());
+            typesDTO.setTypeId(((BigInteger) tran[0]).longValue());
             typesDTO.setProviderType((String) tran[1]);
             serviceProviderTypes.add(typesDTO);
         }
@@ -1222,10 +1222,10 @@ public class ClaimServiceImpl implements ClaimService {
         searchValue  = (searchValue!=null)?"%"+searchValue.toLowerCase()+"%":"%%";
         List<Object[]> types = serviceProviderRepo.findServProvidersLov(searchValue,pageable.getPageNumber(), pageable.getPageSize());
         long rowCount = 0L;
-        if(!types.isEmpty()) rowCount = (Integer)types.get(0)[2];
+        if(!types.isEmpty()) rowCount = ((BigInteger)types.get(0)[2]).intValue();
         for(Object[] tran:types){
             ServiceProviderDTO typesDTO = new ServiceProviderDTO();
-            typesDTO.setProviderId(((BigDecimal) tran[0]).longValue());
+            typesDTO.setProviderId(((BigInteger) tran[0]).longValue());
             typesDTO.setName((String) tran[1]);
             serviceProviderTypes.add(typesDTO);
         }
@@ -1286,15 +1286,15 @@ public class ClaimServiceImpl implements ClaimService {
         final List<ServiceProviderDTO> serviceProviders = new ArrayList<>();
         List<Object[]> trans = serviceProviderRepo.findServProviders(search,id,request.getPageNumber(), request.getPageSize());
         long rowCount = 0L;
-        if(!trans.isEmpty()) rowCount = (Integer)trans.get(0)[7];
+        if(!trans.isEmpty()) rowCount = ((BigInteger)trans.get(0)[7]).intValue();
         for(Object[] tran:trans){
             ServiceProviderDTO serviceProviderDTO = new ServiceProviderDTO();
-            serviceProviderDTO.setProviderId(((BigDecimal)tran[0]).longValue());
+            serviceProviderDTO.setProviderId(((BigInteger)tran[0]).longValue());
             serviceProviderDTO.setEmail((String) tran[1]);
             serviceProviderDTO.setName((String) tran[2]);
             serviceProviderDTO.setPhoneNumber((String) tran[3]);
             serviceProviderDTO.setCreatedDate((Date) tran[4]);
-            serviceProviderDTO.setProviderTypeId(((BigDecimal)tran[5]).longValue());
+            serviceProviderDTO.setProviderTypeId(((BigInteger)tran[5]).longValue());
             serviceProviderDTO.setCreatedBy((String) tran[6]);
             serviceProviders.add(serviceProviderDTO);
         }

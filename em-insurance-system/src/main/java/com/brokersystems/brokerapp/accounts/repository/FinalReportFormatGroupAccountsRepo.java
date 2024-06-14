@@ -10,10 +10,10 @@ import java.util.List;
 
 public interface FinalReportFormatGroupAccountsRepo extends PagingAndSortingRepository<FinalReportFormatGroupAccounts, Long>, QueryDslPredicateExecutor<FinalReportFormatGroupAccounts> {
 
-    @Query(value = "select rfga_id,rfa_acct_no,rfga_sign,total_rows=COUNT(*) OVER() from sys_brk_rpt_format_grp_accts where rfga_rf_id=:rfId \n" +
+    @Query(value = "select rfga_id,rfa_acct_no,rfga_sign,COUNT(*) OVER() AS total_rows from sys_brk_rpt_format_grp_accts where rfga_rf_id=:rfId \n" +
             "            and lower(rfa_acct_no) like lower(:search)\n" +
             "            order by rfa_acct_no\n" +
-            "            OFFSET :pageNo*:limit ROWS FETCH NEXT :limit ROWS ONLY",nativeQuery = true)
+            "            OFFSET :pageNo*:limit LIMIT :limit",nativeQuery = true)
     List<Object[]> searchAllReportFormatsGroupAccts(@Param("rfId") Long rfId,
                                                @Param("search") String search,
                                                @Param("pageNo") int pageNo,

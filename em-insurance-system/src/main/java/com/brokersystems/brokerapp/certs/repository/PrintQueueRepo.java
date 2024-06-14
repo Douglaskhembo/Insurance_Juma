@@ -29,12 +29,12 @@ public interface PrintQueueRepo extends PagingAndSortingRepository<PrintCertific
                                                                 @Param("riskId")String riskId,
                                                                 Pageable pageable);
 
-    @Query(value = "select cq_id,cq_date_time,sbr.risk_sht_desc,sbpc.pc_wef,sbpc.pc_wet,cq_status,sbu.user_username,cq_cert_no,total_rows=COUNT(*) OVER()  from sys_brk_cert_queue\n" +
+    @Query(value = "select cq_id,cq_date_time,sbr.risk_sht_desc,sbpc.pc_wef,sbpc.pc_wet,cq_status,sbu.user_username,cq_cert_no,COUNT(*) OVER() AS total_rows from sys_brk_cert_queue\n" +
             "join sys_brk_risks sbr \n" +
             "on cq_rsk_id = sbr.risk_id \n" +
             "join sys_brk_policy_certs sbpc on cq_pc_id = sbpc.pc_id \n" +
             "left join sys_brk_users sbu on cq_alloc_by = sbu.user_id \n" +
-            "where sbr.risk_pol_id  = :polId order by cq_date_time asc  OFFSET :pageNo*:limit ROWS FETCH NEXT :limit ROWS ONLY",nativeQuery = true)
+            "where sbr.risk_pol_id  = :polId order by cq_date_time asc  OFFSET :pageNo*:limit LIMIT :limit",nativeQuery = true)
     public List<Object[]> getPolCertToPrint(@Param("polId") Long polId,
                                             @Param("pageNo") int pageNo,
                                             @Param("limit") int limit);

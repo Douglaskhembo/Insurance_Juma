@@ -34,6 +34,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -310,11 +311,11 @@ public class PaymentServiceImpl implements PaymentService {
         else searchValue = "%"+searchValue+"%";
         List<Object[]> payees = payeesRepo.searchAllPayesLov(searchValue, pageable.getPageNumber(), pageable.getPageSize());
         long rowCount = 0L;
-        if(!payees.isEmpty()) rowCount = (Integer)payees.get(0)[2];
+        if(!payees.isEmpty()) rowCount = ((BigInteger)payees.get(0)[2]).intValue();
         List<PayeesDTO> dtoList = new ArrayList<>();
         for(Object[] payee:payees){
             PayeesDTO payeesDTO = new PayeesDTO();
-            payeesDTO.setPayId(((BigDecimal)payee[0]).longValue());
+            payeesDTO.setPayId(((BigInteger)payee[0]).longValue());
             payeesDTO.setFullName((String) payee[1]);
             dtoList.add(payeesDTO);
         }
@@ -328,11 +329,11 @@ public class PaymentServiceImpl implements PaymentService {
         else searchValue = "%"+searchValue+"%";
         List<Object[]> accounts = accountsRepo.findBankAccntsLov(searchValue, pageable.getPageNumber(), pageable.getPageSize());
         long rowCount = 0L;
-        if(!accounts.isEmpty()) rowCount = (Integer)accounts.get(0)[2];
+        if(!accounts.isEmpty()) rowCount = ((BigInteger)accounts.get(0)[2]).intValue();
         List<BankAccountDTO> bankAccountDTOList = new ArrayList<>();
         for(Object[] acct:accounts){
             BankAccountDTO accountDTO = new BankAccountDTO();
-            accountDTO.setBaId(((BigDecimal)acct[0]).longValue());
+            accountDTO.setBaId(((BigInteger)acct[0]).longValue());
             accountDTO.setBankAcctName((String) acct[1]);
             bankAccountDTOList.add(accountDTO);
         }
@@ -346,10 +347,10 @@ public class PaymentServiceImpl implements PaymentService {
         List<Object[]> requistions = chequeTransRepo.findRequstionTransactions(search.toLowerCase(),type, request.getPageNumber(), request.getPageSize());
         final List<ChequeTransDTO> transDTOList = new ArrayList<>();
         long rowCount = 0l;
-        if(!requistions.isEmpty()) rowCount = (Integer)requistions.get(0)[15];
+        if(!requistions.isEmpty()) rowCount = ((BigInteger)requistions.get(0)[15]).intValue();
         for(Object[] req:requistions){
             ChequeTransDTO chequeTransDTO = new ChequeTransDTO();
-            chequeTransDTO.setCtNo(((BigDecimal)req[0]).longValue());
+            chequeTransDTO.setCtNo(((BigInteger)req[0]).longValue());
             chequeTransDTO.setInvoiceNo((String) req[1]);
             chequeTransDTO.setNarration((String) req[2]);
             chequeTransDTO.setPaymentType((String) req[3]);
@@ -376,10 +377,10 @@ public class PaymentServiceImpl implements PaymentService {
         List<Object[]> requistionDetails = chequeTransDtlsRepo.searchAllRequistionDetails(reqNo, search.toLowerCase(), request.getPageNumber(), request.getPageSize());
         final List<ChequeTransDtlsDTO> transDTOList = new ArrayList<>();
         long rowCount = 0l;
-        if(!requistionDetails.isEmpty()) rowCount = (Integer)requistionDetails.get(0)[7];
+        if(!requistionDetails.isEmpty()) rowCount = ((BigInteger)requistionDetails.get(0)[7]).intValue();
         for(Object[] req:requistionDetails) {
             ChequeTransDtlsDTO chequeTransDtlsDTO = new ChequeTransDtlsDTO();
-            chequeTransDtlsDTO.setCtdNo(((BigDecimal) req[0]).longValue());
+            chequeTransDtlsDTO.setCtdNo(((BigInteger) req[0]).longValue());
             chequeTransDtlsDTO.setDrcr((String) req[1]);
             chequeTransDtlsDTO.setNarrative((String) req[2]);
             chequeTransDtlsDTO.setTransAmount((BigDecimal) req[3]);

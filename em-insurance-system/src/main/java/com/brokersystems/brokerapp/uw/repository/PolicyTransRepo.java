@@ -95,26 +95,26 @@ public interface PolicyTransRepo extends  PagingAndSortingRepository<PolicyTrans
 
     PolicyTrans findFirstByPolicyId(Long polNo);
 
-    @Query(value = "select pol_no,pol_wef_date,pol_wet_date,sbu.user_username,pol_auth_date,pol_basic_premium_amt,pol_id,total_rows=COUNT(*) OVER()  from sys_brk_policies pol\n" +
+    @Query(value = "select pol_no,pol_wef_date,pol_wet_date,sbu.user_username,pol_auth_date,pol_basic_premium_amt,pol_id,COUNT(*) OVER() AS total_rows  from sys_brk_policies pol\n" +
             "join sys_brk_users sbu on sbu.user_id = pol.pol_created_user \n" +
             "where pol_current_status ='A' and pol_wet_date < GETDATE() and pol_no like :search" +
-            " order by pol_no desc OFFSET :pageNo*:limit ROWS FETCH NEXT :limit ROWS ONLY",nativeQuery = true)
+            " order by pol_no desc OFFSET :pageNo*:limit LIMIT :limit",nativeQuery = true)
     List<Object[]> searchExpiredPolicies(@Param("search") String search,
                                          @Param("pageNo") int pageNo,
                                          @Param("limit") int limit);
 
-    @Query(value = "select pol_no,pol_wef_date,pol_wet_date,sbu.user_username,pol_date ,pol_basic_premium_amt,pol_id,total_rows=COUNT(*) OVER()  from sys_brk_policies pol\n" +
+    @Query(value = "select pol_no,pol_wef_date,pol_wet_date,sbu.user_username,pol_date ,pol_basic_premium_amt,pol_id,COUNT(*) OVER() AS total_rows from sys_brk_policies pol\n" +
             "join sys_brk_users sbu on sbu.user_id = pol.pol_created_user \n" +
             "where (pol_trans_type ='EN' or pol_trans_type ='EX') and pol_current_status not in ('A') and pol_no like :search " +
-            " order by pol_no desc OFFSET :pageNo*:limit ROWS FETCH NEXT :limit ROWS ONLY ",nativeQuery = true)
+            " order by pol_no desc OFFSET :pageNo*:limit LIMIT :limit",nativeQuery = true)
     List<Object[]> searchPendingEndorsements(@Param("search") String search,
                                              @Param("pageNo") int pageNo,
                                              @Param("limit") int limit);
 
-    @Query(value = "select pol_no,pol_wef_date,pol_wet_date,sbu.user_username,pol_date ,pol_basic_premium_amt,pol_id,total_rows=COUNT(*) OVER()  from sys_brk_policies pol\n" +
+    @Query(value = "select pol_no,pol_wef_date,pol_wet_date,sbu.user_username,pol_date ,pol_basic_premium_amt,pol_id,COUNT(*) OVER() AS total_rows from sys_brk_policies pol\n" +
             "join sys_brk_users sbu on sbu.user_id = pol.pol_created_user \n" +
             "where (pol_trans_type ='RN') and pol_current_status not in ('A') and pol_no like :search " +
-            " order by pol_no desc OFFSET :pageNo*:limit ROWS FETCH NEXT :limit ROWS ONLY ",nativeQuery = true)
+            " order by pol_no desc OFFSET :pageNo*:limit LIMIT :limit",nativeQuery = true)
     List<Object[]> searchPendingRenewals(@Param("search") String search,
                                          @Param("pageNo") int pageNo,
                                          @Param("limit") int limit);

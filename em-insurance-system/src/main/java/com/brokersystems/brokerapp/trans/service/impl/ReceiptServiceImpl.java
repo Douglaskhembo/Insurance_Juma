@@ -251,10 +251,10 @@ public class ReceiptServiceImpl implements ReceiptService {
 		List<Object[]> receiptList = receiptRepo.findDebitTransactions(paramString,request.getPageNumber(), request.getPageSize());
 		List<SystemTransDTO> debitTransList = new ArrayList<>();
 		long rowCount = 0L;
-		if(!receiptList.isEmpty()) rowCount = (Integer)receiptList.get(0)[9];
+		if(!receiptList.isEmpty()) rowCount = ((BigInteger)receiptList.get(0)[9]).intValue();
 		for(Object[] trans:receiptList){
-			SystemTransDTO transDTO =  SystemTransDTO.instance( (trans[0]!=null)?((BigDecimal)trans[0]).longValue():null,
-					(trans[1]!=null)?((BigDecimal)trans[1]).longValue():null, (Date) trans[2],
+			SystemTransDTO transDTO =  SystemTransDTO.instance( (trans[0]!=null)?((BigInteger)trans[0]).longValue():null,
+					(trans[1]!=null)?((BigInteger)trans[1]).longValue():null, (Date) trans[2],
 																null, (String) trans[3],
 					null, (String) trans[4], (String) trans[5], null, (String) trans[6], null, null, null,
 					(BigDecimal) trans[7],(String) trans[8], null);
@@ -525,7 +525,7 @@ public class ReceiptServiceImpl implements ReceiptService {
 	public DataTablesResult<LifeReceiptsDTO> findPolicyReceipts(Long polId, DataTablesRequest request) {
 		List<Object[]> receiptsList = receiptRepo.findPolicyReceipts(polId,request.getPageNumber(), request.getPageSize());
 		long rowCount = 0L;
-		if(!receiptsList.isEmpty()) rowCount = (Integer)receiptsList.get(0)[7];
+		if(!receiptsList.isEmpty()) rowCount = ((BigInteger)receiptsList.get(0)[7]).intValue();
 		final List<LifeReceiptsDTO> receiptsDTOList = new ArrayList<>();
 		for(Object[] ticket:receiptsList){
 			LifeReceiptsDTO workFlowDTO = new LifeReceiptsDTO();
@@ -535,7 +535,7 @@ public class ReceiptServiceImpl implements ReceiptService {
 			workFlowDTO.setReceiptAmount((BigDecimal) ticket[3]);
 			workFlowDTO.setAllocationAmount((BigDecimal) ticket[4]);
 			workFlowDTO.setBalance((BigDecimal) ticket[5]);
-			workFlowDTO.setReceiptd(((BigDecimal) ticket[6]).longValue());
+			workFlowDTO.setReceiptd(((BigInteger) ticket[6]).longValue());
 			receiptsDTOList.add(workFlowDTO);
 		}
 		Page<LifeReceiptsDTO>  page = new PageImpl<>(receiptsDTOList,request, rowCount);

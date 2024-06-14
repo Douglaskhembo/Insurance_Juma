@@ -36,22 +36,22 @@ public interface AccountRepo extends  PagingAndSortingRepository<AccountDef, Lon
                                            @Param("pageNo") int pageNo,
                                            @Param("limit") int limit);
 
-    @Query(value = "select acct_id,acct_name,total_rows=COUNT(*) OVER()\n" +
+    @Query(value = "select acct_id,acct_name,COUNT(*) OVER() AS total_rows\n" +
             "from sys_brk_accounts  \n" +
             "where acct_acc_code in (select sbat.acc_id  from sys_brk_account_types sbat where sbat.acc_type in ('BRK'))\n" +
             "and  (lower(acct_name) like :search or lower(acct_sht_desc) like :search)\n" +
             "order by acct_name \n" +
-            "OFFSET :pageNo*:limit ROWS FETCH NEXT :limit ROWS ONLY", nativeQuery = true)
+            "OFFSET :pageNo*:limit LIMIT :limit", nativeQuery = true)
     List<Object[]> findBrokerAccountTypes( @Param("search") String search,
                                            @Param("pageNo") int pageNo,
                                            @Param("limit") int limit);
 
-    @Query(value = "select acct_id,acct_name,total_rows=COUNT(*) OVER()\n" +
+    @Query(value = "select acct_id,acct_name,COUNT(*) OVER() AS total_rows\n" +
             "from sys_brk_accounts  \n" +
             "where acct_acc_code in (select sbat.acc_id  from sys_brk_account_types sbat where sbat.acc_type in ('RN'))\n" +
             "and  (lower(acct_name) like :search or lower(acct_sht_desc) like :search)\n" +
             "order by acct_name \n" +
-            "OFFSET :pageNo*:limit ROWS FETCH NEXT :limit ROWS ONLY", nativeQuery = true)
+            "OFFSET :pageNo*:limit LIMIT :limit", nativeQuery = true)
     List<Object[]> findReinsuranceAccountTypes( @Param("search") String search,
                                            @Param("pageNo") int pageNo,
                                            @Param("limit") int limit);

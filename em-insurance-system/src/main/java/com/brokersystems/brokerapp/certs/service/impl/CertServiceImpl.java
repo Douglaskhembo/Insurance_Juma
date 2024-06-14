@@ -572,10 +572,10 @@ public class CertServiceImpl implements CertService {
 		List<Object[]> beneficiaries = beneficiariesRepo.findBeneficiaries(search.toLowerCase(),ipuCode, request.getPageNumber(), request.getPageSize());
 		final List<WIBABeneficiariesDTO> beneficiariesDTOList = new ArrayList<>();
 		long rowCount = 0l;
-		if(!beneficiaries.isEmpty()) rowCount = (Integer)beneficiaries.get(0)[4];
+		if(!beneficiaries.isEmpty()) rowCount = ((BigInteger)beneficiaries.get(0)[4]).intValue();
 		for(Object[] beneficiary:beneficiaries){
 			WIBABeneficiariesDTO beneficiariesDTO = new WIBABeneficiariesDTO();
-			beneficiariesDTO.setBwbId(((BigDecimal)beneficiary[0]).longValue());
+			beneficiariesDTO.setBwbId(((BigInteger)beneficiary[0]).longValue());
 			beneficiariesDTO.setFullName((String) beneficiary[1]);
 			beneficiariesDTO.setOccupation((String) beneficiary[2]);
 			beneficiariesDTO.setSalary((BigDecimal) beneficiary[3]);
@@ -720,11 +720,11 @@ public class CertServiceImpl implements CertService {
 		else searchValue = "%"+searchValue+"%";
 		List<Object[]> certTypesList = subclassCertTypesRepo.searchCertificateTypes(riskId, searchValue, paramPageable.getPageNumber(), paramPageable.getPageSize());
 		long rowCount = 0L;
-		if(!certTypesList.isEmpty()) rowCount = (Integer)certTypesList.get(0)[2];
+		if(!certTypesList.isEmpty()) rowCount = ((BigInteger)certTypesList.get(0)[2]).intValue();
 		final List<CertTypesDTO> certTypesDTOList = new ArrayList<>();
 		for(Object[] certType:certTypesList){
 			final CertTypesDTO certTypesDTO = new CertTypesDTO();
-			certTypesDTO.setSubclasscertId(((BigDecimal)certType[0]).longValue());
+			certTypesDTO.setSubclasscertId(((BigInteger)certType[0]).longValue());
 			certTypesDTO.setCertDesc((String)certType[1]);
 			certTypesDTOList.add(certTypesDTO);
 		}
@@ -958,11 +958,11 @@ public class CertServiceImpl implements CertService {
 	public DataTablesResult<PolicyCertificateDTO> findPolCertToPrint(DataTablesRequest request,  Long polId) {
 		List<Object[]> certToPrint = printQueueRepo.getPolCertToPrint(polId,request.getPageNumber(), request.getPageSize());
 		long rowCount = 0L;
-		if(!certToPrint.isEmpty()) rowCount = (Integer)certToPrint.get(0)[8];
+		if(!certToPrint.isEmpty()) rowCount = ((BigInteger)certToPrint.get(0)[8]).intValue();
 		final List<PolicyCertificateDTO> certificateDTOList = new ArrayList<>();
 		for(Object[] obj:certToPrint){
 			PolicyCertificateDTO certificateDTO = new PolicyCertificateDTO();
-			certificateDTO.setCqId(((BigDecimal)obj[0]).longValue());
+			certificateDTO.setCqId(((BigInteger)obj[0]).longValue());
 			certificateDTO.setCertWef((Date) obj[1]);
 			certificateDTO.setRiskId((String)obj[2]);
 			certificateDTO.setPolicyWef((Date) obj[3]);
@@ -970,7 +970,7 @@ public class CertServiceImpl implements CertService {
 			certificateDTO.setStatus((String)obj[5]);
 			certificateDTO.setUsername((String)obj[6]);
 			if(obj[7]!=null){
-				certificateDTO.setCertNo(((BigDecimal)obj[7]).longValue());
+				certificateDTO.setCertNo(((BigInteger)obj[7]).longValue());
 			}
 			certificateDTOList.add(certificateDTO);
 		}

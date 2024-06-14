@@ -20,7 +20,7 @@ public interface QuotRiskLimitsRepo extends PagingAndSortingRepository<QuotRiskL
 
 
     @Query(value = "select quot_sect_id ,sbs.sc_id,dbo.get_sect_description(sbqr.quot_rsk_sub_id,sbqr.quot_rsk_cov_id ,sbs.sc_id , sbs.sc_desc,isnull(quot_annual_earnings,0)),quot_sect_amount ,quot_sect_rate ,quot_sect_prem,quot_sect_div_fact,quot_sect_free_limit,sbq.quot_status,quot_sect_prem_id,quot_sect_rsk_id \n" +
-            ",quot_annual_earnings,total_rows=COUNT(*) OVER()\n" +
+            ",quot_annual_earnings,COUNT(*) AS total_rows OVER()\n" +
             "from sys_brk_quot_limits sbrl \n" +
             "join sys_brk_sections sbs ON sbs.sc_id =sbrl.quot_sect_sec_id  \n" +
             "join sys_brk_quot_risks sbqr on sbqr.quot_rsk_id =sbrl.quot_sect_rsk_id \n" +
@@ -29,7 +29,7 @@ public interface QuotRiskLimitsRepo extends PagingAndSortingRepository<QuotRiskL
             "where sbrl.quot_sect_rsk_id =:riskId\n" +
             "and (sc_desc like :search)\n" +
             "order by quot_sect_id\n" +
-            "OFFSET :pageNo*:limit ROWS FETCH NEXT :limit ROWS ONLY",nativeQuery = true)
+            "OFFSET :pageNo*:limit LIMIT :limit",nativeQuery = true)
     List<Object[]> enquireQuoteRiskSections(@Param("riskId") Long riskId,
                                         @Param("search") String search,
                                         @Param("pageNo") int pageNo,

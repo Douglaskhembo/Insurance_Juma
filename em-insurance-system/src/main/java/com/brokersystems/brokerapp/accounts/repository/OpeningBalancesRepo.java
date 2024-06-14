@@ -12,28 +12,28 @@ import java.util.List;
 
 public interface OpeningBalancesRepo extends PagingAndSortingRepository<OpeningBalances,Long>, QueryDslPredicateExecutor<OpeningBalances> {
 
-    @Query(value = "select opb_acct_name,opb_acct_no,concat(opb_acct_name,'/',opb_acct_yr)peri,opb_balance,opb_cr_amt,opb_dr_amt,opb_processed_type,total_rows=COUNT(*) OVER()  \n" +
+    @Query(value = "select opb_acct_name,opb_acct_no,concat(opb_acct_name,'/',opb_acct_yr)peri,opb_balance,opb_cr_amt,opb_dr_amt,opb_processed_type,COUNT(*) OVER() AS total_rows  \n" +
             "from sys_brk_opening_bals sbob \n" +
             "join sys_brk_branches sbb on sbb.ob_id = rpv_ob_id \n" +
             "where concat(opb_acct_name,' ',opb_acct_yr)=:period\n" +
             "order by opb_acct_yr desc\n" +
-            "OFFSET :pageNo*:limit ROWS FETCH NEXT :limit ROWS ONLY",nativeQuery = true)
+            "OFFSET :pageNo*:limit LIMIT :limit",nativeQuery = true)
     List<Object[]> searchAllOpeningBalances(@Param("period") String period,
                                           @Param("pageNo") int pageNo,
                                           @Param("limit") int limit);
 
-    @Query(value = "select concat(yp_period_name,' ',sbay.bay_year),total_rows=COUNT(*) OVER() from sys_brk_account_yr_prds \n" +
+    @Query(value = "select concat(yp_period_name,' ',sbay.bay_year),COUNT(*) OVER() AS total_rows from sys_brk_account_yr_prds \n" +
             "join sys_brk_account_years sbay on sbay.bay_id  = yp_bay_id\n" +
             "where sbay.bay_ob_id =:obId and  concat(yp_period_name,' ',sbay.bay_year) like :search\n" +
             "order by yp_wef " +
-            "OFFSET :pageNo*:limit ROWS FETCH NEXT :limit ROWS ONLY\n",nativeQuery = true)
+            "OFFSET :pageNo*:limit LIMIT :limit",nativeQuery = true)
     List<Object[]> searchAccountingPeriods(@Param("search") String search,
                                             @Param("obId") Long obId,
                                             @Param("pageNo") int pageNo,
                                             @Param("limit") int limit);
 
 
-    @Query(value = " select x.*,total_rows=COUNT(*) OVER() from ( \n" +
+    @Query(value = " select x.*,COUNT(*) OVER() AS total_rows from ( \n" +
             "               SELECT   SUM (isnull (op_amt, 0)) ybl_op_bal, \n" +
             "                              0 ybl_dr, 0 ybl_cr, \n" +
             "                              SUM (isnull (op_amt, 0) + isnull (trans_amt, 0)) ybl_curr_bal, \n" +
@@ -62,7 +62,7 @@ public interface OpeningBalancesRepo extends PagingAndSortingRepository<OpeningB
             "                            where co_code = opb_acct_no \n" +
             "                            group by co_code)x \n" +
             "                            order by x.co_code \n" +
-            "                            OFFSET :pageNo*:limit ROWS FETCH NEXT :limit ROWS ONLY",nativeQuery = true)
+            "                            OFFSET :pageNo*:limit LIMIT :limit",nativeQuery = true)
     List<Object[]> queryAcctYearOpeningBalances(@Param("obId") Long obId,
                                                 @Param("year") Long year,
                                                 @Param("fromdate") Date fromdate,

@@ -366,17 +366,17 @@ public class PolicyTransServiceImpl implements PolicyTransService {
         final String search = ( request.getSearch()!=null && request.getSearch().getValue()!=null)?"%"+request.getSearch().getValue()+"%":"%%";
         List<Object[]> ticketsList = sysWfDocsRepo.getDashBoardTickets(search.toLowerCase(),userUtils.getCurrentUser().getId(),request.getPageNumber(), request.getPageSize());
         long rowCount = 0L;
-        if(!ticketsList.isEmpty()) rowCount = (Integer)ticketsList.get(0)[9];
+        if(!ticketsList.isEmpty()) rowCount = ((BigInteger)ticketsList.get(0)[9]).intValue();
         final List<WorkFlowDTO> workFlowDTOList = new ArrayList<>();
         for(Object[] ticket:ticketsList){
             WorkFlowDTO workFlowDTO = new WorkFlowDTO();
-            workFlowDTO.setTaskId(((BigDecimal)ticket[0]).longValue());
+            workFlowDTO.setTaskId(((BigInteger)ticket[0]).longValue());
             workFlowDTO.setActiveProcess((String)ticket[1]);
             workFlowDTO.setRefNo((String)ticket[2]);
             workFlowDTO.setClientName(ticket[3]+" "+ticket[4]);
             workFlowDTO.setUsername((String)ticket[5]);
             workFlowDTO.setCreatedDate((Date) ticket[6]);
-            workFlowDTO.setTransactionId(((BigDecimal)ticket[7]).longValue());
+            workFlowDTO.setTransactionId(((BigInteger)ticket[7]).longValue());
             workFlowDTO.setTransType((String)ticket[8]);
             workFlowDTOList.add(workFlowDTO);
         }
@@ -4408,7 +4408,7 @@ public class PolicyTransServiceImpl implements PolicyTransService {
         List<Object[]> motorDetails = motorVehicleDetailsRepo.getRiskVehicleDetails(ipuCode, request.getPageNumber(), request.getPageSize());
         final List<VehicleDetails> vehicleDetailsList = new ArrayList<>();
         long rowCount = 0l;
-        if(!motorDetails.isEmpty()) rowCount = (Integer)motorDetails.get(0)[12];
+        if(!motorDetails.isEmpty()) rowCount = ((BigInteger)motorDetails.get(0)[12]).intValue();
         for(Object[] motorDetail:motorDetails){
             VehicleDetails vehicleDetails = new VehicleDetails();
             vehicleDetails.setBodyColor((String) motorDetail[0]);
@@ -4421,8 +4421,8 @@ public class PolicyTransServiceImpl implements PolicyTransService {
             vehicleDetails.setEngineNumber((String) motorDetail[7]);
             vehicleDetails.setLogbookNumber( (motorDetail[9]!=null)?motorDetail[9].toString():null);
             vehicleDetails.setYearOfManufacture((motorDetail[8]!=null)?motorDetail[8].toString():null);
-            vehicleDetails.setRiskId(((BigDecimal)motorDetail[10]).longValue());
-            vehicleDetails.setVdId(((BigDecimal)motorDetail[11]).longValue());
+            vehicleDetails.setRiskId(((BigInteger)motorDetail[10]).longValue());
+            vehicleDetails.setVdId(((BigInteger)motorDetail[11]).longValue());
             vehicleDetailsList.add(vehicleDetails);
         }
         Page<VehicleDetails>  page = new PageImpl<>(vehicleDetailsList,request, rowCount);

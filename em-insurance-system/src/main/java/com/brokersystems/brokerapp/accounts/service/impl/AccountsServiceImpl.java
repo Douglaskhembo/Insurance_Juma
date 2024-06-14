@@ -302,10 +302,10 @@ public class AccountsServiceImpl implements AccountsService {
         List<Object[]> accounts = subAccountsRepo.findMainSubAccounts(mainAccId, search.toLowerCase(),request.getPageNumber(), request.getPageSize());
         final List<CoaSubAccountsDTO> accountsDTOList = new ArrayList<>();
         long rowCount = 0L;
-        if(!accounts.isEmpty()) rowCount = (Integer)accounts.get(0)[12];
+        if(!accounts.isEmpty()) rowCount = ((BigInteger)accounts.get(0)[12]).intValue();
         for(Object[] account:accounts){
             CoaSubAccountsDTO accountsDTO = new CoaSubAccountsDTO();
-            accountsDTO.setCoId(((BigDecimal)account[0]).longValue());
+            accountsDTO.setCoId(((BigInteger)account[0]).longValue());
             accountsDTO.setAccountsOrder((String)account[1]);
             accountsDTO.setCode((String)account[2]);
             accountsDTO.setName((String)account[3]);
@@ -908,9 +908,9 @@ public class AccountsServiceImpl implements AccountsService {
         List<Object[]> authList = transRepo.findAuthTransactions(request.getPageNumber(), request.getPageSize());
         List<SystemTransDTO> transList = new ArrayList<>();
         long rowCount = 0L;
-        if(!authList.isEmpty()) rowCount = (Integer)authList.get(0)[15];
+        if(!authList.isEmpty()) rowCount = ((BigInteger)authList.get(0)[15]).intValue();
         for(Object[] trans:authList){
-            SystemTransDTO transDTO =  SystemTransDTO.instance( ((BigDecimal)trans[0]).longValue(),
+            SystemTransDTO transDTO =  SystemTransDTO.instance( ((BigInteger)trans[0]).longValue(),
                     null, (Date) trans[1],
                     (String) trans[2], (String) trans[3],
                     (String) trans[4], (String) trans[5], (String) trans[6], (String) trans[7], (String) trans[8], (String) trans[9], (BigDecimal) trans[10], (BigDecimal) trans[11],
@@ -1346,10 +1346,10 @@ public class AccountsServiceImpl implements AccountsService {
         List<Object[]> branches = bankBranchRepo.findBnkBranches(search.toLowerCase(),paramPageable.getPageNumber(), paramPageable.getPageSize());
         final List<BankBranchDTO> branchDTOList = new ArrayList<>();
         long rowCount = 0l;
-        if(!branches.isEmpty()) rowCount = (Integer)branches.get(0)[2];
+        if(!branches.isEmpty()) rowCount = ((BigInteger)branches.get(0)[2]).intValue();
         for(Object[] branch:branches){
             BankBranchDTO branchDTO = new BankBranchDTO();
-            branchDTO.setBbId(((BigDecimal)branch[0]).longValue());
+            branchDTO.setBbId(((BigInteger)branch[0]).longValue());
             branchDTO.setBranchName((String)branch[1]);
             branchDTOList.add(branchDTO);
         }
@@ -1363,7 +1363,7 @@ public class AccountsServiceImpl implements AccountsService {
         List<Object[]> periods = balancesRepo.searchAccountingPeriods(search.toLowerCase(),headOfficeId,paramPageable.getPageNumber(), paramPageable.getPageSize());
         final List<AccountingPeriodDTO> acountingPeriods = new ArrayList<>();
         long rowCount = 0l;
-        if(!periods.isEmpty()) rowCount = (Integer)periods.get(0)[1];
+        if(!periods.isEmpty()) rowCount = ((BigInteger)periods.get(0)[1]).intValue();
         for(Object[] period:periods){
             final AccountingPeriodDTO accountingPeriod = new AccountingPeriodDTO();
             accountingPeriod.setPeriodName((String) period[0]);
@@ -1706,7 +1706,7 @@ public class AccountsServiceImpl implements AccountsService {
         List<Object[]> reportFormats = finalReportFormatsRepo.searchAllReportFormats(type,(request.getSearch()!=null && request.getSearch().getValue()!=null)?"%"+request.getSearch().getValue()+"%":"%%"
                 ,request.getPageNumber(), request.getPageSize());
         long rowCount = 0L;
-        if(!reportFormats.isEmpty()) rowCount = (Integer)reportFormats.get(0)[11];
+        if(!reportFormats.isEmpty()) rowCount = ((BigInteger)reportFormats.get(0)[11]).intValue();
         for(Object[] format:reportFormats) {
             FinalReportFormatDTO reportFormatDTO = new FinalReportFormatDTO();
             reportFormatDTO.setRowCode((String) format[0]);
@@ -1720,7 +1720,7 @@ public class AccountsServiceImpl implements AccountsService {
             if(format[8]!=null)
             reportFormatDTO.setAssetLiabilitySign((Integer) format[8]);
             reportFormatDTO.setAllocation(((BigDecimal) format[9]));
-            reportFormatDTO.setRfId(((BigDecimal) format[10]).longValue());
+            reportFormatDTO.setRfId(((BigInteger) format[10]).longValue());
             reportFormatDTOList.add(reportFormatDTO);
         }
         Page<FinalReportFormatDTO>  page = new PageImpl<>(reportFormatDTOList,request, rowCount);
@@ -1733,10 +1733,10 @@ public class AccountsServiceImpl implements AccountsService {
         List<Object[]> reportFormats = reportFormatTotalsRepo.searchAllReportTotals(type,(request.getSearch()!=null && request.getSearch().getValue()!=null)?"%"+request.getSearch().getValue()+"%":"%%"
                 ,request.getPageNumber(), request.getPageSize());
         long rowCount = 0L;
-        if(!reportFormats.isEmpty()) rowCount = (Integer)reportFormats.get(0)[4];
+        if(!reportFormats.isEmpty()) rowCount = ((BigInteger)reportFormats.get(0)[4]).intValue();
         for(Object[] format:reportFormats) {
             final FinalReportFormatTotalDTO formatTotalDTO = new FinalReportFormatTotalDTO();
-            formatTotalDTO.setRftId(((BigDecimal) format[0]).longValue());
+            formatTotalDTO.setRftId(((BigInteger) format[0]).longValue());
             formatTotalDTO.setSign((Boolean) format[1]);
             formatTotalDTO.setColumn((String) format[2]);
             formatTotalDTO.setTotal((String) format[3]);
@@ -1752,10 +1752,10 @@ public class AccountsServiceImpl implements AccountsService {
         List<Object[]> reportFormatAccounts = finalReportFormatGroupAccountsRepo.searchAllReportFormatsGroupAccts(formatId,(request.getSearch()!=null && request.getSearch().getValue()!=null)?"%"+request.getSearch().getValue()+"%":"%%"
                 ,request.getPageNumber(), request.getPageSize());
         long rowCount = 0L;
-        if(!reportFormatAccounts.isEmpty()) rowCount = (Integer)reportFormatAccounts.get(0)[3];
+        if(!reportFormatAccounts.isEmpty()) rowCount = ((BigInteger)reportFormatAccounts.get(0)[3]).intValue();
         for(Object[] format:reportFormatAccounts) {
             FinalReportFormatAcctsDTO reportFormatAcctsDTO = new FinalReportFormatAcctsDTO();
-            reportFormatAcctsDTO.setRfaId(((BigDecimal) format[0]).longValue());
+            reportFormatAcctsDTO.setRfaId(((BigInteger) format[0]).longValue());
             reportFormatAcctsDTO.setAccountNo((String) format[1]);
             reportFormatAcctsDTO.setSign((Boolean) format[2]);
             reportFormatDTOList.add(reportFormatAcctsDTO);
@@ -1770,10 +1770,10 @@ public class AccountsServiceImpl implements AccountsService {
         List<Object[]> reportFormatAccounts = finalReportFormatAccountsRepo.searchAllReportFormatsAccts(formatId,(request.getSearch()!=null && request.getSearch().getValue()!=null)?"%"+request.getSearch().getValue()+"%":"%%"
                 ,request.getPageNumber(), request.getPageSize());
         long rowCount = 0L;
-        if(!reportFormatAccounts.isEmpty()) rowCount = (Integer)reportFormatAccounts.get(0)[4];
+        if(!reportFormatAccounts.isEmpty()) rowCount = ((BigInteger)reportFormatAccounts.get(0)[4]).intValue();
         for(Object[] format:reportFormatAccounts) {
             FinalReportFormatAcctsDTO reportFormatAcctsDTO = new FinalReportFormatAcctsDTO();
-            reportFormatAcctsDTO.setRfaId(((BigDecimal) format[0]).longValue());
+            reportFormatAcctsDTO.setRfaId(((BigInteger) format[0]).longValue());
             reportFormatAcctsDTO.setAccountNo((String) format[1]);
             reportFormatAcctsDTO.setSign((Boolean) format[2]);
             reportFormatAcctsDTO.setAccountName((String) format[3]);
@@ -1789,10 +1789,10 @@ public class AccountsServiceImpl implements AccountsService {
                                                                 ,request.getPageNumber(), request.getPageSize());
         List<PayeesDTO> payeesDTOList = new ArrayList<>();
         long rowCount = 0L;
-        if(!payeesList.isEmpty()) rowCount = (Integer)payeesList.get(0)[8];
+        if(!payeesList.isEmpty()) rowCount = ((BigInteger)payeesList.get(0)[8]).intValue();
         for(Object[] payee:payeesList) {
             PayeesDTO payeesDTO = new PayeesDTO();
-            payeesDTO.setPayId(((BigDecimal) payee[0]).longValue());
+            payeesDTO.setPayId(((BigInteger) payee[0]).longValue());
             payeesDTO.setCreatedDate((Date)payee[1]);
             payeesDTO.setEmail((String) payee[2]);
             payeesDTO.setFullName((String) payee[3]);
@@ -1813,13 +1813,13 @@ public class AccountsServiceImpl implements AccountsService {
                 ,request.getPageNumber(), request.getPageSize());
         List<PayeeAccountsDTO> payeesDTOList = new ArrayList<>();
         long rowCount = 0L;
-        if(!payeesAccountsList.isEmpty()) rowCount = (Integer)payeesAccountsList.get(0)[6];
+        if(!payeesAccountsList.isEmpty()) rowCount = ((BigInteger)payeesAccountsList.get(0)[6]).intValue();
         for(Object[] payee:payeesAccountsList) {
             PayeeAccountsDTO payeesDTO = new PayeeAccountsDTO();
-            payeesDTO.setPaycId(((BigDecimal) payee[0]).longValue());
+            payeesDTO.setPaycId(((BigInteger) payee[0]).longValue());
             payeesDTO.setAccountNo((String) payee[1]);
             payeesDTO.setBankBranch((String) payee[2]);
-            payeesDTO.setBankBranchId(((BigDecimal) payee[3]).longValue());
+            payeesDTO.setBankBranchId(((BigInteger) payee[3]).longValue());
             payeesDTO.setBank((String) payee[4]);
             payeesDTO.setStatus((String) payee[5]);
             payeesDTOList.add(payeesDTO);
@@ -1863,7 +1863,7 @@ public class AccountsServiceImpl implements AccountsService {
         List<Object[]> openingBalancesList = balancesRepo.queryAcctYearOpeningBalances(null,currentYear,wefDate,wetDate ,request.getPageNumber(), request.getPageSize());
         List<OpeningBalanceDTO> balanceDTOList = new ArrayList<>();
         long rowCount = 0L;
-        if(!openingBalancesList.isEmpty()) rowCount = (Integer)openingBalancesList.get(0)[5];
+        if(!openingBalancesList.isEmpty()) rowCount = ((BigInteger)openingBalancesList.get(0)[5]).intValue();
         for(Object[] bal:openingBalancesList) {
             final OpeningBalanceDTO balanceDTO = new OpeningBalanceDTO();
             balanceDTO.setAccountName(balancesRepo.getAccountName((String)bal[4]));
@@ -2028,10 +2028,10 @@ public class AccountsServiceImpl implements AccountsService {
         List<Object[]> accountingYears = yearsRepo.searchAccountingYears(branchCode,year,request.getPageNumber(), request.getPageSize());
         List<AccountYearDTO> accountYearDTOList = new ArrayList<>();
         long rowCount = 0L;
-        if(!accountingYears.isEmpty()) rowCount = (Integer)accountingYears.get(0)[6];
+        if(!accountingYears.isEmpty()) rowCount = ((BigInteger)accountingYears.get(0)[6]).intValue();
         for(Object[] years:accountingYears) {
             AccountYearDTO accountYearDTO = new AccountYearDTO();
-            accountYearDTO.setYearId(((BigDecimal) years[0]).longValue());
+            accountYearDTO.setYearId(((BigInteger) years[0]).longValue());
             final String state = (String) years[1];
             if(state==null || state.equalsIgnoreCase("O")){
                 accountYearDTO.setStatus("Open");
@@ -2052,10 +2052,10 @@ public class AccountsServiceImpl implements AccountsService {
         List<Object[]> accountingYearPeriods = periodsRepo.searchAccountingYearsPeriods(yearId,request.getPageNumber(), request.getPageSize());
         List<AccountingPeriodDTO> accountingPeriodDTOList = new ArrayList<>();
         long rowCount = 0L;
-        if(!accountingYearPeriods.isEmpty()) rowCount = (Integer)accountingYearPeriods.get(0)[9];
+        if(!accountingYearPeriods.isEmpty()) rowCount = ((BigInteger)accountingYearPeriods.get(0)[9]).intValue();
         for(Object[] yearPrd:accountingYearPeriods) {
             AccountingPeriodDTO periodDTO = new AccountingPeriodDTO();
-            periodDTO.setPeriodId(((BigDecimal) yearPrd[0]).longValue());
+            periodDTO.setPeriodId(((BigInteger) yearPrd[0]).longValue());
             final String state = (String) yearPrd[4];
             if(state==null || state.equalsIgnoreCase("O")){
                 periodDTO.setStatus("Open");

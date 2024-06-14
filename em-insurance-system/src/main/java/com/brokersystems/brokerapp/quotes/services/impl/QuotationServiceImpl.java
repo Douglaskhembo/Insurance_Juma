@@ -317,10 +317,10 @@ public class QuotationServiceImpl implements QuotationService {
         List<Object[]> quotes = quotTransRepo.enquireQuotes(quoteNumber,clientCode,prsCode, request.getPageNumber(), request.getPageSize());
         final List<QuoteEnquireDTO> enquireDTOList = new ArrayList<>();
         long rowCount = 0l;
-        if(!quotes.isEmpty()) rowCount = (Integer)quotes.get(0)[9];
+        if(!quotes.isEmpty()) rowCount = ((BigInteger)quotes.get(0)[9]).intValue();
         for(Object[] enquire:quotes){
             QuoteEnquireDTO quote = new QuoteEnquireDTO();
-            quote.setQuoteId(((BigDecimal)enquire[0]).longValue());
+            quote.setQuoteId(((BigInteger)enquire[0]).longValue());
             quote.setQuotNo((String)enquire[1]);
             quote.setQuotRevNo((String)enquire[2]);
             quote.setWefDate((Date) enquire[3]);
@@ -455,11 +455,11 @@ public class QuotationServiceImpl implements QuotationService {
         List<Object[]> quotesProducts = quotProductsRepo.enquireQuotes(quoteNumber,clientCode,prsCode,productCode,agentCode, request.getPageNumber(), request.getPageSize());
         final List<QuoteProductDTO> enquireDTOList = new ArrayList<>();
         long rowCount = 0l;
-        if(!quotesProducts.isEmpty()) rowCount = (Integer)quotesProducts.get(0)[19];
+        if(!quotesProducts.isEmpty()) rowCount = ((BigInteger)quotesProducts.get(0)[19]).intValue();
         for(Object[] enquire:quotesProducts) {
             QuoteProductDTO quote = new QuoteProductDTO();
-            quote.setQuoteProductId(((BigDecimal) enquire[0]).longValue());
-            quote.setQuoteId(((BigDecimal) enquire[1]).longValue());
+            quote.setQuoteProductId(((BigInteger) enquire[0]).longValue());
+            quote.setQuoteId(((BigInteger) enquire[1]).longValue());
             quote.setQuoteNo(((String) enquire[2]));
             quote.setProduct(((String) enquire[3]));
             quote.setWef(((Date) enquire[4]));
@@ -468,18 +468,18 @@ public class QuotationServiceImpl implements QuotationService {
             if(clientType!=null && clientType.equalsIgnoreCase("P")) {
                 quote.setFname((String) enquire[6]);
                 quote.setOtherNames((String) enquire[7]);
-                quote.setTenId(((BigDecimal) enquire[8]).longValue());
+                quote.setTenId(((BigInteger) enquire[8]).longValue());
                 quote.setProspShtDesc((String) enquire[9]);
             }
             else if(clientType!=null && clientType.equalsIgnoreCase("C")){
                 quote.setFname((String) enquire[11]);
                 quote.setOtherNames((String) enquire[12]);
-                quote.setTenId(((BigDecimal) enquire[13]).longValue());
+                quote.setTenId(((BigInteger) enquire[13]).longValue());
             }
             quote.setCurrency((String) enquire[14]);
             quote.setConverted((String) enquire[15]);
             if(enquire[16]!=null) {
-                quote.setPolId(((BigDecimal) enquire[16]).longValue());
+                quote.setPolId(((BigInteger) enquire[16]).longValue());
                 quote.setPolicyNo(((String) enquire[17]));
             }
             quote.setInsuranceCompany(((String) enquire[18]));
@@ -1263,21 +1263,21 @@ public class QuotationServiceImpl implements QuotationService {
                 request.getPageNumber(), request.getPageSize());
         final List<QuoteProductDTO> enquireDTOList = new ArrayList<>();
         long rowCount = 0L;
-        if(!quotesProducts.isEmpty()) rowCount = (Integer)quotesProducts.get(0)[14];
+        if(!quotesProducts.isEmpty()) rowCount = ((BigInteger)quotesProducts.get(0)[14]).intValue();
         for(Object[] enquire:quotesProducts) {
             QuoteProductDTO quote = new QuoteProductDTO();
-            quote.setQuoteProductId(((BigDecimal) enquire[0]).longValue());
+            quote.setQuoteProductId(((BigInteger) enquire[0]).longValue());
             quote.setWef((Date) enquire[1]);
             quote.setWet((Date) enquire[2]);
             quote.setBinder((String) enquire[3]);
-            quote.setBinderId(((BigDecimal) enquire[4]).longValue());
-            quote.setAcctId(((BigDecimal) enquire[5]).longValue());
+            quote.setBinderId(((BigInteger) enquire[4]).longValue());
+            quote.setAcctId(((BigInteger) enquire[5]).longValue());
             quote.setAccount((String) enquire[6]);
             quote.setSumInsured((BigDecimal) enquire[7]);
             quote.setPremium((BigDecimal) enquire[8]);
             quote.setCommAmt((BigDecimal) enquire[9]);
             quote.setQuotStatus((String) enquire[10]);
-            quote.setProductId(((BigDecimal) enquire[11]).longValue());
+            quote.setProductId(((BigInteger) enquire[11]).longValue());
             quote.setProduct((String) enquire[12]);
             quote.setBindType((String) enquire[13]);
             enquireDTOList.add(quote);
@@ -1295,17 +1295,17 @@ public class QuotationServiceImpl implements QuotationService {
 
         final List<QuoteRiskDTO> enquireDTOList = new ArrayList<>();
         long rowCount = 0L;
-        if(!prodRisks.isEmpty()) rowCount = (Integer)prodRisks.get(0)[22];
+        if(!prodRisks.isEmpty()) rowCount = ((BigInteger)prodRisks.get(0)[22]).intValue();
         for(Object[] enquire:prodRisks) {
             QuoteRiskDTO quote = new QuoteRiskDTO();
-            quote.setRiskId(((BigDecimal) enquire[0]).longValue());
+            quote.setRiskId(((BigInteger) enquire[0]).longValue());
             quote.setRiskShtDesc((String) enquire[1]);
             quote.setRiskDesc((String) enquire[2]);
             quote.setWefDate((Date) enquire[3]);
             quote.setWetDate((Date) enquire[4]);
-            quote.setSubId(((BigDecimal) enquire[5]).longValue());
+            quote.setSubId(((BigInteger) enquire[5]).longValue());
             quote.setSubDesc((String) enquire[6]);
-            quote.setCovId(((BigDecimal) enquire[7]).longValue());
+            quote.setCovId(((BigInteger) enquire[7]).longValue());
             quote.setCovName((String) enquire[8]);
             quote.setSumInsured((BigDecimal) enquire[9]);
             quote.setPremium((BigDecimal) enquire[10]);
@@ -1315,17 +1315,17 @@ public class QuotationServiceImpl implements QuotationService {
             quote.setButchargePrem((BigDecimal) enquire[14]);
             if(enquire[18]!=null){
                 quote.setClientType("P");
-                quote.setTenId(((BigDecimal) enquire[18]).longValue());
+                quote.setTenId(((BigInteger) enquire[18]).longValue());
                 quote.setFname((String) enquire[19]);
                 quote.setOtherNames((String) enquire[20]);
             }
             else{
                 quote.setClientType("C");
-                quote.setTenId(((BigDecimal) enquire[15]).longValue());
+                quote.setTenId(((BigInteger) enquire[15]).longValue());
                 quote.setFname((String) enquire[16]);
                 quote.setOtherNames((String) enquire[17]);
             }
-            quote.setBinderId(((BigDecimal) enquire[21]).longValue());
+            quote.setBinderId(((BigInteger) enquire[21]).longValue());
             enquireDTOList.add(quote);
         }
         Page<QuoteRiskDTO>  page = new PageImpl<>(enquireDTOList,request, rowCount);
@@ -1340,11 +1340,11 @@ public class QuotationServiceImpl implements QuotationService {
                 request.getPageNumber(), request.getPageSize());
         final List<QuotRiskPremItemsDTO> enquireDTOList = new ArrayList<>();
         long rowCount = 0L;
-        if(!prodRisksSections.isEmpty()) rowCount = (Integer)prodRisksSections.get(0)[12];
+        if(!prodRisksSections.isEmpty()) rowCount = ((BigInteger)prodRisksSections.get(0)[12]).intValue();
         for(Object[] enquire:prodRisksSections) {
             QuotRiskPremItemsDTO quote = new QuotRiskPremItemsDTO();
-            quote.setSectId(((BigDecimal) enquire[0]).longValue());
-            quote.setSecId(((BigDecimal) enquire[1]).longValue());
+            quote.setSectId(((BigInteger) enquire[0]).longValue());
+            quote.setSecId(((BigInteger) enquire[1]).longValue());
             quote.setSecName((String) enquire[2]);
             quote.setAmount((BigDecimal) enquire[3]);
             quote.setRate((BigDecimal) enquire[4]);
@@ -1354,8 +1354,8 @@ public class QuotationServiceImpl implements QuotationService {
             if(enquire[7]!=null)
             quote.setFreeLimit((BigDecimal) enquire[7]);
             quote.setQuotStatus((String)enquire[8]);
-            quote.setRateId(((BigDecimal) enquire[9]).longValue());
-            quote.setRiskId(((BigDecimal) enquire[10]).longValue());
+            quote.setRateId(((BigInteger) enquire[9]).longValue());
+            quote.setRiskId(((BigInteger) enquire[10]).longValue());
             quote.setAnnualEarnings(((BigDecimal) enquire[11]));
             enquireDTOList.add(quote);
         }
@@ -1379,10 +1379,10 @@ public class QuotationServiceImpl implements QuotationService {
         List<Object[]> prodTaxes = quotTaxesRepo.enquireQuoteTaxes( (qrCode!=null)?qrCode:-2000L, request.getPageNumber(), request.getPageSize());
         final List<QuotTaxesDTO> enquireDTOList = new ArrayList<>();
         long rowCount = 0L;
-        if(!prodTaxes.isEmpty()) rowCount = (Integer)prodTaxes.get(0)[8];
+        if(!prodTaxes.isEmpty()) rowCount = ((BigInteger)prodTaxes.get(0)[8]).intValue();
         for(Object[] enquire:prodTaxes) {
             QuotTaxesDTO quote = new QuotTaxesDTO();
-            quote.setPolTaxId(((BigDecimal) enquire[6]).longValue());
+            quote.setPolTaxId(((BigInteger) enquire[6]).longValue());
             quote.setTaxRate((BigDecimal) enquire[1]);
             quote.setDivFactor((BigDecimal) enquire[2]);
             quote.setRateType((String) enquire[3]);
@@ -1402,15 +1402,15 @@ public class QuotationServiceImpl implements QuotationService {
         List<Object[]> prodClauses = quotClausesRepo.getQuoteProdClauses( (qrCode!=null)?qrCode:-2000L, request.getPageNumber(), request.getPageSize());
         final List<QuoteClauseDTO> enquireDTOList = new ArrayList<>();
         long rowCount = 0L;
-        if(!prodClauses.isEmpty()) rowCount = (Integer)prodClauses.get(0)[8];
+        if(!prodClauses.isEmpty()) rowCount = ((BigInteger)prodClauses.get(0)[8]).intValue();
         for(Object[] enquire:prodClauses) {
             QuoteClauseDTO clauseDTO = new QuoteClauseDTO();
-            clauseDTO.setQpClauId(((BigDecimal) enquire[0]).longValue());
+            clauseDTO.setQpClauId(((BigInteger) enquire[0]).longValue());
             clauseDTO.setClauHeading((String) enquire[1]);
             clauseDTO.setEditable((String) enquire[2]);
             clauseDTO.setClauWording((String) enquire[3]);
             clauseDTO.setClauseType((String) enquire[4]);
-            clauseDTO.setClauseId(((BigDecimal) enquire[5]).longValue());
+            clauseDTO.setClauseId(((BigInteger) enquire[5]).longValue());
             clauseDTO.setClauShtDesc((String) enquire[6]);
             clauseDTO.setQuotStatus((String) enquire[7]);
             clauseDTO.setQuoteProductId(qrCode);

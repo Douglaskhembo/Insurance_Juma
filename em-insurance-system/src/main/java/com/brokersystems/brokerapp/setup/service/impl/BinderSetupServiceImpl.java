@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Date;
@@ -1027,10 +1028,10 @@ public class BinderSetupServiceImpl implements BinderSetupService {
 		List<Object[]> premratesList = premRatesTableRepo.findPremiumRatesTbl(detCode,request.getPageNumber(), request.getPageSize());
 		List<PremRatesDTO> premRatesDTOList = new ArrayList<>();
 		long rowCount = 0l;
-		if(!premratesList.isEmpty()) rowCount = (Integer)premratesList.get(0)[3];
+		if(!premratesList.isEmpty()) rowCount = ((BigInteger)premratesList.get(0)[3]).intValue();
 		for(Object[] premrate:premratesList){
 			PremRatesDTO premRatesDTO = new PremRatesDTO();
-			premRatesDTO.setId(((BigDecimal)premrate[0]).longValue());
+			premRatesDTO.setId(((BigInteger)premrate[0]).longValue());
 			premRatesDTO.setEffDate((Date) premrate[1]);
 			premRatesDTO.setFileName((String) premrate[2]);
 			premRatesDTOList.add(premRatesDTO);

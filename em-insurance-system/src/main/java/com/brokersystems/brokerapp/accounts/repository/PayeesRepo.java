@@ -10,20 +10,20 @@ import java.util.List;
 
 public interface PayeesRepo extends PagingAndSortingRepository<Payees, Long>, QueryDslPredicateExecutor<Payees> {
 
-    @Query(value = "select pay_id,pay_created_dt,pay_email,pay_full_name,pay_mobile,pay_tel_no,sbu.user_username,pay_status,total_rows=COUNT(*) OVER()  from sys_brk_payees\n" +
+    @Query(value = "select pay_id,pay_created_dt,pay_email,pay_full_name,pay_mobile,pay_tel_no,sbu.user_username,pay_status,COUNT(*) OVER() AS total_rows  from sys_brk_payees\n" +
             "join sys_brk_users sbu on sbu.user_id =pay_created_by\n" +
             "where (pay_full_name like :search or pay_email like :search or pay_mobile like :search)\n" +
             "order by pay_created_dt desc\n" +
-            "OFFSET :pageNo*:limit ROWS FETCH NEXT :limit ROWS ONLY", nativeQuery = true)
+            "OFFSET :pageNo*:limit LIMIT :limit", nativeQuery = true)
     List<Object[]> searchAllPayes(@Param("search") String search,
                                     @Param("pageNo") int pageNo,
                                     @Param("limit") int limit);
 
-    @Query(value = "select pay_id,concat(pay_full_name,'-',payc_account_no)acct,total_rows=COUNT(*) OVER()  from sys_brk_payees\n" +
+    @Query(value = "select pay_id,concat(pay_full_name,'-',payc_account_no)acct,COUNT(*) OVER() AS total_rows from sys_brk_payees\n" +
             "join sys_brk_payee_accounts sbu on sbu.payc_pay_id =pay_id\n" +
             "where payc_status='A' and  (pay_full_name like :search or payc_account_no like :search)\n" +
             "order by pay_full_name desc\n" +
-            "OFFSET :pageNo*:limit ROWS FETCH NEXT :limit ROWS ONLY", nativeQuery = true)
+            "OFFSET :pageNo*:limit LIMIT :limit", nativeQuery = true)
     List<Object[]> searchAllPayesLov(@Param("search") String search,
                                   @Param("pageNo") int pageNo,
                                   @Param("limit") int limit);

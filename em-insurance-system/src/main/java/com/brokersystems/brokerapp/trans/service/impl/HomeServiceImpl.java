@@ -23,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.sql.DataSource;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -137,7 +138,7 @@ public class HomeServiceImpl implements HomeService {
         List<Object[]> quotes = quotTransRepo.getPendingQuotes(search, request.getPageNumber(), request.getPageSize());
         long rowCount = 0L;
         final List<PendingQuotDTO> quotDTOList = new ArrayList<>();
-        if(!quotes.isEmpty()) rowCount = (Integer)quotes.get(0)[7];
+        if(!quotes.isEmpty()) rowCount = ((BigInteger)quotes.get(0)[7]).intValue();
         for(Object[] enquire:quotes){
             PendingQuotDTO quotDTO = new PendingQuotDTO();
             quotDTO.setQuotNo((String) enquire[0]);
@@ -146,7 +147,7 @@ public class HomeServiceImpl implements HomeService {
             quotDTO.setStatus((String) enquire[3]);
             quotDTO.setQuotDate((Date) enquire[4]);
             quotDTO.setProduct((String) enquire[5]);
-            quotDTO.setQuoteId(((BigDecimal) enquire[6]).longValue());
+            quotDTO.setQuoteId(((BigInteger) enquire[6]).longValue());
             quotDTOList.add(quotDTO);
         }
         Page<PendingQuotDTO> page = new PageImpl<>(quotDTOList,request, rowCount);
@@ -159,7 +160,7 @@ public class HomeServiceImpl implements HomeService {
         List<Object[]> policies = transRepo.searchExpiredPolicies(search, request.getPageNumber(), request.getPageSize());
         long rowCount = 0l;
         final List<PolicyEnquiryDTO> enquiryDTOList = new ArrayList<>();
-        if(!policies.isEmpty()) rowCount = (Integer)policies.get(0)[7];
+        if(!policies.isEmpty()) rowCount = ((BigInteger)policies.get(0)[7]).intValue();
         for(Object[] enquire:policies){
             PolicyEnquiryDTO enquiryDTO = new PolicyEnquiryDTO();
             enquiryDTO.setPolNo((String) enquire[0]);
@@ -168,7 +169,7 @@ public class HomeServiceImpl implements HomeService {
             enquiryDTO.setUser((String) enquire[3]);
             enquiryDTO.setAuthDate((Date) enquire[4]);
             enquiryDTO.setPremium((BigDecimal) enquire[5]);
-            enquiryDTO.setTransactionId(((BigDecimal) enquire[6]).longValue());
+            enquiryDTO.setTransactionId(((BigInteger) enquire[6]).longValue());
             enquiryDTOList.add(enquiryDTO);
         }
         Page<PolicyEnquiryDTO> page = new PageImpl<>(enquiryDTOList,request, rowCount);
@@ -181,7 +182,7 @@ public class HomeServiceImpl implements HomeService {
         List<Object[]> policies = transRepo.searchPendingEndorsements(search, request.getPageNumber(), request.getPageSize());
         long rowCount = 0l;
         final List<PolicyEnquiryDTO> enquiryDTOList = new ArrayList<>();
-        if(!policies.isEmpty()) rowCount = (Integer)policies.get(0)[7];
+        if(!policies.isEmpty()) rowCount = ((BigInteger)policies.get(0)[7]).intValue();
         for(Object[] enquire:policies){
             PolicyEnquiryDTO enquiryDTO = new PolicyEnquiryDTO();
             enquiryDTO.setPolNo((String) enquire[0]);
@@ -190,7 +191,7 @@ public class HomeServiceImpl implements HomeService {
             enquiryDTO.setUser((String) enquire[3]);
             enquiryDTO.setAuthDate((Date) enquire[4]);
             enquiryDTO.setPremium((BigDecimal) enquire[5]);
-            enquiryDTO.setTransactionId(((BigDecimal) enquire[6]).longValue());
+            enquiryDTO.setTransactionId(((BigInteger) enquire[6]).longValue());
             enquiryDTOList.add(enquiryDTO);
         }
         Page<PolicyEnquiryDTO> page = new PageImpl<>(enquiryDTOList,request, rowCount);
@@ -203,7 +204,7 @@ public class HomeServiceImpl implements HomeService {
         List<Object[]> policies = transRepo.searchPendingRenewals(search, request.getPageNumber(), request.getPageSize());
         long rowCount = 0l;
         final List<PolicyEnquiryDTO> enquiryDTOList = new ArrayList<>();
-        if(!policies.isEmpty()) rowCount = (Integer)policies.get(0)[7];
+        if(!policies.isEmpty()) rowCount = ((BigInteger)policies.get(0)[7]).intValue();
         for(Object[] enquire:policies){
             PolicyEnquiryDTO enquiryDTO = new PolicyEnquiryDTO();
             enquiryDTO.setPolNo((String) enquire[0]);
@@ -212,7 +213,7 @@ public class HomeServiceImpl implements HomeService {
             enquiryDTO.setUser((String) enquire[3]);
             enquiryDTO.setAuthDate((Date) enquire[4]);
             enquiryDTO.setPremium((BigDecimal) enquire[5]);
-            enquiryDTO.setTransactionId(((BigDecimal) enquire[6]).longValue());
+            enquiryDTO.setTransactionId(((BigInteger) enquire[6]).longValue());
             enquiryDTOList.add(enquiryDTO);
         }
         Page<PolicyEnquiryDTO> page = new PageImpl<>(enquiryDTOList,request, rowCount);

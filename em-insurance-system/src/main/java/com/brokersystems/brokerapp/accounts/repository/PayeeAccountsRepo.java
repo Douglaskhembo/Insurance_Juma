@@ -10,12 +10,12 @@ import java.util.List;
 
 public interface PayeeAccountsRepo extends PagingAndSortingRepository<PayeeAccounts, Long>, QueryDslPredicateExecutor<PayeeAccounts> {
 
-    @Query(value = "select payc_id,payc_account_no,bb_name,payc_bb_id,sbb.bn_name,payc_status,total_rows=COUNT(*) OVER()  from sys_brk_payee_accounts \n" +
+    @Query(value = "select payc_id,payc_account_no,bb_name,payc_bb_id,sbb.bn_name,payc_status,COUNT(*) OVER() AS total_rows from sys_brk_payee_accounts \n" +
             "            join sys_brk_bank_branches sbbb on sbbb.bb_id = payc_bb_id\n" +
             "            JOIN sys_brk_banks sbb on sbb.bn_id  = sbbb.bb_bn_id \n" +
             "            where payc_pay_id = :payeeId and  (payc_account_no like :search or bb_name like :search)\n" +
             "            order by payc_id desc \n" +
-            "OFFSET :pageNo*:limit ROWS FETCH NEXT :limit ROWS ONLY", nativeQuery = true)
+            "OFFSET :pageNo*:limit LIMIT :limit", nativeQuery = true)
     List<Object[]> searchAllPayesAccounts( @Param("payeeId") Long payeeId,
                                    @Param("search") String search,
                                   @Param("pageNo") int pageNo,

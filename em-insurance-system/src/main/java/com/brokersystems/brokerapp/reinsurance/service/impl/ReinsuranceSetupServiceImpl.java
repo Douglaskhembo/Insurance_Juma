@@ -30,6 +30,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -61,10 +62,10 @@ public class ReinsuranceSetupServiceImpl implements ReinsuranceSetupService {
         final String search = ( request.getSearch()!=null && request.getSearch().getValue()!=null)?"%"+request.getSearch().getValue().toLowerCase()+"%":"%%";
         List<Object[]> treaties = treatyDefinitionRepo.findTreaties(search, request.getPageNumber(), request.getPageSize());
         long rowCount = 0L;
-        if(!treaties.isEmpty()) rowCount = (Integer)treaties.get(0)[13];
+        if(!treaties.isEmpty()) rowCount = ((BigInteger)treaties.get(0)[13]).intValue();
         List<TreatyDefinitionDTO> treatyList = new ArrayList<>();
         for(Object[] treaty :treaties){
-            TreatyDefinitionDTO treatyDefinitionDTO = TreatyDefinitionDTO.data(((BigDecimal)treaty[0]).longValue(),(String)treaty[1],
+            TreatyDefinitionDTO treatyDefinitionDTO = TreatyDefinitionDTO.data(((BigInteger)treaty[0]).longValue(),(String)treaty[1],
                     (Date)treaty[2],(Date)treaty[3],(BigDecimal)treaty[4],(BigDecimal) treaty[5],(String)treaty[6],null,
                     null,null,null,(BigDecimal) treaty[7],null,null,
                     null,(String) treaty[8],(String) treaty[10],(String) treaty[9],(String) treaty[11]);
@@ -80,10 +81,10 @@ public class ReinsuranceSetupServiceImpl implements ReinsuranceSetupService {
         final String search = ( request.getSearch()!=null && request.getSearch().getValue()!=null)?"%"+request.getSearch().getValue().toLowerCase()+"%":"%%";
         List<Object[]> participants = treatyParticipantsRepository.findTreatiesParticipants(treatyId,search, request.getPageNumber(), request.getPageSize());
         long rowCount = 0L;
-        if(!participants.isEmpty()) rowCount = (Integer)participants.get(0)[10];
+        if(!participants.isEmpty()) rowCount = ((BigInteger)participants.get(0)[10]).intValue();
         List<TreatyParticipantsDTO> treatyParticipants = new ArrayList<>();
         for(Object[] participant :participants){
-            TreatyParticipantsDTO treatyParticipantsDTO = TreatyParticipantsDTO.data(((BigDecimal)participant[0]).longValue(),
+            TreatyParticipantsDTO treatyParticipantsDTO = TreatyParticipantsDTO.data(((BigInteger)participant[0]).longValue(),
                     null, (String)participant[8], (BigDecimal) participant[2],(String) participant[1],
                     (String) participant[4],null,(String)participant[7],null, RevenueItems.valueOf((String) participant[9]).getValue(),
                     (BigDecimal)participant[5],(String) participant[6],(BigDecimal)participant[3],null);
@@ -98,10 +99,10 @@ public class ReinsuranceSetupServiceImpl implements ReinsuranceSetupService {
         final String search = ( request.getSearch()!=null && request.getSearch().getValue()!=null)?"%"+request.getSearch().getValue().toLowerCase()+"%":"%%";
         List<Object[]> treatyClasses = treatyClassesRepository.findTreatiesClasses(treatyId,search, request.getPageNumber(), request.getPageSize());
         long rowCount = 0L;
-        if(!treatyClasses.isEmpty()) rowCount = (Integer)treatyClasses.get(0)[8];
+        if(!treatyClasses.isEmpty()) rowCount = ((BigInteger)treatyClasses.get(0)[8]).intValue();
         List<TreatyClassesDTO> treatyClassesDTO = new ArrayList<>();
         for(Object[] treatyClass :treatyClasses){
-            TreatyClassesDTO treatyParticipantsDTO = TreatyClassesDTO.data(((BigDecimal)treatyClass[0]).longValue(),
+            TreatyClassesDTO treatyParticipantsDTO = TreatyClassesDTO.data(((BigInteger)treatyClass[0]).longValue(),
                     (BigDecimal)treatyClass[2] , (BigDecimal) treatyClass[4], (BigDecimal) treatyClass[3],null,
                     null,(String)treatyClass[1]);
             treatyParticipantsDTO.setClaimLimit((BigDecimal) treatyClass[6]);

@@ -43,7 +43,7 @@ public interface RiskTransRepo  extends  PagingAndSortingRepository<RiskTrans, L
 
     RiskTrans findFirstByRiskId(Long riskId);
 
-	@Query(value = "select risk_id,pol_no,risk_sht_desc,concat(client_fname,' ',client_onames) name,risk_binder_det_id,pol_binder_id,pol_id,total_rows=COUNT(*) OVER()  from  sys_brk_policies\n" +
+	@Query(value = "select risk_id,pol_no,risk_sht_desc,concat(client_fname,' ',client_onames) name,risk_binder_det_id,pol_binder_id,pol_id,COUNT(*) OVER() total_rows  from  sys_brk_policies\n" +
 			"                    join sys_brk_risks s2 on sys_brk_policies.pol_id = s2.risk_pol_id\n" +
 			"                     join sys_brk_clients client on s2.risk_insured_id = client.client_id\n" +
 			"                     where pol_current_status not in ('CO','D','CN')\n" +
@@ -52,7 +52,7 @@ public interface RiskTransRepo  extends  PagingAndSortingRepository<RiskTrans, L
 			"                     and risk_sht_desc is not nulL\n" +
 			"                     and (risk_sht_desc like :search or pol_no like :search or  concat(client.client_fname,' ',client_onames) like :search)\n" +
 			"                     order by risk_sht_desc DESC \n" +
-			"                     OFFSET :pageNo*:limit ROWS FETCH NEXT :limit ROWS ONLY ", nativeQuery = true)
+			"                     OFFSET :pageNo*:limit LIMIT :limit", nativeQuery = true)
 	List<Object[]> findClaimRisks(@Param("clmdate") Date clmdate,
 									@Param("search") String search,
 									@Param("pageNo") int pageNo,

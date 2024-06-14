@@ -29,7 +29,7 @@ public interface QuotTransRepo extends PagingAndSortingRepository<QuoteTrans, Lo
 
 
     @Query(value = "select quot_id , quot_no,quot_rev_no,quot_wef_date,quot_wet_date, case when quot_clnt_type='P' then concat(sbp.prs_fname,' ',sbp.prs_onames)\n" +
-            "else concat(sbc.client_fname,' ',sbc.client_onames) end client_names,sbc2.cur_iso_code,quot_status,sbu.user_username,total_rows=COUNT(*) OVER()  from sys_brk_quotations sbq \n" +
+            "else concat(sbc.client_fname,' ',sbc.client_onames) end client_names,sbc2.cur_iso_code,quot_status,sbu.user_username,COUNT(*) OVER() AS total_rows from sys_brk_quotations sbq \n" +
             "left join sys_brk_clients sbc on sbc.client_id =sbq.quot_client_id \n" +
             "left join sys_brk_prospects sbp on sbp.prs_id =sbq.quot_prs_id \n" +
             "join sys_brk_currencies sbc2 on sbc2.cur_code =sbq.quot_curr_id \n" +
@@ -38,7 +38,7 @@ public interface QuotTransRepo extends PagingAndSortingRepository<QuoteTrans, Lo
             " and (isnull(sbc.client_id,-2000) = isnull(:clientId,isnull(sbc.client_id,-2000))\n" +
             "                   and  isnull(sbp.prs_id,-2000) = isnull(:prsId, isnull(sbp.prs_id,-2000)))\n" +
             "       order by quot_date desc \n" +
-            "       OFFSET :pageNo*:limit ROWS FETCH NEXT :limit ROWS ONLY",nativeQuery = true)
+            "       OFFSET :pageNo*:limit LIMIT :limit",nativeQuery = true)
     List<Object[]> enquireQuotes(@Param("quotNo") String quotNo,
                                @Param("clientId") Long clientId,
                                @Param("prsId") Long prsId,
@@ -60,12 +60,12 @@ public interface QuotTransRepo extends PagingAndSortingRepository<QuoteTrans, Lo
             "where quot_id =:quoteId ",nativeQuery = true)
     List<Object[]> getQuoteDetails(@Param("quoteId") Long quoteId);
 
-    @Query(value = "select quot_no,quot_premium,quot_expiry_date,quot_status,quot_date,sbp.pr_desc,quot_id,total_rows=COUNT(*) OVER()  from sys_brk_quotations a\n" +
+    @Query(value = "select quot_no,quot_premium,quot_expiry_date,quot_status,quot_date,sbp.pr_desc,quot_id,COUNT(*) OVER() AS total_rows  from sys_brk_quotations a\n" +
             " inner join sys_brk_quot_products b on a.quot_id = b.quot_pr_quot_id\n" +
             " join sys_brk_products sbp on sbp.pr_code =b.quot_pr_pro_id \n" +
             "  where a.quot_status not in ('CL')  \n" +
             " and b.quot_policy is null and quot_no like :search order by quot_date desc " +
-            "  OFFSET :pageNo*:limit ROWS FETCH NEXT :limit ROWS ONLY",nativeQuery = true)
+            "  OFFSET :pageNo*:limit LIMIT :limit",nativeQuery = true)
     List<Object[]> getPendingQuotes(@Param("search") String search,
                                     @Param("pageNo") int pageNo,
                                     @Param("limit") int limit);

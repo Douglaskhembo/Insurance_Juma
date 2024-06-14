@@ -12,11 +12,11 @@ public interface MotorVehicleDetailsRepo  extends PagingAndSortingRepository<Mot
 
 
     @Query(value = "select vd_color,vd_body_type,vd_make,vd_model,vd_carry_capacity,vd_chassis_no,vd_cc," +
-            "vd_engine_no,vd_yom,vd_log_book,vd_risk_id,vd_id,total_rows=COUNT(*) OVER() \n" +
+            "vd_engine_no,vd_yom,vd_log_book,vd_risk_id,vd_id,COUNT(*) OVER() AS total_rows \n" +
             "from sys_brk_vehicle_details\n" +
             "where vd_risk_id =:riskId\t\n" +
             "order by vd_make \n" +
-            "OFFSET :pageNo*:limit ROWS FETCH NEXT :limit ROWS ONLY", nativeQuery = true)
+            "OFFSET :pageNo*:limit LIMIT :limit", nativeQuery = true)
     List<Object[]> getRiskVehicleDetails(@Param("riskId") Long riskId,
                                          @Param("pageNo") int pageNo,
                                          @Param("limit") int limit);

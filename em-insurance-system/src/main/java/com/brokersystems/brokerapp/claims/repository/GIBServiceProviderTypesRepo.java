@@ -11,9 +11,9 @@ import java.util.List;
 public interface GIBServiceProviderTypesRepo extends PagingAndSortingRepository<ServiceProviderTypes, Long>, QueryDslPredicateExecutor<ServiceProviderTypes> {
 
 
-    @Query(value = "select spr_tp_id,spr_type,total_rows=COUNT(*) OVER() from sys_brk_provider_types \n" +
+    @Query(value = "select spr_tp_id,spr_type,COUNT(*) OVER() AS total_rows from sys_brk_provider_types \n" +
             "where (lower(spr_type) like :search)\n" +
-            "order by spr_type asc OFFSET :pageNo*:limit ROWS FETCH NEXT :limit ROWS ONLY",nativeQuery = true)
+            "order by spr_type asc OFFSET :pageNo*:limit LIMIT :limit",nativeQuery = true)
     List<Object[]> findServProviderTypes(@Param("search") String search,
                                @Param("pageNo") int pageNo,
                                @Param("limit") int limit);

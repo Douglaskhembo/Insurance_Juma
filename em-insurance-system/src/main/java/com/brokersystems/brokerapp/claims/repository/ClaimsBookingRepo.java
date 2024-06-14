@@ -16,13 +16,13 @@ import java.util.List;
 public interface ClaimsBookingRepo extends PagingAndSortingRepository<ClaimBookings, Long>, QueryDslPredicateExecutor<ClaimBookings> {
 
     @Query(value = "select clm_id,sbu.user_username,clm_loss_date,clm_date,clm_status,clm_no,sbr.risk_sht_desc,clm_next_rvw_dt,sbp.pol_no,\n" +
-            "sbc.client_fname,sbc.client_onames,total_rows=COUNT(*) OVER()  from sys_brk_clm_bookings \n" +
+            "sbc.client_fname,sbc.client_onames,COUNT(*) OVER() AS total_rows  from sys_brk_clm_bookings \n" +
             "join sys_brk_users sbu on clm_booked_by = sbu.user_id \n" +
             "join sys_brk_risks sbr on clm_risk_id = sbr.risk_id \n" +
             "join sys_brk_policies sbp on sbr.risk_pol_id  = sbp.pol_id \n" +
             "join sys_brk_clients sbc on sbc.client_id =sbr.risk_insured_id  where lower(sbr.risk_sht_desc) like :riskId " +
             "and lower(sbp.pol_no) like :polNo " +
-            "and (sbc.client_id = :clientCode or :clientCode is null )  and lower(clm_no) like :claimNo order by clm_date desc  OFFSET :pageNo*:limit ROWS FETCH NEXT :limit ROWS ONLY",nativeQuery = true)
+            "and (sbc.client_id = :clientCode or :clientCode is null )  and lower(clm_no) like :claimNo order by clm_date desc  OFFSET :pageNo*:limit LIMIT :limit",nativeQuery = true)
      List<Object[]> getClaimBookings(@Param("riskId") String riskId,
                                             @Param("polNo") String polNo,
                                             @Param("clientCode") Long clientCode,

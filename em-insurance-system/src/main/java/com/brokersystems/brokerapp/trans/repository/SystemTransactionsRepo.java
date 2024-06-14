@@ -54,7 +54,7 @@ public interface SystemTransactionsRepo extends  PagingAndSortingRepository<Syst
     @Query(value =querysqlServer, nativeQuery = true)
     List<Object[]> getSqlServerSubAgentTrans(@Param("agent")Long acctId, @Param("wef") Date wef, @Param("wet")Date wet, @Param("subacct")Long subacct);
 
-    @Query(value = "select *, total_rows=COUNT(*) OVER() from(\n" +
+    @Query(value = "select *, COUNT(*) OVER() AS total_rows from(\n" +
             "select trans_no                               transno,\n" +
             "                               trans_date             transDate,\n" +
             "                               trans_origin                           origin,\n" +
@@ -102,7 +102,7 @@ public interface SystemTransactionsRepo extends  PagingAndSortingRepository<Syst
             "                        where trans_status = 'R'\n" +
             "                        group by trans_no, a.acct_name, a.acct_sht_desc, trans_receipt_no, sbb.ob_name, R.receipt_amount,\n" +
             "                                 org.org_sht_desc ) as result order by transDate desc\n" +
-            "OFFSET :pageNo*:limit ROWS FETCH NEXT :limit ROWS ONLY", nativeQuery = true)
+            "OFFSET :pageNo*:limit LIMIT :limit", nativeQuery = true)
     List<Object[]> findAuthTransactions(@Param("pageNo") int pageNo,
                                          @Param("limit") int limit);
 

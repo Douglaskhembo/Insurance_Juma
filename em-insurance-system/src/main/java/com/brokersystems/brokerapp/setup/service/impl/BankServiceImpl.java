@@ -23,6 +23,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,10 +45,10 @@ public class BankServiceImpl implements BankService {
         List<Object[]> accnts = accountsRepo.findBankAccnts(search.toLowerCase(),request.getPageNumber(), request.getPageSize());
         final List<BankAccountDTO> bankAccountDTOS = new ArrayList<>();
         long rowCount = 0l;
-        if(!accnts.isEmpty()) rowCount = (Integer)accnts.get(0)[14];
+        if(!accnts.isEmpty()) rowCount = ((BigInteger)accnts.get(0)[14]).intValue();
         for(Object[] acct:accnts){
             BankAccountDTO accountDTO = new BankAccountDTO();
-            accountDTO.setBaId(((BigDecimal)acct[0]).longValue());
+            accountDTO.setBaId(((BigInteger)acct[0]).longValue());
             accountDTO.setBankAcctName((String) acct[1]);
             accountDTO.setBankAcctNumber((String) acct[2]);
             accountDTO.setCurrentChequeNo((String) acct[3]);
@@ -55,10 +56,10 @@ public class BankServiceImpl implements BankService {
             accountDTO.setMinimumAmt(((BigDecimal)acct[5]));
             accountDTO.setStatus((String) acct[6]);
             accountDTO.setBranchName((String) acct[7]);
-            accountDTO.setBranchId(((BigDecimal)acct[8]).longValue());
+            accountDTO.setBranchId(((BigInteger)acct[8]).longValue());
             accountDTO.setBankBranchName((String) acct[9]);
-            accountDTO.setBankBranchId(((BigDecimal)acct[10]).longValue());
-            accountDTO.setGlId(((BigDecimal)acct[11]).longValue());
+            accountDTO.setBankBranchId(((BigInteger)acct[10]).longValue());
+            accountDTO.setGlId(((BigInteger)acct[11]).longValue());
             accountDTO.setGlCode((String) acct[12]);
             accountDTO.setGlName((String) acct[13]);
             bankAccountDTOS.add(accountDTO);

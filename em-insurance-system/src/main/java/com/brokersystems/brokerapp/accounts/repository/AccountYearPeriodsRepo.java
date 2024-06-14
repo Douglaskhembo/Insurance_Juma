@@ -10,12 +10,12 @@ import java.util.List;
 
 public interface AccountYearPeriodsRepo extends PagingAndSortingRepository<AccountYearPeriods, Long>, QueryDslPredicateExecutor<AccountYearPeriods> {
 
-    @Query(value = "select yp_id , yp_period_name,yp_wef ,yp_wet,yp_state,yp_closed_date,sbu.user_username,yp_transacted,sbb.ob_name,total_rows=COUNT(*) OVER() \n" +
+    @Query(value = "select yp_id , yp_period_name,yp_wef ,yp_wet,yp_state,yp_closed_date,sbu.user_username,yp_transacted,sbb.ob_name,COUNT(*) OVER() AS total_rows\n" +
             "from sys_brk_account_yr_prds \n" +
             "left join sys_brk_users sbu on sbu.user_id =yp_closed_by\n" +
             "join sys_brk_branches sbb on sbb.ob_id =yp_ob_id\n" +
             "where yp_bay_id = :ypId " +
-            " order by yp_wef asc OFFSET :pageNo*:limit ROWS FETCH NEXT :limit ROWS ONLY",nativeQuery = true)
+            " order by yp_wef asc OFFSET :pageNo*:limit LIMIT :limit",nativeQuery = true)
     List<Object[]> searchAccountingYearsPeriods(@Param("ypId") Long ypId,
                                          @Param("pageNo") int pageNo,
                                          @Param("limit") int limit);

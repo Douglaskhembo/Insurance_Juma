@@ -22,12 +22,12 @@ public interface QuotClausesRepo extends PagingAndSortingRepository<QuotClauses,
 
     @Query(value = "select bc.qp_clau_id,qp_clau_header,case when qp_clau_editable=1 then 'Yes' else 'No' end qp_clau_editable \n" +
             ",qp_clau_wording,sbc2.clau_type,sbc.subcl_cl_id,sbc2.clau_sht_desc,sbq.quot_status, \n" +
-            "total_rows=COUNT(*) OVER()  from sys_brk_quot_clauses bc\n" +
+            "COUNT(*) OVER() AS total_rows from sys_brk_quot_clauses bc\n" +
             "join sys_brk_sub_clauses  sbc on sbc.subcl_cl_id  = bc.qp_clau_sub_code   \n" +
             "join sys_brk_clauses sbc2 on sbc2.clau_id  = sbc.subcl_cl_code\n" +
             "join sys_brk_quot_products sbqp on sbqp.quot_pr_id  = bc.qp_clau_pr_id \n" +
             "join sys_brk_quotations sbq on sbq.quot_id  = sbqp.quot_pr_quot_id  where qp_clau_pr_id = :quotProdId" +
-            " order by bc.qp_clau_id desc OFFSET :pageNo*:limit ROWS FETCH NEXT :limit ROWS ONLY",nativeQuery = true)
+            " order by bc.qp_clau_id desc OFFSET :pageNo*:limit LIMIT :limit",nativeQuery = true)
     List<Object[]> getQuoteProdClauses(@Param("quotProdId") Long prodId,
                                        @Param("pageNo") int pageNo,
                                        @Param("limit") int limit);

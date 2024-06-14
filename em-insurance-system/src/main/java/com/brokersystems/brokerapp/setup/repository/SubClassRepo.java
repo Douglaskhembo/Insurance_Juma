@@ -12,10 +12,10 @@ import java.util.List;
 
 public interface SubClassRepo extends  PagingAndSortingRepository<SubClassDef, Long>, QueryDslPredicateExecutor<SubClassDef> {
 
-    @Query(value = "select sub_id,sub_desc,total_rows=COUNT(*) OVER()   from sys_brk_subclasses \n" +
+    @Query(value = "select sub_id,sub_desc,COUNT(*) OVER() AS total_rows   from sys_brk_subclasses \n" +
             "where (lower(sub_desc)) like :search\n" +
             "order by sub_desc\n" +
-            "OFFSET :pageNo*:limit ROWS FETCH NEXT :limit ROWS ONLY",nativeQuery = true)
+            "OFFSET :pageNo*:limit LIMIT :limit",nativeQuery = true)
     List<Object[]> findSearchSubclasses(@Param("search") String search,
                                @Param("pageNo") int pageNo,
                                @Param("limit") int limit);

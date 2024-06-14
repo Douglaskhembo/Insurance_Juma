@@ -20,14 +20,14 @@ public interface SubclassCertTypesRepo extends PagingAndSortingRepository<Subcla
     public List<SubClassDef> getCertUnassignedSubclasses();
 
 
-    @Query(value = "select distinct sbccert_id,sbct.cert_desc,total_rows=COUNT(*) OVER()  from sys_brk_subclass_cert_types sbsct \n" +
+    @Query(value = "select distinct sbccert_id,sbct.cert_desc,COUNT(*) OVER() AS total_rows  from sys_brk_subclass_cert_types sbsct \n" +
             "join  sys_brk_cert_types sbct on sbsct.sbccert_cert_id  =sbct.cert_id \n" +
             "join sys_brk_subclasses sbs on sbs.sub_id  =  sbsct.sbccert_sub_id \n" +
             "join sys_brk_risks sbr on sbr.risk_subclass_id  = sbs.sub_id \n" +
             "where sbr.risk_id = :riskId\n" +
             "and (lower(sbct.cert_desc) like :search)\n" +
             "ORDER BY sbct.cert_desc ASC \n" +
-            "OFFSET :pageNo*:limit ROWS FETCH NEXT :limit ROWS ONLY",nativeQuery = true)
+            "OFFSET :pageNo*:limit LIMIT :limit",nativeQuery = true)
     List<Object[]> searchCertificateTypes( @Param("riskId") Long riskId,
                                            @Param("search") String search,
                                            @Param("pageNo") int pageNo,

@@ -20,7 +20,7 @@ public interface BinderSectPerilsRepo extends PagingAndSortingRepository<BinderS
     List<SubclassPerils> getUnassignedPerils(@Param("detCode")Long detCode,@Param("subCode")Long subCode,@Param("sectCode")Long sectCode, @Param("perilName")String perilName);
 
 
-    @Query(value = "select bsp_id,perils.p_desc,total_rows=COUNT(*) OVER()  from sys_brk_bind_sect_prls \n" +
+    @Query(value = "select bsp_id,perils.p_desc,COUNT(*) OVER() AS total_rows  from sys_brk_bind_sect_prls \n" +
             "join sys_brk_subclass_perils pr on pr.sper_id =bsp_sper_code \n" +
             "join sys_brk_perils perils on perils.p_code =pr.sper_per_code \n" +
             "where pr.sper_sub_code\n" +
@@ -34,7 +34,7 @@ public interface BinderSectPerilsRepo extends PagingAndSortingRepository<BinderS
             ")\n" +
             "and bsp_sect_code in (select sect_sec_id  from sys_brk_rsk_limits\n" +
             "where sect_risk_id =:riskId and isnull(sect_expired,'N') not in ('Y'))\n" +
-            "and perils.p_desc like :search order by perils.p_desc OFFSET :pageNo*:limit ROWS FETCH NEXT :limit ROWS ONLY",nativeQuery = true)
+            "and perils.p_desc like :search order by perils.p_desc OFFSET :pageNo*:limit LIMIT :limit",nativeQuery = true)
     List<Object[]> searchBinderPerils(@Param("riskId") Long riskId,
                                       @Param("search") String search,
                                       @Param("pageNo") int pageNo,

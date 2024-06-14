@@ -286,15 +286,15 @@ public class ClientServiceImpl implements ClientService {
 		List<Object[]> docsList = clientDocsRepo.getAllClientDocuments(clientId,search.toLowerCase(),request.getPageNumber(), request.getPageSize());
 		final List<ClientDocsDTO> clientDocsList = new ArrayList<>();
 		long rowCount = 0l;
-		if(!docsList.isEmpty()) rowCount = (Integer)docsList.get(0)[9];
+		if(!docsList.isEmpty()) rowCount = ((BigInteger)docsList.get(0)[9]).intValue();
 		for(Object[] doc:docsList){
 			final ClientDocsDTO docsDTO = new ClientDocsDTO();
-			docsDTO.setCdId(((BigDecimal)doc[0]).longValue());
+			docsDTO.setCdId(((BigInteger)doc[0]).longValue());
 			docsDTO.setFileId((String) doc[1]);
 			docsDTO.setUploadedFileName((String) doc[2]);
 			docsDTO.setCheckSum((String) doc[3]);
 			docsDTO.setContentType((String) doc[4]);
-			docsDTO.setReqId(((BigDecimal)doc[5]).longValue());
+			docsDTO.setReqId(((BigInteger)doc[5]).longValue());
 			docsDTO.setReqShtDesc((String) doc[7]);
 			docsDTO.setReqDesc((String) doc[6]);
 			docsDTO.setAuthStatus((String) doc[8]);

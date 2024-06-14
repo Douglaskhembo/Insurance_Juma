@@ -13,7 +13,7 @@ import java.util.List;
 public interface ChequeTransRepo extends PagingAndSortingRepository<ChequeTrans, Long>, QueryDslPredicateExecutor<ChequeTrans> {
 
     @Query(value = "select ct_no,ct_invoice_no,ct_narrative,ct_payment_type,ct_raised_date,ct_trans_ref,ct_trans_ref_date,ct_trans_amount,\n" +
-            "sbba.ba_acct_name,sbc.cur_iso_code,sbb.ob_name,sbu.user_username,sbpm.pm_desc,sbp.pay_full_name,sbps.payc_account_no,total_rows=COUNT(*) OVER()  from sys_chq_trans\n" +
+            "sbba.ba_acct_name,sbc.cur_iso_code,sbb.ob_name,sbu.user_username,sbpm.pm_desc,sbp.pay_full_name,sbps.payc_account_no,COUNT(*) OVER() AS total_rows from sys_chq_trans\n" +
             "join sys_brk_bnk_accounts sbba on sbba.ba_id =ct_ba_acc\n" +
             "join sys_brk_currencies sbc on sbc.cur_code =ct_cur_code\n" +
             "join sys_brk_branches sbb on sbb.ob_id =ct_branch\n" +
@@ -23,7 +23,7 @@ public interface ChequeTransRepo extends PagingAndSortingRepository<ChequeTrans,
             "join sys_brk_payee_accounts sbps on sbps.payc_id =ct_payee_act_id\n" +
             "where ct_chq_status=:status \n" +
             "and (LOWER(ct_invoice_no) like :search or LOWER(pay_full_name) like :search or lower(ba_acct_name) like :search)\n" +
-            "order by ct_no desc OFFSET :pageNo*:limit ROWS FETCH NEXT :limit ROWS ONLY ",nativeQuery = true)
+            "order by ct_no desc OFFSET :pageNo*:limit LIMIT :limit",nativeQuery = true)
     List<Object[]> findRequstionTransactions(@Param("search") String search,
                                              @Param("status") String status,
                                      @Param("pageNo") int pageNo,

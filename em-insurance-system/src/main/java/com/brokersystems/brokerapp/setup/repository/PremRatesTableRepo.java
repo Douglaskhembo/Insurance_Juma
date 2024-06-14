@@ -17,10 +17,10 @@ public interface PremRatesTableRepo extends PagingAndSortingRepository<PremRates
             "where rate_det_code =:detId)",nativeQuery = true)
     String getRatesLocation(@Param("detId") Long detId);
 
-    @Query(value = "select rate_id,rate_wef_date,rate_file_name,total_rows=COUNT(*) OVER()  from sys_brk_prem_rates_tbl \n" +
+    @Query(value = "select rate_id,rate_wef_date,rate_file_name,COUNT(*) OVER() AS total_rows from sys_brk_prem_rates_tbl \n" +
             "where rate_det_code =:detId\n" +
             "order by rate_wef_date  DESC \n" +
-            "OFFSET :pageNo*:limit ROWS FETCH NEXT :limit ROWS ONLY ",nativeQuery = true)
+            "OFFSET :pageNo*:limit LIMIT :limit",nativeQuery = true)
     List<Object[]> findPremiumRatesTbl(@Param("detId") Long detId,
                                        @Param("pageNo") int pageNo,
                                     @Param("limit") int limit);

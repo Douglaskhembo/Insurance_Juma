@@ -14,13 +14,13 @@ import java.util.List;
  */
 public interface QuotTaxesRepo extends PagingAndSortingRepository<QuotTaxes, Long>, QueryDslPredicateExecutor<QuotTaxes> {
 
-    @Query(value = "select rev_code,qt_tax_rate,qt_tax_div_fact,qt_tax_rate_type,qt_tax_amount,qt_tax_level,qt_tax_id,sbq2.quot_status,total_rows=COUNT(*) OVER()  from sys_brk_quot_taxes\n" +
+    @Query(value = "select rev_code,qt_tax_rate,qt_tax_div_fact,qt_tax_rate_type,qt_tax_amount,qt_tax_level,qt_tax_id,sbq2.quot_status,COUNT(*) OVER() AS total_rows  from sys_brk_quot_taxes\n" +
             "join sys_brk_revenue_items sbri on sbri.rev_id =qt_tax_rev_code\n" +
             "join sys_brk_quot_products sbq on sbq.quot_pr_id =qt_qpt_id\n" +
             "join sys_brk_quotations sbq2 on sbq2.quot_id  = sbq.quot_pr_quot_id \n" +
             "where qt_qpt_id = :prodId\n" +
             "order by qt_tax_id\n" +
-            "OFFSET :pageNo*:limit ROWS FETCH NEXT :limit ROWS ONLY",nativeQuery = true)
+            "OFFSET :pageNo*:limit LIMIT :limit",nativeQuery = true)
     List<Object[]> enquireQuoteTaxes(@Param("prodId") Long prodId,
                                             @Param("pageNo") int pageNo,
                                             @Param("limit") int limit);

@@ -516,11 +516,11 @@ public class SetupsServiceImpl implements SetupsService {
 		else searchValue = "%"+searchValue+"%";
 		List<Object[]> accountTypesList = acctypeRepo.findAllAccountTypes(searchValue, paramPageable.getPageNumber(), paramPageable.getPageSize());
 		long rowCount = 0L;
-		if(!accountTypesList.isEmpty()) rowCount = (Integer)accountTypesList.get(0)[3];
+		if(!accountTypesList.isEmpty()) rowCount = ((BigInteger)accountTypesList.get(0)[3]).intValue();
 		List<AccountTypesDTO> accountTypes = new ArrayList<>();
 		for(Object[] accountType:accountTypesList){
 			AccountTypesDTO accountTypesDTO = new AccountTypesDTO();
-			accountTypesDTO.setAccId(((BigDecimal)accountType[0]).longValue());
+			accountTypesDTO.setAccId(((BigInteger)accountType[0]).longValue());
 			accountTypesDTO.setAccName((String) accountType[1]);
 			accountTypesDTO.setAccountType((String) accountType[2]);
 			accountTypes.add(accountTypesDTO);
@@ -594,11 +594,11 @@ public class SetupsServiceImpl implements SetupsService {
 		else searchValue = "%"+searchValue+"%";
 		List<Object[]> accountTypesList = accountRepo.findReinsuranceAccountTypes(searchValue, paramPageable.getPageNumber(), paramPageable.getPageSize());
 		long rowCount = 0L;
-		if(!accountTypesList.isEmpty()) rowCount = (Integer)accountTypesList.get(0)[2];
+		if(!accountTypesList.isEmpty()) rowCount = ((BigInteger)accountTypesList.get(0)[2]).intValue();
 		List<AccountsDTO> accountTypes = new ArrayList<>();
 		for(Object[] accountType:accountTypesList){
 			AccountsDTO accounts = new AccountsDTO();
-			accounts.setAcctId(((BigDecimal)accountType[0]).longValue());
+			accounts.setAcctId(((BigInteger)accountType[0]).longValue());
 			accounts.setName((String) accountType[1]);
 			accountTypes.add(accounts);
 		}
@@ -611,11 +611,11 @@ public class SetupsServiceImpl implements SetupsService {
 		else searchValue = "%"+searchValue+"%";
 		List<Object[]> accountTypesList = accountRepo.findBrokerAccountTypes(searchValue, paramPageable.getPageNumber(), paramPageable.getPageSize());
 		long rowCount = 0L;
-		if(!accountTypesList.isEmpty()) rowCount = (Integer)accountTypesList.get(0)[2];
+		if(!accountTypesList.isEmpty()) rowCount = ((BigInteger)accountTypesList.get(0)[2]).intValue();
 		List<AccountsDTO> accountTypes = new ArrayList<>();
 		for(Object[] accountType:accountTypesList){
 			AccountsDTO accounts = new AccountsDTO();
-			accounts.setAcctId(((BigDecimal)accountType[0]).longValue());
+			accounts.setAcctId(((BigInteger)accountType[0]).longValue());
 			accounts.setName((String) accountType[1]);
 			accountTypes.add(accounts);
 		}
@@ -1757,10 +1757,10 @@ public class SetupsServiceImpl implements SetupsService {
 		List<Object[]> accounts = subAccountsRepo.findAllSubAccounts(search.toLowerCase(),paramPageable.getPageNumber(), paramPageable.getPageSize());
 		final List<CoaSubAccountsDTO> accountsDTOList = new ArrayList<>();
 		long rowCount = 0l;
-		if(!accounts.isEmpty()) rowCount = (Integer)accounts.get(0)[3];
+		if(!accounts.isEmpty()) rowCount = ((BigInteger)accounts.get(0)[3]).intValue();
 		for(Object[] account:accounts){
 			CoaSubAccountsDTO accountsDTO = new CoaSubAccountsDTO();
-			accountsDTO.setCoId(((BigDecimal)account[0]).longValue());
+			accountsDTO.setCoId(((BigInteger)account[0]).longValue());
 			accountsDTO.setCode((String)account[1]);
 			accountsDTO.setName((String)account[2]);
 			accountsDTOList.add(accountsDTO);
@@ -1814,10 +1814,10 @@ public class SetupsServiceImpl implements SetupsService {
 				paramPageable.getPageNumber(), paramPageable.getPageSize());
 		final List<BankBranchDTO> branchDTOList = new ArrayList<>();
 		long rowCount = 0l;
-		if(!branches.isEmpty()) rowCount = (Integer)branches.get(0)[2];
+		if(!branches.isEmpty()) rowCount = ((BigInteger)branches.get(0)[2]).intValue();
 		for(Object[] branch:branches){
 			BankBranchDTO branchDTO = new BankBranchDTO();
-			branchDTO.setBbId(((BigDecimal)branch[0]).longValue());
+			branchDTO.setBbId(((BigInteger)branch[0]).longValue());
 			branchDTO.setBranchName((String)branch[1]);
 			branchDTOList.add(branchDTO);
 		}
@@ -2371,10 +2371,10 @@ public class SetupsServiceImpl implements SetupsService {
 		List<Object[]> subclasses = subClassRepo.findSearchSubclasses(search.toLowerCase(),pageable.getPageNumber(), pageable.getPageSize());
 		final List<SubclassDTO> subclassDTOList = new ArrayList<>();
 		long rowCount = 0L;
-		if(!subclasses.isEmpty()) rowCount = (Integer)subclasses.get(0)[2];
+		if(!subclasses.isEmpty()) rowCount = ((BigInteger)subclasses.get(0)[2]).intValue();
 		for(Object[] subclass:subclasses){
 			final SubclassDTO subclassDTO = new SubclassDTO();
-			subclassDTO.setSubId(((BigDecimal)subclass[0]).longValue());
+			subclassDTO.setSubId(((BigInteger)subclass[0]).longValue());
 			subclassDTO.setSubDesc((String) subclass[1]);
 			subclassDTOList.add(subclassDTO);
 		}
@@ -2387,10 +2387,10 @@ public class SetupsServiceImpl implements SetupsService {
 		List<Object[]> revenueItems = revenueItemsRepo.findAllRevItems(search.toLowerCase(),pageable.getPageNumber(), pageable.getPageSize());
 		final List<RevenueItemsDTO> revenueItemsList = new ArrayList<>();
 		long rowCount = 0L;
-		if(!revenueItems.isEmpty()) rowCount = (Integer)revenueItems.get(0)[2];
+		if(!revenueItems.isEmpty()) rowCount = ((BigInteger)revenueItems.get(0)[2]).intValue();
 		for(Object[] obj:revenueItems){
 			final RevenueItemsDTO revenueItem = new RevenueItemsDTO();
-			revenueItem.setRevenueId(((BigDecimal)obj[0]).longValue());
+			revenueItem.setRevenueId(((BigInteger)obj[0]).longValue());
 			final String rev = (String) obj[1];
 			revenueItem.setRevenueItem(RevenueItems.valueOf(rev).getValue());
 			revenueItemsList.add(revenueItem);

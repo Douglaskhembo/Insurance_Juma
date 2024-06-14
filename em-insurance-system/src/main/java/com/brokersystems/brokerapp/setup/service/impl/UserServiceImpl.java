@@ -183,11 +183,11 @@ public class UserServiceImpl implements UserService {
 		else searchValue = "%"+searchValue+"%";
 		List<Object[]> accountTypesList = accountTypeRepo.findIAAccountTypes(searchValue, paramPageable.getPageNumber(), paramPageable.getPageSize());
 		long rowCount = 0L;
-		if(!accountTypesList.isEmpty()) rowCount = (Integer)accountTypesList.get(0)[2];
+		if(!accountTypesList.isEmpty()) rowCount = ((BigInteger)accountTypesList.get(0)[2]).intValue();
 		List<AccountTypesDTO> accountTypes = new ArrayList<>();
 		for(Object[] accountType:accountTypesList){
 			AccountTypesDTO accountTypesDTO = new AccountTypesDTO();
-			accountTypesDTO.setAccId(((BigDecimal)accountType[0]).longValue());
+			accountTypesDTO.setAccId(((BigInteger)accountType[0]).longValue());
 			accountTypesDTO.setAccName((String) accountType[1]);
 			accountTypes.add(accountTypesDTO);
 		}

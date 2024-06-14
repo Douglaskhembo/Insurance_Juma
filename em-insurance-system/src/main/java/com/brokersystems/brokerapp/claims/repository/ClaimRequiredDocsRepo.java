@@ -16,7 +16,7 @@ public interface ClaimRequiredDocsRepo extends PagingAndSortingRepository<ClaimR
 
 
     @Query(value = "select clm_reqd_id,clm_reqd_doc_ref,clm_reqd_file_name,clm_reqd_dt_received,sbu.user_name,clm_reqd_remarks,\n" +
-            "sbrd.req_desc ,sbcb.clm_status,  total_rows=COUNT(*) OVER()\n" +
+            "sbrd.req_desc ,sbcb.clm_status,COUNT(*) OVER() AS total_rows\n" +
             "from sys_brk_clm_req_docs \n" +
             "left join sys_brk_users sbu on sbu.user_id =clm_reqrd_user_id\n" +
             "join sys_brk_req_docs sbrd on sbrd.req_id  = clm_reqrd_req_id\n" +
@@ -24,7 +24,7 @@ public interface ClaimRequiredDocsRepo extends PagingAndSortingRepository<ClaimR
             "where clm_reqrd_clm_id = :clmId\n" +
             "and ( isnull(clm_reqd_file_name,'%%') like :search or isnull(clm_reqd_doc_ref,'%%') like :search)\n" +
             " order by clm_reqd_id ASC \n" +
-            " OFFSET :pageNo*:limit ROWS FETCH NEXT :limit ROWS ONLY",nativeQuery = true)
+            " OFFSET :pageNo*:limit LIMIT :limit",nativeQuery = true)
     List<Object[]> findClaimDocs(@Param("clmId") Long clmId,
                                  @Param("search") String search,
                                  @Param("pageNo") int pageNo,
